@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <OutputPath>bin\Release\MRS_2</OutputPath>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>KODENSHI.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Dot_Minimum_80.png" />
+    <None Remove="Non_Exit.png" />
+    <None Remove="Non_Minimum.png" />
+    <None Remove="Resources\Dot_Exit.png" />
+    <None Remove="Resources\Dot_Minimum.png" />
+    <None Remove="Resources\Dot_Resize.png" />
+    <None Remove="Resources\KODENSHI.png" />
+    <None Remove="Resources\KODENSHI_Logo.png" />
+    <None Remove="Resources\KodneshiAUK_Small_Alpha.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="KODENSHI.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Dot_Minimum_80.png" />
+    <Resource Include="Resources\Non_Exit.png" />
+    <Resource Include="Resources\Non_Minimum.png" />
+    <Resource Include="Resources\Dot_Exit.png" />
+    <Resource Include="Resources\Dot_Minimum.png" />
+    <Resource Include="Resources\Dot_Resize.png" />
+    <Resource Include="Resources\KODENSHI.png" />
+    <Resource Include="Resources\KODENSHI_Logo.png" />
+    <Resource Include="Resources\KodneshiAUK_Small_Alpha.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.6" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+</Project>

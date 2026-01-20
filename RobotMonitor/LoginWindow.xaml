@@ -1,0 +1,18 @@
+﻿<Window x:Class="RobotMonitor_2.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RobotMonitor_2"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="180" Width="300" WindowStyle="None">
+    <Grid Background="#FFE6E6E6">
+        <Grid Margin="5" Background="White">
+            <Label Content="Login" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+            <Label Content="PassWord :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,60,0,0" Width="140" Height="40"  FontSize="22" FontWeight="Bold"/>
+            <TextBox Margin="150,60,5,0" Text="{Binding Path=InputPassWord}" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" IsReadOnly="True" PreviewMouseLeftButtonDown="TextBox_PreviewMouseLeftButtonDown"/>
+            <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,5,5" VerticalAlignment="Bottom" Height="40" Width="90" HorizontalAlignment="Right" Background="#FFE6E6E6" FontSize="20" FontWeight="Bold" Click="btn_Cancel_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>
