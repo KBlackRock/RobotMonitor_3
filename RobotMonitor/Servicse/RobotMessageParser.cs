@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace RobotMonitor_3.Services
 {
-    // 파싱된 데이터를 담을 구조체
     public struct ParsedMessage
     {
-        public string Key { get; set; }   // 예: "State", "Error"
-        public string Value { get; set; } // 예: "Ready", "EStop"
+        public string Key { get; set; }  
+        public string Value { get; set; } 
     }
 
     public class RobotMessageParser

@@ -17,6 +17,7 @@ using System.Collections.Concurrent;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RobotMonitor_3.Services;
 using System.Collections.Generic;
+using RobotMonitor_3.Utilities;
 
 namespace RobotMonitor_3.ViewModels
 {
@@ -297,6 +298,7 @@ namespace RobotMonitor_3.ViewModels
             IsServoBtnPressed = false;
             #endregion
 
+            // Server Service Initialization
             _tcpService = new TcpServerService();
             _tcpService.OnDataReceived += OnDataReceivedFromService;
             _tcpService.OnConnectionStatusChanged += (isConnected) =>
@@ -308,6 +310,7 @@ namespace RobotMonitor_3.ViewModels
                 SystemError(errMsg);
             };
 
+            // Parser Initialization
             _parser = new RobotMessageParser();
             InitializeCommandMap();
 
@@ -498,7 +501,7 @@ namespace RobotMonitor_3.ViewModels
             R_IsOrigin = false; R_IsReady = false; R_IsRunning = false; R_IsStopped = true; // 스탑 레이블 셋팅
             ErrorImage = path + @"\\Images\\Error\\" + eImg + ".jpg"; // 에러 이미지 불러오기 ( jpg 타입만 )
             ErrorMessage = ErrorData = eMsg;
-            WriteLog("!! Error !! : " + eMsg);
+            Logger.Write("!! Error !! : " + eMsg);
             ButtonVisible("Error");  // 에러 창 On
             ServerSend("Stop"); // 로봇 정지
             Thread.Sleep(200);
@@ -513,7 +516,7 @@ namespace RobotMonitor_3.ViewModels
             ErrorImage = "";
             ErrorData = eMsg;
             ErrorMessage = "[ 통신프로그램 에러 ]\r" + eMsg;
-            WriteLog("!! Error !! : " + eMsg);
+            Logger.Write("!! Error !! : " + eMsg);
             ButtonVisible("Error");  // 에러 창 On
             Thread.Sleep(200);
         }
@@ -526,39 +529,7 @@ namespace RobotMonitor_3.ViewModels
             return true;
         }
 
-
-
-        public void WriteLog(string message)
-        {
-            string dirPath = path + "\\Log";
-            string filePath = Path.Combine(dirPath, $"Log_{DateTime.Today:yyyy-MM-dd}.log");
-
-            // 디렉토리 및 파일 생성
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
-
-            if (!File.Exists(filePath))
-            {
-                using (FileStream fs = File.Create(filePath))
-                {
-                    fs.Close();
-                }
-            }
-
-            // 로그 메세지 포맷팅
-            string logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
-
-            // 파일에 로그 메세지 추가
-            using (StreamWriter sw = File.AppendText(filePath))
-            {
-                sw.WriteLine(logMessage);
-            }
-        }
         #endregion
-
-
 
 
 
@@ -643,7 +614,7 @@ namespace RobotMonitor_3.ViewModels
                     else
                     {
                         // 등록되지 않은 명령어 처리 (로그 등)
-                        // WriteLog($"Unknown Command: {parsedData.Key}");
+                        // Logger.Write($"Unknown Command: {parsedData.Key}");
                     }
                 }
             }
@@ -684,7 +655,7 @@ namespace RobotMonitor_3.ViewModels
                     if (!R_IsReady)
                     {
                         R_IsReady = RobotLabelSet();
-                        WriteLog("System_State : Ready");
+                        Logger.Write("System_State : Ready");
                         ErrorData = "";
                         ResetbtnEnable = true;
                         // 에러 메세지 초기화
@@ -703,7 +674,7 @@ namespace RobotMonitor_3.ViewModels
                     if (!R_IsStopped)
                     {
                         R_IsStopped = RobotLabelSet();
-                        WriteLog("System_State : Stopped");
+                        Logger.Write("System_State : Stopped");
                         StartButtonColor = "Gray";
                         ResetbtnEnable = true;
                     }
@@ -712,7 +683,7 @@ namespace RobotMonitor_3.ViewModels
                     if (!R_IsRunning)
                     {
                         R_IsRunning = RobotLabelSet();
-                        WriteLog("System_State : Running");
+                        Logger.Write("System_State : Running");
                     }
                     break;
                 case "OriginStart":
@@ -726,7 +697,7 @@ namespace RobotMonitor_3.ViewModels
                     needOrigin = false;
                     break;
                 case "ShotCycleEnd":
-                    WriteLog("System_Cycle_End");
+                    Logger.Write("System_Cycle_End");
                     switch (IsWorkIndex)
                     {
                         case 1:
@@ -786,7 +757,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobSpeed_Persent) WriteLog("Override Change : " + IsRobSpeed_Persent + " → " + message);
+                        if (message != IsRobSpeed_Persent) Logger.Write("Override Change : " + IsRobSpeed_Persent + " → " + message);
                         IsRobSpeed_Persent = message;
                     }
                     catch (Exception) { return; }
@@ -795,7 +766,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobSpeed_MMS) WriteLog("Max Speed Change : " + IsRobSpeed_MMS + " → " + message);
+                        if (message != IsRobSpeed_MMS) Logger.Write("Max Speed Change : " + IsRobSpeed_MMS + " → " + message);
                         IsRobSpeed_MMS = message;
                     }
                     catch (Exception) { return; }
@@ -804,7 +775,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobBlowSpeed) WriteLog("Blow Speed Change : " + IsRobBlowSpeed + " → " + message);
+                        if (message != IsRobBlowSpeed) Logger.Write("Blow Speed Change : " + IsRobBlowSpeed + " → " + message);
                         IsRobBlowSpeed = message;
                     }
                     catch (Exception) { return; }
@@ -813,7 +784,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobSpraySpeed) WriteLog("Spray Speed Change : " + IsRobSpraySpeed + " → " + message);
+                        if (message != IsRobSpraySpeed) Logger.Write("Spray Speed Change : " + IsRobSpraySpeed + " → " + message);
                         IsRobSpraySpeed = message;
                     }
                     catch (Exception) { return; }
@@ -822,7 +793,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobPortSpeed) WriteLog("Port Speed Change : " + IsRobPortSpeed + " → " + message);
+                        if (message != IsRobPortSpeed) Logger.Write("Port Speed Change : " + IsRobPortSpeed + " → " + message);
                         IsRobPortSpeed = message;
                     }
                     catch (Exception) { return; }
@@ -843,12 +814,12 @@ namespace RobotMonitor_3.ViewModels
                         if (IsPCBCount == "Empty" && a < 20)
                         {
                             string LogMsg = "PCB Count Change : Empty → " + message;
-                            WriteLog(LogMsg);
+                            Logger.Write(LogMsg);
                         }
                         else if (message != IsPCBCount && IsPCBCount != "Empty")
                         {
                             string LogMsg = (a < 21) ? "PCB Count Change : " + IsPCBCount + " → " + message : "PCB Count Change : " + IsPCBCount + " → " + "Empty";
-                            WriteLog(LogMsg);
+                            Logger.Write(LogMsg);
                         }
                         IsPCBCount = (a < 21) ? message : "Empty";
                     }
@@ -858,7 +829,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobBlow1stTopCount) WriteLog("Blow1stTop Count Change : " + IsRobBlow1stTopCount + " → " + message);
+                        if (message != IsRobBlow1stTopCount) Logger.Write("Blow1stTop Count Change : " + IsRobBlow1stTopCount + " → " + message);
                         IsRobBlow1stTopCount = message;
                     }
                     catch (Exception) { return; }
@@ -867,7 +838,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobBlow1stBotCount) WriteLog("Blow1stBot Count Change : " + IsRobBlow1stBotCount + " → " + message);
+                        if (message != IsRobBlow1stBotCount) Logger.Write("Blow1stBot Count Change : " + IsRobBlow1stBotCount + " → " + message);
                         IsRobBlow1stBotCount = message;
                     }
                     catch (Exception) { return; }
@@ -876,7 +847,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobBlow2ndTopCount) WriteLog("Blow2ndTop Count Change : " + IsRobBlow2ndTopCount + " → " + message);
+                        if (message != IsRobBlow2ndTopCount) Logger.Write("Blow2ndTop Count Change : " + IsRobBlow2ndTopCount + " → " + message);
                         IsRobBlow2ndTopCount = message;
                     }
                     catch (Exception) { return; }
@@ -885,7 +856,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobBlow2ndBotCount) WriteLog("Blow2ndBot Count Change : " + IsRobBlow2ndBotCount + " → " + message);
+                        if (message != IsRobBlow2ndBotCount) Logger.Write("Blow2ndBot Count Change : " + IsRobBlow2ndBotCount + " → " + message);
                         IsRobBlow2ndBotCount = message;
                     }
                     catch (Exception) { return; }
@@ -894,7 +865,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobBlowPortCount) WriteLog("BlowPort Count Change : " + IsRobBlowPortCount + " → " + message);
+                        if (message != IsRobBlowPortCount) Logger.Write("BlowPort Count Change : " + IsRobBlowPortCount + " → " + message);
                         IsRobBlowPortCount = message;
                     }
                     catch (Exception) { return; }
@@ -903,7 +874,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobSprayTopCount) WriteLog("SprayTop Count Change : " + IsRobSprayTopCount + " → " + message);
+                        if (message != IsRobSprayTopCount) Logger.Write("SprayTop Count Change : " + IsRobSprayTopCount + " → " + message);
                         IsRobSprayTopCount = message;
                     }
                     catch (Exception) { return; }
@@ -912,7 +883,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         double a = Convert.ToDouble(message);
-                        if (message != IsRobSprayPortTime) WriteLog("SprayPort Delay Time Change : " + IsRobSprayPortTime + " → " + message);
+                        if (message != IsRobSprayPortTime) Logger.Write("SprayPort Delay Time Change : " + IsRobSprayPortTime + " → " + message);
                         IsRobSprayPortTime = message;
                     }
                     catch (Exception) { return; }
@@ -925,12 +896,12 @@ namespace RobotMonitor_3.ViewModels
                         {
                             if (a < 11)
                             {
-                                WriteLog("Extract Count Change : " + IsExtactCount + " → " + message);
+                                Logger.Write("Extract Count Change : " + IsExtactCount + " → " + message);
                                 IsExtactCount = message;
                             }
                             else
                             {
-                                WriteLog("Extract Count Change : " + IsExtactCount + " → Full");
+                                Logger.Write("Extract Count Change : " + IsExtactCount + " → Full");
                                 _IsExtractCount = "Full";
                             }
 
@@ -942,7 +913,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobPortCount) WriteLog("Port Count Change : " + IsRobPortCount + " → " + message);
+                        if (message != IsRobPortCount) Logger.Write("Port Count Change : " + IsRobPortCount + " → " + message);
                         IsRobPortCount = message;
                     }
                     catch (Exception) { return; }
@@ -951,7 +922,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsPressCloseTime) WriteLog("Press Close Signal Time Change : " + IsPressCloseTime + " → " + message);
+                        if (message != IsPressCloseTime) Logger.Write("Press Close Signal Time Change : " + IsPressCloseTime + " → " + message);
                         IsPressCloseTime = message;
                     }
                     catch (Exception) { return; }
@@ -960,7 +931,7 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsChamberCloseTime) WriteLog("Chamber Close Signal Time Change : " + IsChamberCloseTime + " → " + message);
+                        if (message != IsChamberCloseTime) Logger.Write("Chamber Close Signal Time Change : " + IsChamberCloseTime + " → " + message);
                         IsChamberCloseTime = message;
                     }
                     catch (Exception) { return; }
@@ -993,7 +964,7 @@ namespace RobotMonitor_3.ViewModels
                 case "TaskRunOff": RobTaskRunColor = "Gray"; break;
                 case "BatteryLow":
                     {
-                        WriteLog("Robot fatal error ! : Battery Low !!");
+                        Logger.Write("Robot fatal error ! : Battery Low !!");
                         RobBatteryColor = "Red";
                     }
                     break;
@@ -1061,7 +1032,7 @@ namespace RobotMonitor_3.ViewModels
                         int a = Convert.ToInt32(message);
                         M1_CurrentPosition = a.ToString("N0");
                     }
-                    catch (Exception ex) { WriteLog(ex.Message); }
+                    catch (Exception ex) { Logger.Write(ex.Message); }
                     break;
                 case "M2Current":
                     try
@@ -1070,7 +1041,7 @@ namespace RobotMonitor_3.ViewModels
                         double a = Convert.ToDouble(message) / 100000;  // 모터 위치 표기가 소수점 없이 수신되므로 소수점 위치 옮겨줘야함...
                         M2_CurrentPosition = a.ToString("N5");  // 표시는 소수점 5자리까지
                     }
-                    catch (Exception ex) { WriteLog(ex.Message); }
+                    catch (Exception ex) { Logger.Write(ex.Message); }
                     break;
                 case "M1MoveSpd":
                     try
@@ -1079,7 +1050,7 @@ namespace RobotMonitor_3.ViewModels
                         int a = Convert.ToInt32(message);
                         M1_Speed = a.ToString("N0");
                     }
-                    catch (Exception ex) { WriteLog(ex.Message); }
+                    catch (Exception ex) { Logger.Write(ex.Message); }
                     break;
                 case "M2MoveSpd":
                     try
@@ -1088,7 +1059,7 @@ namespace RobotMonitor_3.ViewModels
                         int a = Convert.ToInt32(message);
                         M2_Speed = a.ToString("N0");
                     }
-                    catch (Exception ex) { WriteLog(ex.Message); }
+                    catch (Exception ex) { Logger.Write(ex.Message); }
                     break;
                 default:
                     break;
@@ -1439,7 +1410,7 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        internal void WorkModeOpen()  // 디바이스 선택 드롭다운 열릴 때 버퍼에 현대 디바이스 저장
+        internal void WorkModeOpen()  // 디바이스 선택 드롭다운 열릴 때 버퍼에 현재 디바이스 저장
         {
             workModeBuffer = WorkMode;
         }
@@ -1461,7 +1432,7 @@ namespace RobotMonitor_3.ViewModels
                     needOrigin = true;          // "오리진 잡아야 해" 도 키고
                     WorkMode = IsSelectedWorkMode;
                     workModeBuffer = IsSelectedWorkMode;
-                    WriteLog("WorkMode Change : " + WorkMode);
+                    Logger.Write("WorkMode Change : " + WorkMode);
                     switch (IsWorkIndex)  // 디바이스에 따라 작업 수량 디스플레이에 갱신
                     {
                         case 1:
@@ -1582,7 +1553,7 @@ namespace RobotMonitor_3.ViewModels
             DisplayedData = ClientIP;
             string MsgBuff = ClientIP;
             ClientIP = CallNumKey(DisplayedData);
-            WriteLog("Client IP Change : " + MsgBuff + " → " + ClientIP);
+            Logger.Write("Client IP Change : " + MsgBuff + " → " + ClientIP);
         }
 
 
@@ -1594,7 +1565,7 @@ namespace RobotMonitor_3.ViewModels
                 DisplayedData = ClientPort.ToString();
                 string MsgBuff = ClientPort.ToString();
                 ClientPort = Convert.ToInt32(CallNumKey(DisplayedData));
-                WriteLog("Client Port Change : " + MsgBuff + " → " + ClientPort);
+                Logger.Write("Client Port Change : " + MsgBuff + " → " + ClientPort);
             }
             catch (Exception e)
             {
@@ -1612,7 +1583,7 @@ namespace RobotMonitor_3.ViewModels
                 DisplayedData = StartBtnDelay.ToString();
                 string MsgBuff = StartBtnDelay.ToString();
                 StartBtnDelay = Convert.ToInt32(CallNumKey(DisplayedData));
-                WriteLog("Start Button Delay Change : " + MsgBuff + " → " + StartBtnDelay);
+                Logger.Write("Start Button Delay Change : " + MsgBuff + " → " + StartBtnDelay);
             }
             catch (Exception e)
             {
@@ -1630,7 +1601,7 @@ namespace RobotMonitor_3.ViewModels
                 DisplayedData = HomeBtnDelay.ToString();
                 string MsgBuff = HomeBtnDelay.ToString();
                 HomeBtnDelay = Convert.ToInt32(CallNumKey(DisplayedData));
-                WriteLog("Home Button Delay Change : " + MsgBuff + " → " + HomeBtnDelay);
+                Logger.Write("Home Button Delay Change : " + MsgBuff + " → " + HomeBtnDelay);
             }
             catch (Exception e)
             {
@@ -1648,7 +1619,7 @@ namespace RobotMonitor_3.ViewModels
                 DisplayedData = CountresetBtnDelay.ToString();
                 string MsgBuff = CountresetBtnDelay.ToString();
                 CountresetBtnDelay = Convert.ToInt32(CallNumKey(DisplayedData));
-                WriteLog("Count Reset Button Delay Change : " + MsgBuff + " → " + CountresetBtnDelay);
+                Logger.Write("Count Reset Button Delay Change : " + MsgBuff + " → " + CountresetBtnDelay);
             }
             catch (Exception e)
             {
