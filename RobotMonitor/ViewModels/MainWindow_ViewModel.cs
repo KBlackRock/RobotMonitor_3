@@ -14,6 +14,9 @@ using System.IO.Ports;
 using CommunityToolkit.Mvvm.Messaging;
 using RobotMonitor_3.Models;
 using System.Collections.Concurrent;
+using CommunityToolkit.Mvvm.ComponentModel;
+using RobotMonitor_3.Services;
+using System.Collections.Generic;
 
 namespace RobotMonitor_3.ViewModels
 {
@@ -33,22 +36,12 @@ namespace RobotMonitor_3.ViewModels
         #endregion
 
         #region Member Variable
-        private TcpListener m_Server;
-        private TcpClient m_Client;
-        private NetworkStream m_Stream;
+        private readonly TcpServerService _tcpService;
+        private readonly RobotMessageParser _parser;
+        private Dictionary<string, Action<string>> _commandMap;
+
         private Models.XmlParser m_XmlParser;
         public Window MainWindow;
-
-        private Thread ServerListening;
-        private Thread ClientReading;
-
-        private ConcurrentQueue<string> _sendQueue;
-        private DispatcherTimer _sendTimer;
-        private const int MAX_PACKET_SIZE = 75;
-
-        private Object thisLock = new Object();
-        string inStream = "";
-
 
         DispatcherTimer timer;
         DispatcherTimer responseTimer;
@@ -99,109 +92,95 @@ namespace RobotMonitor_3.ViewModels
 
         #region OnPropertyChange Properties
         private string _WindowPage; public string WindowPage { get { return _WindowPage; } set { _WindowPage = value; OnPropertyChanged(); } }
-        private bool tabVisible; public bool TabVisible { get { return tabVisible; } set { { tabVisible = value; OnPropertyChanged(); } } }
+        private bool _TabVisible; public bool TabVisible { get { return _TabVisible; } set { { _TabVisible = value; OnPropertyChanged(); } } }
         private bool r_IsRunning; public bool R_IsRunning { get { return r_IsRunning; } set { r_IsRunning = value; OnPropertyChanged(); } }
         private bool r_IsStopped; public bool R_IsStopped { get { return r_IsStopped; } set { r_IsStopped = value; OnPropertyChanged(); } }
         private bool r_IsReady; public bool R_IsReady { get { return r_IsReady; } set { r_IsReady = value; OnPropertyChanged(); } }
         private bool r_IsOrigin; public bool R_IsOrigin { get { return r_IsOrigin; } set { r_IsOrigin = value; OnPropertyChanged(); } }
-        private bool roWork_Cleaning; public bool RoWork_Cleaning { get { return roWork_Cleaning; } set { roWork_Cleaning = value; OnPropertyChanged(); } }
-        private bool roWork_Spray; public bool RoWork_Spray { get { return roWork_Spray; } set { roWork_Spray = value; OnPropertyChanged(); } }
-        private bool roWork_PCBLoad; public bool RoWork_PCBLoad { get { return roWork_PCBLoad; } set { roWork_PCBLoad = value; OnPropertyChanged(); } }
-        private bool roWork_PCBPlace; public bool RoWork_PCBPlace { get { return roWork_PCBPlace; } set { roWork_PCBPlace = value; OnPropertyChanged(); } }
-        private bool roWork_EMC; public bool RoWork_EMC { get { return roWork_EMC; } set { roWork_EMC = value; OnPropertyChanged(); } }
-        private bool roWork_Extract; public bool RoWork_Extract { get { return roWork_Extract; } set { roWork_Extract = value; OnPropertyChanged(); } }
-        private bool roWork_Button; public bool RoWork_Button { get { return roWork_Button; } set { roWork_Button = value; OnPropertyChanged(); } }
-        private bool roWork_ToolChange; public bool RoWork_ToolChange { get { return roWork_ToolChange; } set { roWork_ToolChange = value; OnPropertyChanged(); } }
-        private bool roWork_Vision; public bool RoWork_Vision { get { return roWork_Vision; } set { roWork_Vision = value; OnPropertyChanged(); } }
-        private string startButtonColor; public string StartButtonColor { get { return startButtonColor; } set { startButtonColor = value; OnPropertyChanged(); } }
-        private double resetBtnOpacity; public double ResetBtnOpacity { get { return resetBtnOpacity; } set { resetBtnOpacity = value; OnPropertyChanged(); } }
-        private bool resetbtnEnable; public bool ResetbtnEnable { get { return resetbtnEnable; } set { resetbtnEnable = value; OnPropertyChanged(); } }
-        private int timerStack; public int TimerStack { get { return timerStack; } set { timerStack = value; OnPropertyChanged(); } }
-        private bool isAuto; public bool IsAuto { get { return isAuto; } set { isAuto = value; OnPropertyChanged(); } }
-        private bool isManual; public bool IsManual { get { return isManual; } set { isManual = value; OnPropertyChanged(); } }
-        private bool isError; public bool IsError { get { return isError; } set { isError = value; OnPropertyChanged(); } }
-        private bool isSetView; public bool IsSetView { get { return isSetView; } set { isSetView = value; OnPropertyChanged(); } }
-        private bool autoBtn; public bool AutoBtn { get { return autoBtn; } set { autoBtn = value; OnPropertyChanged(); } }
-        private bool manualBtn; public bool ManualBtn { get { return manualBtn; } set { manualBtn = value; OnPropertyChanged(); } }
-        private bool isSetting; public bool IsSetting { get { return isSetting; } set { isSetting = value; OnPropertyChanged(); } }
-        private bool homeButton; public bool HomeButton { get { return homeButton; } set { homeButton = value; OnPropertyChanged(); } }
-        private string selectPage; public string SelectPage { get { return selectPage; } set { selectPage = value; OnPropertyChanged(); } }
-        private string robotMessage; public string RobotMessage { get { return robotMessage; } set { { robotMessage = value; OnPropertyChanged(); } } }
-        private bool btnWorkWait; public bool BtnWorkWait { get { return btnWorkWait; } set { btnWorkWait = value; OnPropertyChanged(); } }
-        private string robotImage; public string RobotImage { get { return robotImage; } set { robotImage = value; OnPropertyChanged(); } }
-        private string errorMessage; public string ErrorMessage { get { return errorMessage; } set { { errorMessage = value; OnPropertyChanged(); } } }
-        private string errorImage; public string ErrorImage { get { return errorImage; } set { errorImage = value; OnPropertyChanged(); } }
-        private string isRobSpeed_Persent; public string IsRobSpeed_Persent { get { return isRobSpeed_Persent; } set { isRobSpeed_Persent = value; OnPropertyChanged(); } }
-        private string isRobSpeed_MMS; public string IsRobSpeed_MMS { get { return isRobSpeed_MMS; } set { isRobSpeed_MMS = value; OnPropertyChanged(); } }
-        private string isPressCloseTime; public string IsPressCloseTime { get { return isPressCloseTime; } set { isPressCloseTime = value; OnPropertyChanged(); } }
-        private string isChamberCloseTime; public string IsChamberCloseTime { get { return isChamberCloseTime; } set { isChamberCloseTime = value; OnPropertyChanged(); } }
-        private string isPCBCount; public string IsPCBCount { get { return isPCBCount; } set { isPCBCount = value; OnPropertyChanged(); } }
-        private string egg; public string EGG { get { return egg; } set { egg = value; OnPropertyChanged(); } }
-        private string serverConnectBtnColor; public string ServerConnectBtnColor { get { return serverConnectBtnColor; } set { serverConnectBtnColor = value; OnPropertyChanged(); } }
-        private string out1color; public string Out1Color { get { return out1color; } set { out1color = value; OnPropertyChanged(); } }
-        private string out2color; public string Out2Color { get { return out2color; } set { out2color = value; OnPropertyChanged(); } }
-        private string out3color; public string Out3Color { get { return out3color; } set { out3color = value; OnPropertyChanged(); } }
-        private string out4color; public string Out4Color { get { return out4color; } set { out4color = value; OnPropertyChanged(); } }
-        private string out5color; public string Out5Color { get { return out5color; } set { out5color = value; OnPropertyChanged(); } }
-        private string out6color; public string Out6Color { get { return out6color; } set { out6color = value; OnPropertyChanged(); } }
-        private string in1color; public string In1Color { get { return in1color; } set { in1color = value; OnPropertyChanged(); } }
-        private string in2color; public string In2Color { get { return in2color; } set { in2color = value; OnPropertyChanged(); } }
-        private string in3color; public string In3Color { get { return in3color; } set { in3color = value; OnPropertyChanged(); } }
-        private string in4color; public string In4Color { get { return in4color; } set { in4color = value; OnPropertyChanged(); } }
-        private string in5color; public string In5Color { get { return in5color; } set { in5color = value; OnPropertyChanged(); } }
-        private string in6color; public string In6Color { get { return in6color; } set { in6color = value; OnPropertyChanged(); } }
-        private string sv1pw_BerderColor; public string SV1PW_BorderColor { get { return sv1pw_BerderColor; } set { sv1pw_BerderColor = value; OnPropertyChanged(); } }
-        private string sv2pw_BerderColor; public string SV2PW_BorderColor { get { return sv2pw_BerderColor; } set { sv2pw_BerderColor = value; OnPropertyChanged(); } }
-        private string sv1pw_contect; public string SV1PW_Content { get { return sv1pw_contect; } set { sv1pw_contect = value; OnPropertyChanged(); } }
-        private string sv2pw_contect; public string SV2PW_Content { get { return sv2pw_contect; } set { sv2pw_contect = value; OnPropertyChanged(); } }
-        private string robAutoColor; public string RobAutoColor { get { return robAutoColor; } set { robAutoColor = value; OnPropertyChanged(); } }
-        private string robMotorColor; public string RobMotorColor { get { return robMotorColor; } set { robMotorColor = value; OnPropertyChanged(); } }
-        private string robTaskRunColor; public string RobTaskRunColor { get { return robTaskRunColor; } set { robTaskRunColor = value; OnPropertyChanged(); } }
-        private string robBatteryColor; public string RobBatteryColor { get { return robBatteryColor; } set { robBatteryColor = value; OnPropertyChanged(); } }
-        private string workMode; public string WorkMode { get { return workMode; } set { workMode = value; OnPropertyChanged(); } }
-        private string isSelectedWorkMode; public string IsSelectedWorkMode { get { return isSelectedWorkMode; } set { isSelectedWorkMode = value; OnPropertyChanged(); } }
-        private ObservableCollection<string> workModeList; public ObservableCollection<string> WorkModeList { get { return workModeList; } set { workModeList = value; OnPropertyChanged(); } }
-        private bool isWorkModeSelected; public bool IsWorkModeSelected { get { return isWorkModeSelected; } set { isWorkModeSelected = value; OnPropertyChanged(); } }
-        private bool isWorkModeOpen; public bool IsWorkModeOpen { get { return isWorkModeOpen; } set { isWorkModeOpen = value; OnPropertyChanged(); } }
-        private string isWorkModeTextColor; public string IsWorkModeTextColor { get { return isWorkModeTextColor; } set { isWorkModeTextColor = value; OnPropertyChanged(); } }
-        private string loadSkipColor; public string LoadSkipColor { get { return loadSkipColor; } set { loadSkipColor = value; OnPropertyChanged(); } }
-        private string imgCollectColor; public string ImgCollectColor { get { return imgCollectColor; } set { imgCollectColor = value; OnPropertyChanged(); } }
-        private string tCounting; public string TCounting { get { return tCounting; } set { tCounting = value; OnPropertyChanged(); } }
-        private bool pressIOEnable; public bool PressIOEnable { get { return pressIOEnable; } set { pressIOEnable = value; OnPropertyChanged(); } }
-        private string isExtractCount; public string IsExtactCount { get { return isExtractCount; } set { isExtractCount = value; OnPropertyChanged(); } }
-        private string isRobBlowSpeed; public string IsRobBlowSpeed { get { return isRobBlowSpeed; } set { isRobBlowSpeed = value; OnPropertyChanged(); } }
-        private string isRobBlow1stTopCount; public string IsRobBlow1stTopCount { get { return isRobBlow1stTopCount; } set { isRobBlow1stTopCount = value; OnPropertyChanged(); } }
-        private string isRobBlow1stBotCount; public string IsRobBlow1stBotCount { get { return isRobBlow1stBotCount; } set { isRobBlow1stBotCount = value; OnPropertyChanged(); } }
-        private string isRobBlow2ndTopCount; public string IsRobBlow2ndTopCount { get { return isRobBlow2ndTopCount; } set { isRobBlow2ndTopCount = value; OnPropertyChanged(); } }
-        private string isRobBlow2ndBotCount; public string IsRobBlow2ndBotCount { get { return isRobBlow2ndBotCount; } set { isRobBlow2ndBotCount = value; OnPropertyChanged(); } }
-        private string isRobBlowPortCount; public string IsRobBlowPortCount { get { return isRobBlowPortCount; } set { isRobBlowPortCount = value; OnPropertyChanged(); } }
-        private string isRobSpraySpeed; public string IsRobSpraySpeed { get { return isRobSpraySpeed; } set { isRobSpraySpeed = value; OnPropertyChanged(); } }
-        private string isRobSprayTopCount; public string IsRobSprayTopCount { get { return isRobSprayTopCount; } set { isRobSprayTopCount = value; OnPropertyChanged(); } }
-        private string isRobSprayPortTime; public string IsRobSprayPortTime { get { return isRobSprayPortTime; } set { isRobSprayPortTime = value; OnPropertyChanged(); } }
-        private string isRobPortSpeed; public string IsRobPortSpeed { get { return isRobPortSpeed; } set { isRobPortSpeed = value; OnPropertyChanged(); } }
-        private string isRobPortCount; public string IsRobPortCount { get { return isRobPortCount; } set { isRobPortCount = value; OnPropertyChanged(); } }
-        private int isWorkIndex; public int IsWorkIndex { get { return isWorkIndex; } set { isWorkIndex = value; OnPropertyChanged(); } }
-        private string display_StackedDeviceCount; public string Display_StackedDeviceCount { get { return display_StackedDeviceCount; } set { display_StackedDeviceCount = value; OnPropertyChanged(); } }
-        private string display_UnStackedDeviceCount; public string Display_UnStackedDeviceCount { get { return display_UnStackedDeviceCount; } set { display_UnStackedDeviceCount = value; OnPropertyChanged(); } }
-        private string display_StackedShotCount; public string Display_StackedShotCount { get { return display_StackedShotCount; } set { display_StackedShotCount = value; OnPropertyChanged(); } }
-        private string display_UnStackedShotCount; public string Display_UnStackedShotCount { get { return display_UnStackedShotCount; } set { display_UnStackedShotCount = value; OnPropertyChanged(); } }
-        private bool robotSetting; public bool RobotSetting { get { return robotSetting; } set { robotSetting = value; OnPropertyChanged(); } }
-        private string m1_CurrentPosition; public string M1_CurrentPosition { get { return m1_CurrentPosition; } set { m1_CurrentPosition = value; OnPropertyChanged(); } }
-        private string m1_Speed; public string M1_Speed { get { return m1_Speed; } set { m1_Speed = value; OnPropertyChanged(); } }
-        private string m1_FWDLIM; public string M1_FWDLIM { get { return m1_FWDLIM; } set { m1_FWDLIM = value; OnPropertyChanged(); } }
-        private string m2_CurrentPosition; public string M2_CurrentPosition { get { return m2_CurrentPosition; } set { m2_CurrentPosition = value; OnPropertyChanged(); } }
-        private string m2_Speed; public string M2_Speed { get { return m2_Speed; } set { m2_Speed = value; OnPropertyChanged(); } }
-        private string emc_CylOpenDelay; public string EMC_CylOpenDelay { get { return emc_CylOpenDelay; } set { emc_CylOpenDelay = value; OnPropertyChanged(); } }
-        private string emc_CylCloseDelay; public string EMC_CylCloseDelay { get { return emc_CylCloseDelay; } set { emc_CylCloseDelay = value; OnPropertyChanged(); } }
-        private string emc_StopperFWDDelay; public string EMC_StopperFWDDelay { get { return emc_StopperFWDDelay; } set { emc_StopperFWDDelay = value; OnPropertyChanged(); } }
-        private string emc_StopperBWDDelay; public string EMC_StopperBWDDelay { get { return emc_StopperBWDDelay; } set { emc_StopperBWDDelay = value; OnPropertyChanged(); } }
+        private string _StartButtonColor; public string StartButtonColor { get { return _StartButtonColor; } set { _StartButtonColor = value; OnPropertyChanged(); } }
+        private double _ResetBtnOpacity; public double ResetBtnOpacity { get { return _ResetBtnOpacity; } set { _ResetBtnOpacity = value; OnPropertyChanged(); } }
+        private bool _ResetbtnEnable; public bool ResetbtnEnable { get { return _ResetbtnEnable; } set { _ResetbtnEnable = value; OnPropertyChanged(); } }
+        private int _TimerStack; public int TimerStack { get { return _TimerStack; } set { _TimerStack = value; OnPropertyChanged(); } }
+        private bool _IsAuto; public bool IsAuto { get { return _IsAuto; } set { _IsAuto = value; OnPropertyChanged(); } }
+        private bool _IsManual; public bool IsManual { get { return _IsManual; } set { _IsManual = value; OnPropertyChanged(); } }
+        private bool _IsError; public bool IsError { get { return _IsError; } set { _IsError = value; OnPropertyChanged(); } }
+        private bool _IsSetView; public bool IsSetView { get { return _IsSetView; } set { _IsSetView = value; OnPropertyChanged(); } }
+        private bool _AutoBtn; public bool AutoBtn { get { return _AutoBtn; } set { _AutoBtn = value; OnPropertyChanged(); } }
+        private bool _ManualBtn; public bool ManualBtn { get { return _ManualBtn; } set { _ManualBtn = value; OnPropertyChanged(); } }
+        private bool _IsSetting; public bool IsSetting { get { return _IsSetting; } set { _IsSetting = value; OnPropertyChanged(); } }
+        private bool _HomeButton; public bool HomeButton { get { return _HomeButton; } set { _HomeButton = value; OnPropertyChanged(); } }
+        private string _SelectPage; public string SelectPage { get { return _SelectPage; } set { _SelectPage = value; OnPropertyChanged(); } }
+        private string _RobotMessage; public string RobotMessage { get { return _RobotMessage; } set { { _RobotMessage = value; OnPropertyChanged(); } } }
+        private bool _BtnWorkWait; public bool BtnWorkWait { get { return _BtnWorkWait; } set { _BtnWorkWait = value; OnPropertyChanged(); } }
+        private string _RobotImage; public string RobotImage { get { return _RobotImage; } set { _RobotImage = value; OnPropertyChanged(); } }
+        private string _ErrorMessage; public string ErrorMessage { get { return _ErrorMessage; } set { { _ErrorMessage = value; OnPropertyChanged(); } } }
+        private string _ErrorImage; public string ErrorImage { get { return _ErrorImage; } set { _ErrorImage = value; OnPropertyChanged(); } }
+        private string _IsRobSpeed_Persent; public string IsRobSpeed_Persent { get { return _IsRobSpeed_Persent; } set { _IsRobSpeed_Persent = value; OnPropertyChanged(); } }
+        private string _IsRobSpeed_MMS; public string IsRobSpeed_MMS { get { return _IsRobSpeed_MMS; } set { _IsRobSpeed_MMS = value; OnPropertyChanged(); } }
+        private string _IsPressCloseTime; public string IsPressCloseTime { get { return _IsPressCloseTime; } set { _IsPressCloseTime = value; OnPropertyChanged(); } }
+        private string _IsChamberCloseTime; public string IsChamberCloseTime { get { return _IsChamberCloseTime; } set { _IsChamberCloseTime = value; OnPropertyChanged(); } }
+        private string _IsPCBCount; public string IsPCBCount { get { return _IsPCBCount; } set { _IsPCBCount = value; OnPropertyChanged(); } }
+        private string _ServerConnectBtnColor; public string ServerConnectBtnColor { get { return _ServerConnectBtnColor; } set { _ServerConnectBtnColor = value; OnPropertyChanged(); } }
+        private string _Out1color; public string Out1Color { get { return _Out1color; } set { _Out1color = value; OnPropertyChanged(); } }
+        private string _Out2color; public string Out2Color { get { return _Out2color; } set { _Out2color = value; OnPropertyChanged(); } }
+        private string _Out3color; public string Out3Color { get { return _Out3color; } set { _Out3color = value; OnPropertyChanged(); } }
+        private string _Out4color; public string Out4Color { get { return _Out4color; } set { _Out4color = value; OnPropertyChanged(); } }
+        private string _Out5color; public string Out5Color { get { return _Out5color; } set { _Out5color = value; OnPropertyChanged(); } }
+        private string _Out6color; public string Out6Color { get { return _Out6color; } set { _Out6color = value; OnPropertyChanged(); } }
+        private string _In1color; public string In1Color { get { return _In1color; } set { _In1color = value; OnPropertyChanged(); } }
+        private string _In2color; public string In2Color { get { return _In2color; } set { _In2color = value; OnPropertyChanged(); } }
+        private string _In3color; public string In3Color { get { return _In3color; } set { _In3color = value; OnPropertyChanged(); } }
+        private string _In4color; public string In4Color { get { return _In4color; } set { _In4color = value; OnPropertyChanged(); } }
+        private string _In5color; public string In5Color { get { return _In5color; } set { _In5color = value; OnPropertyChanged(); } }
+        private string _In6color; public string In6Color { get { return _In6color; } set { _In6color = value; OnPropertyChanged(); } }
+        private string _Sv1pw_BerderColor; public string SV1PW_BorderColor { get { return _Sv1pw_BerderColor; } set { _Sv1pw_BerderColor = value; OnPropertyChanged(); } }
+        private string _Sv2pw_BerderColor; public string SV2PW_BorderColor { get { return _Sv2pw_BerderColor; } set { _Sv2pw_BerderColor = value; OnPropertyChanged(); } }
+        private string _Sv1pw_contect; public string SV1PW_Content { get { return _Sv1pw_contect; } set { _Sv1pw_contect = value; OnPropertyChanged(); } }
+        private string _Sv2pw_contect; public string SV2PW_Content { get { return _Sv2pw_contect; } set { _Sv2pw_contect = value; OnPropertyChanged(); } }
+        private string _RobAutoColor; public string RobAutoColor { get { return _RobAutoColor; } set { _RobAutoColor = value; OnPropertyChanged(); } }
+        private string _RobMotorColor; public string RobMotorColor { get { return _RobMotorColor; } set { _RobMotorColor = value; OnPropertyChanged(); } }
+        private string _RobTaskRunColor; public string RobTaskRunColor { get { return _RobTaskRunColor; } set { _RobTaskRunColor = value; OnPropertyChanged(); } }
+        private string _RobBatteryColor; public string RobBatteryColor { get { return _RobBatteryColor; } set { _RobBatteryColor = value; OnPropertyChanged(); } }
+        private string _WorkMode; public string WorkMode { get { return _WorkMode; } set { _WorkMode = value; OnPropertyChanged(); } }
+        private string _IsSelectedWorkMode; public string IsSelectedWorkMode { get { return _IsSelectedWorkMode; } set { _IsSelectedWorkMode = value; OnPropertyChanged(); } }
+        private ObservableCollection<string> _WorkModeList; public ObservableCollection<string> WorkModeList { get { return _WorkModeList; } set { _WorkModeList = value; OnPropertyChanged(); } }
+        private bool _IsWorkModeSelected; public bool IsWorkModeSelected { get { return _IsWorkModeSelected; } set { _IsWorkModeSelected = value; OnPropertyChanged(); } }
+        private bool _IsWorkModeOpen; public bool IsWorkModeOpen { get { return _IsWorkModeOpen; } set { _IsWorkModeOpen = value; OnPropertyChanged(); } }
+        private string _IsWorkModeTextColor; public string IsWorkModeTextColor { get { return _IsWorkModeTextColor; } set { _IsWorkModeTextColor = value; OnPropertyChanged(); } }
+        private string _LoadSkipColor; public string LoadSkipColor { get { return _LoadSkipColor; } set { _LoadSkipColor = value; OnPropertyChanged(); } }
+        private string _ImgCollectColor; public string ImgCollectColor { get { return _ImgCollectColor; } set { _ImgCollectColor = value; OnPropertyChanged(); } }
+        private string _TCounting; public string TCounting { get { return _TCounting; } set { _TCounting = value; OnPropertyChanged(); } }
+        private bool _PressIOEnable; public bool PressIOEnable { get { return _PressIOEnable; } set { _PressIOEnable = value; OnPropertyChanged(); } }
+        private string _IsExtractCount; public string IsExtactCount { get { return _IsExtractCount; } set { _IsExtractCount = value; OnPropertyChanged(); } }
+        private string _IsRobBlowSpeed; public string IsRobBlowSpeed { get { return _IsRobBlowSpeed; } set { _IsRobBlowSpeed = value; OnPropertyChanged(); } }
+        private string _IsRobBlow1stTopCount; public string IsRobBlow1stTopCount { get { return _IsRobBlow1stTopCount; } set { _IsRobBlow1stTopCount = value; OnPropertyChanged(); } }
+        private string _isRobBlow1stBotCount; public string IsRobBlow1stBotCount { get { return _isRobBlow1stBotCount; } set { _isRobBlow1stBotCount = value; OnPropertyChanged(); } }
+        private string _IsRobBlow2ndTopCount; public string IsRobBlow2ndTopCount { get { return _IsRobBlow2ndTopCount; } set { _IsRobBlow2ndTopCount = value; OnPropertyChanged(); } }
+        private string _IsRobBlow2ndBotCount; public string IsRobBlow2ndBotCount { get { return _IsRobBlow2ndBotCount; } set { _IsRobBlow2ndBotCount = value; OnPropertyChanged(); } }
+        private string _IsRobBlowPortCount; public string IsRobBlowPortCount { get { return _IsRobBlowPortCount; } set { _IsRobBlowPortCount = value; OnPropertyChanged(); } }
+        private string _IsRobSpraySpeed; public string IsRobSpraySpeed { get { return _IsRobSpraySpeed; } set { _IsRobSpraySpeed = value; OnPropertyChanged(); } }
+        private string _IsRobSprayTopCount; public string IsRobSprayTopCount { get { return _IsRobSprayTopCount; } set { _IsRobSprayTopCount = value; OnPropertyChanged(); } }
+        private string _IsRobSprayPortTime; public string IsRobSprayPortTime { get { return _IsRobSprayPortTime; } set { _IsRobSprayPortTime = value; OnPropertyChanged(); } }
+        private string _IsRobPortSpeed; public string IsRobPortSpeed { get { return _IsRobPortSpeed; } set { _IsRobPortSpeed = value; OnPropertyChanged(); } }
+        private string _IsRobPortCount; public string IsRobPortCount { get { return _IsRobPortCount; } set { _IsRobPortCount = value; OnPropertyChanged(); } }
+        private int _IsWorkIndex; public int IsWorkIndex { get { return _IsWorkIndex; } set { _IsWorkIndex = value; OnPropertyChanged(); } }
+        private string _Risplay_StackedDeviceCount; public string Display_StackedDeviceCount { get { return _Risplay_StackedDeviceCount; } set { _Risplay_StackedDeviceCount = value; OnPropertyChanged(); } }
+        private string _Display_UnStackedDeviceCount; public string Display_UnStackedDeviceCount { get { return _Display_UnStackedDeviceCount; } set { _Display_UnStackedDeviceCount = value; OnPropertyChanged(); } }
+        private string _Display_StackedShotCount; public string Display_StackedShotCount { get { return _Display_StackedShotCount; } set { _Display_StackedShotCount = value; OnPropertyChanged(); } }
+        private string _Display_UnStackedShotCount; public string Display_UnStackedShotCount { get { return _Display_UnStackedShotCount; } set { _Display_UnStackedShotCount = value; OnPropertyChanged(); } }
+        private bool _RobotSetting; public bool RobotSetting { get { return _RobotSetting; } set { _RobotSetting = value; OnPropertyChanged(); } }
+        private string _M1_CurrentPosition; public string M1_CurrentPosition { get { return _M1_CurrentPosition; } set { _M1_CurrentPosition = value; OnPropertyChanged(); } }
+        private string _M1_Speed; public string M1_Speed { get { return _M1_Speed; } set { _M1_Speed = value; OnPropertyChanged(); } }
+        private string _M1_FWDLIM; public string M1_FWDLIM { get { return _M1_FWDLIM; } set { _M1_FWDLIM = value; OnPropertyChanged(); } }
+        private string _M2_CurrentPosition; public string M2_CurrentPosition { get { return _M2_CurrentPosition; } set { _M2_CurrentPosition = value; OnPropertyChanged(); } }
+        private string _M2_Speed; public string M2_Speed { get { return _M2_Speed; } set { _M2_Speed = value; OnPropertyChanged(); } }
+        private string _Emc_CylOpenDelay; public string EMC_CylOpenDelay { get { return _Emc_CylOpenDelay; } set { _Emc_CylOpenDelay = value; OnPropertyChanged(); } }
+        private string _Emc_CylCloseDelay; public string EMC_CylCloseDelay { get { return _Emc_CylCloseDelay; } set { _Emc_CylCloseDelay = value; OnPropertyChanged(); } }
+        private string _Emc_StopperFWDDelay; public string EMC_StopperFWDDelay { get { return _Emc_StopperFWDDelay; } set { _Emc_StopperFWDDelay = value; OnPropertyChanged(); } }
+        private string _Emc_StopperBWDDelay; public string EMC_StopperBWDDelay { get { return _Emc_StopperBWDDelay; } set { _Emc_StopperBWDDelay = value; OnPropertyChanged(); } }
         #endregion
 
         #region Server Properties
-        public bool SentReceivedSymbol { get { return m_XmlParser.SavedData.SentReceivedSymbol; } set { if (m_XmlParser.SavedData.SentReceivedSymbol != value) { m_XmlParser.SavedData.SentReceivedSymbol = value; RaisePropertyChangedEvent("SentReceivedSymbol"); } } }
-        public bool ShowTimeStamp { get { return m_XmlParser.SavedData.ShowTimeStamp; } set { if (m_XmlParser.SavedData.ShowTimeStamp != value) { m_XmlParser.SavedData.ShowTimeStamp = value; RaisePropertyChangedEvent("ShowTimeStamp"); } } }
-        public bool IsReadHex { get { return m_XmlParser.SavedData.IsReadHex; } set { if (m_XmlParser.SavedData.IsReadHex != value) { m_XmlParser.SavedData.IsReadHex = value; RaisePropertyChangedEvent("IsReadHex"); } } }
-        public bool IsWriteHex { get { return m_XmlParser.SavedData.IsWriteHex; } set { if (m_XmlParser.SavedData.IsWriteHex != value) { m_XmlParser.SavedData.IsWriteHex = value; RaisePropertyChangedEvent("IsWriteHex"); } } }
         public string Prefix { get { return m_XmlParser.SavedData.Prefix; } set { if (m_XmlParser.SavedData.Prefix != value) { m_XmlParser.SavedData.Prefix = value; RaisePropertyChangedEvent("Prefix"); } } }
         public string Suffix { get { return m_XmlParser.SavedData.Suffix; } set { if (m_XmlParser.SavedData.Suffix != value) { m_XmlParser.SavedData.Suffix = value; RaisePropertyChangedEvent("Suffix"); } } }
 
@@ -248,8 +227,6 @@ namespace RobotMonitor_3.ViewModels
         {
             #region Initialization
             m_XmlParser = new Models.XmlParser();
-
-            _sendQueue = new ConcurrentQueue<string>();
 
             IsServerOpened = false;
             ServerConnection = false;
@@ -319,9 +296,19 @@ namespace RobotMonitor_3.ViewModels
             IsServoBtnPressed = false;
             #endregion
 
+            _tcpService = new TcpServerService();
+            _tcpService.OnDataReceived += OnDataReceivedFromService;
+            _tcpService.OnConnectionStatusChanged += (isConnected) =>
+            {
+                ServerConnection = isConnected; // UI 바인딩 변수 업데이트
+            };
+            _tcpService.OnErrorOccurred += (errMsg) =>
+            {
+                SystemError(errMsg);
+            };
 
-
-
+            _parser = new RobotMessageParser();
+            InitializeCommandMap();
 
             #region Timer Setting
             timer = new DispatcherTimer(DispatcherPriority.Send, System.Windows.Application.Current.Dispatcher);
@@ -336,18 +323,10 @@ namespace RobotMonitor_3.ViewModels
             DeviceTimer.Interval = TimeSpan.FromMilliseconds(383);
             DeviceTimer.Tick += new EventHandler(DeviceSend);
 
-            eggTimer = new DispatcherTimer(DispatcherPriority.Send, System.Windows.Application.Current.Dispatcher);
-            eggTimer.Interval = TimeSpan.FromMilliseconds(100);
-            eggTimer.Tick += new EventHandler(EggEnd);
-
             responseTimer = new DispatcherTimer(DispatcherPriority.Send, System.Windows.Application.Current.Dispatcher);
             responseTimer.Interval = TimeSpan.FromMilliseconds(200);
             responseTimer.Tick += new EventHandler(ConnectionOK);
 
-            _sendTimer = new DispatcherTimer(DispatcherPriority.Send, System.Windows.Application.Current.Dispatcher);
-            _sendTimer.Interval = TimeSpan.FromMilliseconds(70);
-            _sendTimer.Tick += new EventHandler(ProcessSendQueue);
-            _sendTimer.Start();
             #endregion
 
         }
@@ -389,12 +368,9 @@ namespace RobotMonitor_3.ViewModels
                 FlickerTimer.Stop();
                 DeviceTimer.Stop();
                 responseTimer.Stop();
-                if (_sendTimer != null) _sendTimer.Stop();
-                ServerClose();
                 m_XmlParser.SavedDataSave();
+                _tcpService.StopServer();
 
-                if (ServerListening != null && ServerListening.IsAlive) ServerListening.Abort();
-                if (ClientReading != null && ClientReading.IsAlive) ClientReading.Abort();
 
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
@@ -588,231 +564,92 @@ namespace RobotMonitor_3.ViewModels
         #region Server Methods
         public void ServerOpenClose()
         {
-            // 서버 열기/닫기 토글
             IsServerOpened = !IsServerOpened;
-
             if (IsServerOpened)
             {
-                ServerListening = new Thread(new ThreadStart(delegate
-                {
-                    try
-                    {
-                        m_Server = new TcpListener(IPAddress.Parse(ClientIP), ClientPort);
-                        m_Server.Start();
-
-                        byte[] bytes = new byte[512];
-                        string data = null;
-
-                        while (IsServerOpened)
-                        {
-                            try
-                            {
-                                m_Client = m_Server.AcceptTcpClient();
-                                m_Stream = m_Client.GetStream();
-
-                                ServerConnection = true;
-                                responseTimer.Start();
-
-                                int len = 0;
-                                while ((len = m_Stream.Read(bytes, 0, bytes.Length)) != 0)
-                                {
-                                    ParsingRobMsg(ReadByteToString(bytes, len));
-                                }
-
-                                m_Client.Close();
-                                ServerConnection = false;
-                                responseTimer.Stop();
-                            }
-                            catch (SocketException ex) // 소켓 예외 처리
-                            {
-                                SystemError(ex.Message);
-                            }
-                            catch (IOException) { }
-                            catch (Exception ex) // 일반 예외 처리
-                            {
-                                SystemError(ex.Message);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        IsServerOpened = false;
-                        SystemError(ex.Message);
-                    }
-                }));
-
-                ServerListening.Start();
+                // 기존 설정값 사용
+                string ip = ClientIP;
+                int port = ClientPort;
+                _tcpService.StartServer(ip, port);
             }
             else
             {
-                ServerClose();
-                responseTimer.Stop();
+                _tcpService.StopServer();
                 RobotLabelSet();
             }
         }
 
 
+        private void OnDataReceivedFromService(string msg) // 데이터 수신
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                ParsingRobMsg(msg);
+            });
+        }
+
+
+        internal async void ServerSend(string msg) // 데이터 송신
+        {
+            if (string.IsNullOrEmpty(msg)) return;
+
+            string fullMsg = (Prefix ?? "") + msg + (Suffix ?? "");
+
+            await _tcpService.SendAsync(fullMsg);
+        }
+
+        private void InitializeCommandMap()
+        {
+            _commandMap = new Dictionary<string, Action<string>>
+            {
+                { "State",   RobState },   // State_ 처리
+                { "Speed",   (msg) => SplitAndCall(msg, RobSpeed) }, // Speed_는 내부에서 또 쪼개짐
+                { "Count",   (msg) => SplitAndCall(msg, RobCount) }, // Count_ 처리
+                { "Motor",   (msg) => SplitAndCall(msg, RobMotor) }, // Motor_ 처리
+                { "Error",   RobError },   // Error_ 처리
+                { "Work",    RobWork },    // Work_ 처리
+                { "RobIO",   RobIO },      // RobIO_ 처리
+                { "Check",   RobPress }    // Check_ 처리
+            };
+        }
+
+        // [보조] Speed, Count 처럼 내부에서 "Key_Value"로 한 번 더 나뉘는 경우 처리
+        // Speed_ -> sublabel[0], sublabel[1] 로직 대체
+        private void SplitAndCall(string message, Action<string, string> targetMethod)
+        {
+            if (string.IsNullOrEmpty(message)) return;
+
+            int sepIndex = message.IndexOf('_');
+            if (sepIndex > 0)
+            {
+                string subKey = message.Substring(0, sepIndex);
+                string subValue = message.Substring(sepIndex + 1);
+                targetMethod(subKey, subValue);
+            }
+        }
 
         internal void ParsingRobMsg(string msg)
         {
             try
             {
-                if (msg == null || msg.Length < 4) { return; }  // 메세지 유효성 검사
-                string[] splitMsg = msg.Split(',');
-
-                // _를 기준으로 라벨과 메세지 분리
-                for (int i = 0; i < splitMsg.Length; i++)
+                // 1. 파서를 통해 깔끔하게 분리된 데이터 수신
+                foreach (var parsedData in _parser.Parse(msg))
                 {
-                    if (splitMsg[i].Length < 2 || splitMsg[i] == null) return;
-                    string label = "";
-                    string message = "";
-                    bool lm = false;
-
-                    foreach (char s in splitMsg[i])
+                    // 2. 딕셔너리에 등록된 키인지 확인하고 해당 메서드 실행
+                    if (_commandMap.ContainsKey(parsedData.Key))
                     {
-                        if (lm == false)
-                        {
-                            label += s;
-                        }
-                        else
-                        {
-                            message += s;
-                        }
-                        if (s == '_')
-                        {
-                            lm = true;
-                        }
+                        _commandMap[parsedData.Key]?.Invoke(parsedData.Value);
                     }
-                    if (label == "State_") RobState(message);
-
-                    if (label == "Speed_") // _를 기준으로 숫자(서브라벨)과 값(메세지) 분리
+                    else
                     {
-                        string[] sublabel = message.Split("_");
-                        if (sublabel.Length < 2) return;
-                        RobSpeed(sublabel[0], sublabel[1]);
-                    }
-
-                    if (label == "Count_")
-                    {
-                        string[] sublabel = message.Split("_");
-                        if (sublabel.Length < 2) return;
-                        RobCount(sublabel[0], sublabel[1]);
-                    }
-
-                    if (label == "Motor_")
-                    {
-                        string[] sublabel = message.Split("_");
-                        if (sublabel.Length < 2) return;
-                        RobMotor(sublabel[0], sublabel[1]);
-                    }
-
-                    if (label == "Error_") RobError(message);
-
-                    if (label == "Work_") RobWork(message);
-
-                    if (label == "RobIO_") RobIO(message);
-
-                    if (label == "Check_") RobPress(message);
-                }
-            }
-            catch (Exception ex)
-            {
-                SystemError(ex.Message);
-            }
-        }
-
-
-
-        internal void ServerClose()
-        {
-            IsServerOpened = false;
-            ServerConnection = false;
-            if (m_Stream != null) m_Stream.Close();
-            if (m_Client != null) m_Client.Close();
-            if (m_Server != null) m_Server.Stop();
-            if (_sendTimer != null) _sendTimer.Stop();
-            if (ServerListening != null && ServerListening.IsAlive) ServerListening.Join();
-        }
-
-
-
-        internal void ServerSend(string ServerSendMsg)
-        {
-
-            try
-            {
-                if (string.IsNullOrEmpty(ServerSendMsg)) return; // 빈 문자열 체크
-
-                _sendQueue.Enqueue(ServerSendMsg); // 큐에 메세지 추가
-            }
-            catch (Exception ex)
-            {
-                SystemError(ex.Message);
-            }
-        }
-
-
-        // 큐 처리 메서드
-        private void ProcessSendQueue(object sender, EventArgs e)
-        {
-            if (m_Stream == null || !m_Stream.CanWrite || !ServerConnection)
-            {
-                return;
-            }
-
-            if (_sendQueue.IsEmpty) return;
-
-            try
-            {
-                string currentPrefix = Prefix ?? "";
-                string currentSuffix = Suffix ?? "";
-
-                StringBuilder packetBuilder = new StringBuilder();
-
-                while (_sendQueue.TryPeek(out string nextMsgBody))
-                {
-                    string fullSingleMessage = currentPrefix + nextMsgBody + currentSuffix;
-
-                    // [길이 체크]
-                    // (현재 담아둔 길이) + (이번에 추가할 메세지 길이)가 최대사이즈(80자)를 넘는지 확인
-                    if (packetBuilder.Length + fullSingleMessage.Length > MAX_PACKET_SIZE)
-                    {
-                        // [예외 처리]
-                        // 만약 현재 패킷이 비어있는데(0자), 메세지 하나 자체가 최대사이즈(80자)를 넘는 경우
-                        // -> 안 보내면 큐가 영원히 막히므로, 잘리더라도 강제로 담아서 전송
-                        if (packetBuilder.Length == 0)
-                        {
-                            _sendQueue.TryDequeue(out _); // 큐에서 제거
-                            packetBuilder.Append(fullSingleMessage);
-                            break; // 루프 종료 후 전송
-                        }
-
-                        // 이미 담아둔 데이터가 있다면, 이번 메세지는 다음 텀에 송신
-                        break;
-                    }
-
-                    // 80자 이내로 들어간다면 큐에서 실제로 꺼내서 패킷에 추가
-                    _sendQueue.TryDequeue(out _);
-                    packetBuilder.Append(fullSingleMessage);
-                }
-
-                // 전송할 데이터가 있다면 전송
-                if (packetBuilder.Length > 0)
-                {
-                    // WriteStringAsString 메서드는 이미 인코딩을 처리하므로 그대로 사용
-                    byte[] msgBytes = WriteStringAsString(packetBuilder.ToString());
-
-                    // 중복 호출을 막기 위해 lock 사용
-                    lock (thisLock)
-                    {
-                        m_Stream.Write(msgBytes, 0, msgBytes.Length);
-                        m_Stream.Flush();
+                        // 등록되지 않은 명령어 처리 (로그 등)
+                        // WriteLog($"Unknown Command: {parsedData.Key}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                WriteLog($"Send Queue Error: {ex.Message}");
+                SystemError(ex.Message); // 예외 처리 유지
             }
         }
 
@@ -822,11 +659,10 @@ namespace RobotMonitor_3.ViewModels
         {
             ServerSend("ConnectionOK");  // 통신 상태 확인용 인데 E10이 통신 오류 있어서 있으나 마나 ( 관상용 )
 
-            // 커넥션 확인 할 때마다 매뉴얼 온오프 상태 전송 ( 이젠 이 녀석이 이 메소드의 메인... 메소드명 바꿔라 애송이... )
+            // 커넥션 확인 할 때마다 매뉴얼 온오프 상태 전송 ( 이젠 이 녀석이 이 메소드의 메인... )
             if (IsManual) ServerSend("Manual_On");
             else ServerSend("Manual_Off");
         }
-
 
 
         internal void ServerClear()
@@ -886,7 +722,7 @@ namespace RobotMonitor_3.ViewModels
                 case "OriginEND":
                     R_IsStopped = RobotLabelSet();
                     ButtonVisible("Auto");
-                    resetbtnEnable = true;
+                    _ResetbtnEnable = true;
                     needOrigin = false;
                     break;
                 case "ShotCycleEnd":
@@ -1095,7 +931,7 @@ namespace RobotMonitor_3.ViewModels
                             else
                             {
                                 WriteLog("Extract Count Change : " + IsExtactCount + " → Full");
-                                isExtractCount = "Full";
+                                _IsExtractCount = "Full";
                             }
 
                         }
@@ -1428,17 +1264,6 @@ namespace RobotMonitor_3.ViewModels
                         if (R_IsStopped) timer.Stop();
                         if (TimerStack > 30) { timer.Stop(); TimerStack = 0; }
                         break;
-
-                    case "Stoooooop": // EGG
-                        if (timerBreak) timer.Stop();
-                        if (TimerStack > CountresetBtnDelay + StartBtnDelay + HomeBtnDelay + 6 + 6 + 6)
-                        {
-                            timer.Stop();
-                            TimerStack = 0;
-                            Stoooooop();
-                        }
-                        break;
-
                     default:
                         break;
                 }
@@ -1725,7 +1550,7 @@ namespace RobotMonitor_3.ViewModels
             else
             {
                 if (IsSelectedWorkMode == workModeBuffer) return;  // 디바이스가 이전과 같으면 돌아가
-                // 메세지 받스 띄워서 확정 여부 확인
+                                                                   // 메세지 받스 띄워서 확정 여부 확인
                 var result = MessageBox.Show("선택한 작업은 " + IsSelectedWorkMode + " 입니다.\r 확정시 시스템 초기화를 진행 해야 합니다.\r 진행 하시겠습니까?", "", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)  // 진행 한다 하면 GO
                 {
@@ -2456,56 +2281,5 @@ namespace RobotMonitor_3.ViewModels
             return Encoding.Default.GetBytes(data);
         }
         #endregion
-
-
-
-
-
-        #region Easter Egg
-        public void EggEnd(object sender, EventArgs e)
-        {
-            eggCount++;
-            if (eggCount > 41)
-            {
-                timer.Stop();
-                eggTimer.Stop();
-                FlickerTimer.Stop();
-                ErrorImage = "";
-                ButtonVisible("Auto");
-            }
-        }
-
-
-
-        internal void Stoooooop()
-        {
-            if (CountresetBtnDelay == 6 && StartBtnDelay == 6 && HomeBtnDelay == 6)
-            {
-                IsAuto = false;
-                IsManual = false;
-                IsError = true;
-                HomeButton = false;
-                AutoBtn = true;
-                ManualBtn = false;
-                EGG = path + @"\\Images\\EGG\\notpass.gif";
-                RobotMessage = "";
-                eggCount = 0;
-                eggTimer.Start();
-            }
-        }
-        #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
