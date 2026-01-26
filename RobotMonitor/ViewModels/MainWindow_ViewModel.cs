@@ -39,6 +39,7 @@ namespace RobotMonitor_3.ViewModels
         private readonly TcpServerService _tcpService;
         private readonly RobotMessageParser _parser;
         private Dictionary<string, Action<string>> _commandMap;
+        private readonly ErrorRepository _errorRepo;
 
         private Models.XmlParser m_XmlParser;
         public Window MainWindow;
@@ -607,7 +608,6 @@ namespace RobotMonitor_3.ViewModels
                 { "Count",   (msg) => SplitAndCall(msg, RobCount) }, // Count_ 처리
                 { "Motor",   (msg) => SplitAndCall(msg, RobMotor) }, // Motor_ 처리
                 { "Error",   RobError },   // Error_ 처리
-                { "Work",    RobWork },    // Work_ 처리
                 { "RobIO",   RobIO },      // RobIO_ 처리
                 { "Check",   RobPress }    // Check_ 처리
             };
@@ -971,111 +971,14 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-
         private void RobError(string message)
         {
-            switch (message)
-            {
-                // 안전 관련 에러
-                case "EStop": Error("Emergency", "[비상정지]"); break;
-                case "DoorOpen": Error("Door", "[도어 열림 감지]"); break;
+           if (message == "RobEResetFail" || message == "RobMotorFail" ) FlickerTimer.Stop();
 
-                // 작업 관련 에러
-                case "WorkMode_Select": Error("WorkMode", "작업모드 선택 이상"); break;
-                case "PCBMagazineEmpty": Error("Supply", "[Lot End]\r 작업완료 ( 매거진 없음 )"); break;
-                case "ExtractCountOver": Error("", "10 샷 작업 완료\r 금형 클리닝 및 완제품 배출구를 비워주세요."); break;
+           var info = _errorRepo.GetError(message);
 
-                // 매거진 서플라이 관련 에러
-                case "Servo_M1_ORGTO": Error("Supply", "매거진 서플라이 모터 오리진 동작 이상"); break;
-                case "Servo_M1_SupTO": Error("Supply", "매거진 서플라이 모터 공급 동작 이상"); break;
-                case "Servo_M1_RelTO": Error("Supply", "매거진 서플라이 회피위치 기동 동작 이상"); break;
-                case "Cylinder_Supply_Left": Error("Supply", "매거진 서플라이 실린더 좌측 이동 동작 이상"); break;
-                case "Cylinder_Supply_Right": Error("Supply", "매거진 서플라이 실린더 우측 이동 동작 이상"); break;
-                case "MagazineSensorOn": Error("Supply", "매거진 센서 감지 이상"); break;
-                case "PCBWorkCountOver": Error("Supply", "매거진 PCB 작업수량 초과"); break;
-                case "Servo_M1_SupSensor": Error("Supply", "매거진 공급동작 신호시 센서 감지됨\r 매거진을 뒤로 물리고 다시 시작 해 주세요."); break;
-
-                // 턴 테이블 관련 에러
-                case "Servo_M2_ORGTO": Error("Table", "PCB 턴 테이블 오리진 이상"); break;
-                case "Servo_M2_0TO": Error("Table", "PCB 턴 테이블 0도 동작 이상"); break;
-                case "Servo_M2_180TO": Error("Table", "PCB 턴 테이블 180도 동작 이상"); break;
-
-                // 로봇 관련 에러
-                case "RobEResetFail": Error("Robot", "로봇 에러 리셋 실패"); FlickerTimer.Stop(); break;
-                case "RobMotorFail": Error("Robot", "로봇 모터 가동 실패"); FlickerTimer.Stop(); break;
-                case "RobError": Error("Robot", "[로봇 에러]\r로봇 에러 발생"); break;
-                case "RobControlBGStoped": Error("Robot", "로봇 백그라운드 프로그램 정지상태"); break;
-
-                // 프리히터 관련 에러
-                case "PreheaterPowerOff": Error("Preheater", "프리히터 전원 OFF 이상"); break;
-                case "Preheater_NotOpen": Error("Preheater", "프리히터 신호이상\r 프리히터 도어 열림 이상"); break;
-
-                // EMC 공급함 관련 에러
-                case "EMCBoxPickMiss": Error("", "EMC 박스 픽업 이상"); break;
-                case "EMC_NotSupply": Error("EMCEmpty", "EMC 공급함 에러\r EMC 도달 감지 이상"); break;
-                case "EMC_CylNotDown": Error("EMCCylDown", "EMC 공급함 에러\r EMC 개폐실린더 하강 이상"); break;
-
-                // 프레스 관련 에러
-                case "PrsSign1TimeOut": Error("", "프레스 신호 이상\r 프레스 준비 신호 수신 이상"); break;
-                case "PrsSign2TimeOut": Error("", "프레스 신호 이상\r 프레스 상승 완료 신호 수신 이상"); break;
-                case "PrsSign3TimeOut": Error("", "프레스 신호 이상\r 쳄버 닫힘 완료 신호 수신 이상"); break;
-                case "PrsSign4TimeOut": Error("", "프레스 신호 이상\r 프레스 열림 신호 수신 이상"); break;
-                case "PrsSign5TimeOut": Error("", "프레스 신호 이상\r 프레스 준비위치 도달 신호 이상"); break;
-
-                // Robot Tool 관련 에러
-                case "Chuck_Sensor": Error("ChuckSensor", "툴 교체 센서 이상"); break;
-                case "ElectricGripperError": Error("EGripper", "전동 그리퍼 동작이상"); break;
-                case "Extract_Table": Error("ExtactVac", "추출 툴 진공센서 이상\r 턴 테이블 PCB 픽업 이상"); break;
-                case "Extract_Press": Error("ExtactVac", "추출 툴 진공센서 이상\r 프레스 완제품 픽업 이상"); break;
-                case "Extract_Out": Error("ExtactVac", "추출 툴 진공센서 이상\r 배출부 이송중 제품 이탈 이상"); break;
-                case "SprayCylDown": Error("SpraySensor", "이형제 분사 실린더 하강 이상"); break;
-                case "SprayCylUp": Error("SpraySensor", "이형제 분사 실린더 상승 이상"); break;
-                case "PCBTurnTableError": Error("", "PCB 턴테이블 동작 이상"); break;
-
-                // 비전 관련 에러
-                case "VisionNotReady": Error("Vision", "비전 검사 준비 이상\r 비전 프로그램 동작 확인"); break;
-                case "VisionSignal": Error("Vision", "비전 검사 신호 이상"); break;
-                case "VisionNG_PCB": Error("VisionPCB", "Vision NG\r 프레스 내 PCB 안착 이상"); break;
-                case "VisionNG_Press": Error("VisionPress", "Vision NG\r 프레스 이물 검사 이상"); break;
-                case "VisionNG_Table": Error("VisionTable", "Vision NG\r PCB 로드 테이블 안착 이상"); break;
-                case "VisionNG_Extract": Error("VisionExtract", "Vision NG\r 완제품 성형 이상"); break;
-
-                // 에러 통신 메세지 이상 ( 미할당 )
-                default: Error("", $"에러메세지 미 할당\rCode : {message}"); break;
-            }
+            Error(info.ImageName, info.Message);
         }
-
-
-
-        private void RobWork(string message)
-        {
-            switch (message)
-            {
-                case "Press_Ready": RobotMessage = "프레스 준비신호 대기중"; break;
-                case "ServoHome": RobotMessage = "서보모터 오리진 완료 대기중"; break;
-                case "Home": RobotMessage = "로보트 오리진 진행중"; break;
-                case "Blow": RobotMessage = "금형 클리닝"; break;
-                case "Spray": RobotMessage = "이형제 분사"; break;
-                case "PCB_TablePick": RobotMessage = "PCB 테이블 픽업"; break;
-                case "PCB_PressPlace": RobotMessage = "PCB 프레스에 공급"; break;
-                case "Signal1": RobotMessage = "금형 상승 신호 발신"; break;
-                case "EMC_PreHeaterSupply": RobotMessage = "프리히터 EMC 공급"; break;
-                case "EMC_Button": RobotMessage = "프리히터 동작 버튼 조작"; break;
-                case "EMC_PicknPlace": RobotMessage = "프레스 EMC 공급"; break;
-                case "Signal2": RobotMessage = "트랜스퍼 하강 신호 발신"; break;
-                case "PCB_Magazine": RobotMessage = "매거진 PCB 추출"; break;
-                case "PCB_TableLoad": RobotMessage = "PCB 테이블 로딩"; break;
-                case "Extract1": RobotMessage = "완제품 추출"; break;
-                case "Extract2": RobotMessage = "완제품 배출"; break;
-                case "Vision": RobotMessage = "비전 검사"; break;
-                case "ToolChange": RobotMessage = "툴 교체"; break;
-                case "PressWait": RobotMessage = "패키지 성형 완료 대기"; break;
-                case "Clear": RobotMessage = ""; break;
-
-                default: break;
-            }
-        }
-
 
 
         private void RobIO(string message)
