@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using RobotMonitor_2.ViewModels;
+using RobotMonitor_3.ViewModels;
 
-namespace RobotMonitor_2
+namespace RobotMonitor_3
 {
     /// <summary>
     /// LoginWindow.xaml에 대한 상호 작용 논리

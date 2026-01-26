@@ -12,10 +12,10 @@ using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using CommunityToolkit.Mvvm.Messaging;
-using RobotMonitor_2.Models;
+using RobotMonitor_3.Models;
 using System.Collections.Concurrent;
 
-namespace RobotMonitor_2.ViewModels
+namespace RobotMonitor_3.ViewModels
 {
     internal class MainWindow_ViewModel : INotifyPropertyChanged
     {
@@ -56,7 +56,7 @@ namespace RobotMonitor_2.ViewModels
         DispatcherTimer DeviceTimer;
         DispatcherTimer eggTimer;
 
-        private string path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RobotMonitor_2");
+        private string path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RobotMonitor_3");
 
         private bool m_IsServerOpened;
         private bool m_ServerConnection;
@@ -98,6 +98,7 @@ namespace RobotMonitor_2.ViewModels
         #endregion
 
         #region OnPropertyChange Properties
+        private string _WindowPage; public string WindowPage { get { return _WindowPage; } set { _WindowPage = value; OnPropertyChanged(); } }
         private bool tabVisible; public bool TabVisible { get { return tabVisible; } set { { tabVisible = value; OnPropertyChanged(); } } }
         private bool r_IsRunning; public bool R_IsRunning { get { return r_IsRunning; } set { r_IsRunning = value; OnPropertyChanged(); } }
         private bool r_IsStopped; public bool R_IsStopped { get { return r_IsStopped; } set { r_IsStopped = value; OnPropertyChanged(); } }
@@ -243,9 +244,6 @@ namespace RobotMonitor_2.ViewModels
         public string LogMessageBuffer = "";
         #endregion
 
-
-
-
         public MainWindow_ViewModel()
         {
             #region Initialization
@@ -265,6 +263,7 @@ namespace RobotMonitor_2.ViewModels
             robSpeedMaxLimit[0] = 0; robSpeedMaxLimit[1] = 7500;
             robPCBCountLimit[0] = 1; robPCBCountLimit[1] = 20;
             robExtractCountLimit[0] = 1; robExtractCountLimit[1] = 10;
+
 
             R_IsRunning = false;
             R_IsStopped = false;
@@ -362,6 +361,7 @@ namespace RobotMonitor_2.ViewModels
             MainWindow.ResizeMode = ResizeMode.NoResize;
             MainWindow.WindowState = WindowState.Maximized; // Window Maximize -------------------------------------
             MainWindow.WindowStyle = WindowStyle.None;
+            WindowPage = "Pages/Main_Page.xaml";
             ServerOpenClose();
             WorkModeList.Add("정지모드"); // 0
             WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName1);
@@ -463,6 +463,7 @@ namespace RobotMonitor_2.ViewModels
             switch (select)
             {
                 case "Auto":
+                    WindowPage = "Pages/Main_Page.xaml";
                     IsAuto = true;
                     IsManual = false;
                     IsSetView = false;
@@ -471,6 +472,7 @@ namespace RobotMonitor_2.ViewModels
                     ManualBtn = false;
                     break;
                 case "Manual":
+                    WindowPage = "Pages/Manual_Page.xaml";
                     IsManual = true;
                     IsAuto = false;
                     IsSetView = false;
@@ -479,12 +481,14 @@ namespace RobotMonitor_2.ViewModels
                     ManualBtn = true;
                     break;
                 case "Setting":
+                    WindowPage = "Pages/Setting_Page.xaml";
                     IsSetting = true;
                     IsAuto = false;
                     IsManual = false;
                     IsSetView = false;
                     break;
                 case "Error":
+                    WindowPage = "Pages/Error_Page.xaml";
                     IsError = true;
                     IsSetting = false;
                     IsAuto = false;
@@ -495,6 +499,7 @@ namespace RobotMonitor_2.ViewModels
                     ResetbtnEnable = true;
                     break;
                 case "SetView":
+                    WindowPage = "Pages/Setting_Page.xaml";
                     IsSetting = true;
                     IsAuto = false;
                     IsManual = false;
@@ -2500,220 +2505,7 @@ namespace RobotMonitor_2.ViewModels
 
 
 
-    #region Converters
-    public class ServerOpenBoolToString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "CLOSE SERVER";
-                else return "OPEN SERVER";
-            }
 
-            return "";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ServerOpenBoolToOpacity : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return 100;
-                else return 0;
-            }
-
-            return 100;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ServerConnectionBoolToString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "Connected";
-                else return "Wating for a connection...";
-            }
-
-            return "";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ServerConnectionBoolToColor : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "LimeGreen";
-                else return "Red";
-            }
-
-            return "Black";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ClientOpenBoolToString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "CLOSE CLIENT";
-                else return "CONNECT";
-            }
-
-            return "";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ClientConnectionBoolToString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "Connected";
-                else return "Trying to connect...";
-            }
-
-            return "";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class BoolToColorString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "Blue";
-                else return "Black";
-            }
-
-            return "Black";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class BoolToSettingString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "Main";
-                else return "Setting";
-            }
-
-            return "Setting";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class BoolToSetViewString : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val) return "Main";
-                else return "작업조건";
-            }
-
-            return "작업조건";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class BoolToReverseBool : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val) return !val;
-            else return false;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val) return !val;
-            else return false;
-        }
-    }
-
-    public class BooleanToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (Visibility)value == Visibility.Visible;
-        }
-    }
-
-    public class BooleanToVisibilityConverterRevers : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (bool)value ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (Visibility)value == Visibility.Visible;
-        }
-    }
-
-    #endregion
 
 
 }

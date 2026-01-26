@@ -1,4 +1,4 @@
-﻿using RobotMonitor_2.ViewModels;
+﻿using RobotMonitor_3.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace RobotMonitor_2
+namespace RobotMonitor_3
 {
     /// <summary>
     /// DeviceWindow.xaml에 대한 상호 작용 논리

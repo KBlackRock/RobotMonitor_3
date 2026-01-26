@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RobotMonitor_2.Models
+namespace RobotMonitor_3.Models
 {
     public class MessageSender : ValueChangedMessage<string>
     {

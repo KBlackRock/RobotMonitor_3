@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace RobotMonitor_2.Models
+namespace RobotMonitor_3.Models
 {
 
     public class SavedData
@@ -69,7 +69,7 @@ namespace RobotMonitor_2.Models
     public class XmlParser
     {
         public SavedData SavedData { get; set; }
-        private string path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RobotMonitor_2");
+        private string path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RobotMonitor_3");
         private XmlSerializer SavedDataXmlSerializer = new XmlSerializer(typeof(SavedData));
 
         public XmlParser()

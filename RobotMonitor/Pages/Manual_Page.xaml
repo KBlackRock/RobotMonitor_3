@@ -1,0 +1,250 @@
+﻿<Page x:Class="RobotMonitor_3.Pages.Manual_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RobotMonitor_3.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="533" d:DesignWidth="1024"
+      Title="Manual_Page">
+
+    <Grid>
+        <!-- Manual Page -->
+        <Grid Background="#FFF0F0F0">
+            <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
+                <Grid Margin="5,5,673,348" Background="White">
+                    <Label Content="Robot" Margin="0,0,0,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                    <Button x:Name="btn_Home" Content="HOME" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,56,0,0" HorizontalAlignment="Left" IsEnabled="{Binding HomeButton}" VerticalAlignment="Top" PreviewMouseLeftButtonUp="btn_Home_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_Home_PreviewMouseLeftButtonDown">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnHM" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF1919EB" BorderBrush="#FF000082">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnHM" Property="Background" Value="#FF000064"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+                <Grid Margin="5,152,673,5" Background="White" Grid.Column="1">
+                    <Label Content="EMC Supply Cylinder" Margin="0,0,0,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                    <Button x:Name="btn_EMCSupply" Content="Supply" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_EMCSupply_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnEMCSup" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF15CEF1" BorderBrush="#FF0E7784">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnEMCSup" Property="Background" Value="#FF033137"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_EMCOpen" Content="Door&#10;Open" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,156,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_EMCOpen_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnEMCOp" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnEMCOp" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_EMCClose" Content="Door&#10;Close" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="170,156,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_EMCClose_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnEMCCl" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnEMCCl" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_EMCStopper" Content="Stopper&#10;Forward" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,246,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_EMCStopper_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnEMCStop" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnEMCStop" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_EMCRelease" Content=" Stopper&#10;Backward" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="170,246,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_EMCRelease_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnEMCRel" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnEMCRel" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+
+                <Grid Margin="340,5,338,5" Background="White" Grid.Column="1">
+                    <Label Content="M1] Magazien Loader" Margin="0,0,0,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                    <Button x:Name="btn_M1_Origin" Content="Origin" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M1_Origin_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btn_M1ORG" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF15CEF1" BorderBrush="#FF0E7784">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btn_M1ORG" Property="Background" Value="#FF033137"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_M1_Feed" Content="Feed" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,156,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M1_Feed_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btn_M1FWD" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btn_M1FWD" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_M1_Release" Content="Release" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="170,156,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M1_Release_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btn_M1BWD" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btn_M1BWD" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
+                    <TextBox x:Name="tBox_M1CurrentPosMN" Text="{Binding M1_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextWrapping="Wrap" FontSize="32" TextAlignment="Right" />
+                    <Button x:Name="btn_M1_CylLeft" Content="Cylinder&#10;   Left" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,394,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M1_CylLeft_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btn_Cyl1Left" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btn_Cyl1Left" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_M1_CylRight" Content="Cylinder&#10;  Right" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="170,394,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M1_CylRight_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btn_Cyl1Right" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btn_Cyl1Right" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+
+                </Grid>
+
+                <Grid Margin="673,5,5,5" Background="White" Grid.Column="1">
+                    <Label Content="M2] PCB Load Table" Margin="0,0,0,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                    <Button x:Name="btn_M2_Origin" Content="Origin" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M2_Origin_Click" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnM2ORG" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF15CEF1" BorderBrush="#FF0E7784">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnM2ORG" Property="Background" Value="#FF033137"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_M2_Turn" Content="Trun" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="20,156,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M2_Turn_Click"  >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnM2TN" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnM2TN" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="btn_M2_Return" Content="Retrun" Height="80" Width="130" FontSize="24" FontWeight="Bold" Margin="170,156,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_M2_Return_Click"  >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnM2RTN" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF32FF32" BorderBrush="#FF14C814">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnM2RTN" Property="Background" Value="#FF009600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
+                    <TextBox x:Name="tBox_M2CurrentPosMN" Text="{Binding M2_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextAlignment="Right" TextWrapping="Wrap" FontSize="32"/>
+                    <Button x:Name="btn_Monitor" Content="모니터 끄기" FontSize="24" FontWeight="Bold" Margin="5,70,5,5" VerticalAlignment="Bottom" Height="80" Click="btn_Monitor_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="btnHM" CornerRadius="0" Margin="0" BorderThickness="5" Background="#FF19EBD3" BorderBrush="#FF1F9487">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="btnHM" Property="Background" Value="#FF54B1D0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

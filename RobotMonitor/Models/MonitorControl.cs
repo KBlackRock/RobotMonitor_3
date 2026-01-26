@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RobotMonitor_2.Models
+namespace RobotMonitor_3.Models
 {
     class MonitorControl
     {

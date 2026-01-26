@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace RobotMonitor_2
+namespace RobotMonitor_3
 {
     /// <summary>
     /// Interaction logic for App.xaml

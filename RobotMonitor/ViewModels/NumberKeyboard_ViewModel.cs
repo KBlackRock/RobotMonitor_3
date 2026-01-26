@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using RobotMonitor_2.Models;
+using RobotMonitor_3.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RobotMonitor_2.ViewModels
+namespace RobotMonitor_3.ViewModels
 {
     internal class NumberKeyboard_ViewModel : INotifyPropertyChanged
     {
