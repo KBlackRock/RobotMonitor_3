@@ -288,11 +288,6 @@ namespace RobotMonitor_2
             (DataContext as MainWindow_ViewModel).RobSprayPort();
         }
 
-        private void btn_SpraySkip_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).SpraySkipPress();
-        }
-
         private void tBox_PortSpeed_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             (DataContext as MainWindow_ViewModel).RobPortSpeedSet();
@@ -406,16 +401,6 @@ namespace RobotMonitor_2
         private void tBox_3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             (DataContext as MainWindow_ViewModel).ChamberCloseTimeSet();
-        }
-
-        private void btn_MGZCNG_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).MagazineChangePress();
-        }
-
-        private void btn_MGZCNG_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).MagazineChangeRelease();
         }
 
         private void btn_DeviceSet_Click(object sender, RoutedEventArgs e)

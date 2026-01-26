@@ -84,7 +84,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Grid Margin="0,10,146,0" VerticalAlignment="Top" Height="48" Width="322" HorizontalAlignment="Right" Background="#FFE6E6E6">
-            <TextBlock TextWrapping="Wrap" Text="Mold Robot System #2" VerticalAlignment="Center" FontSize="28" FontWeight="Bold" TextAlignment="Center" Background="#FFE6E6E6"/>
+            <TextBlock TextWrapping="Wrap" Text="Mold Robot System #3" VerticalAlignment="Center" FontSize="28" FontWeight="Bold" TextAlignment="Center" Background="#FFE6E6E6"/>
         </Grid>
         <Grid Margin="0,8,480,0" VerticalAlignment="Top" Height="50" Width="262" HorizontalAlignment="Right" Background="#FFE6E6E6">
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding WorkMode}" Foreground="{Binding IsWorkModeTextColor}" FontSize="24" FontWeight="Bold" TextAlignment="Center" Background="#FFE6E6E6" />
@@ -616,34 +616,6 @@
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsPressed" Value="True">
                                             <Setter TargetName="btnskip" Property="Background" Value="#FF646464"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button x:Name="btn_SpraySkip" Content="이형제 분사 스킵" IsEnabled="{Binding R_IsStopped}" Margin="0,275,5,0" FontSize="22" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Width="200" PreviewMouseLeftButtonDown="btn_SpraySkip_PreviewMouseLeftButtonDown" >
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_SpraySkip" CornerRadius="0" Margin="0" BorderThickness="2" Background="{Binding SpraySkipColor}" BorderBrush="#FF949494">
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_SpraySkip" Property="Background" Value="#FF646464"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button x:Name="btn_MGZCNG" Content="매거진 교체" IsEnabled="{Binding ServerConnection}" Margin="0,275,217,0" FontSize="22" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Width="200" PreviewMouseLeftButtonDown="btn_MGZCNG_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_MGZCNG_PreviewMouseLeftButtonUp"  >
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_MGZCNG" CornerRadius="0" Margin="0" BorderThickness="2" Background="{Binding MagazineChangeColor}" BorderBrush="#FF949494">
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_MGZCNG" Property="Background" Value="#FF646464"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>

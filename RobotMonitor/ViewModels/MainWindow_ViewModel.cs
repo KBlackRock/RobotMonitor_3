@@ -81,7 +81,6 @@ namespace RobotMonitor_2.ViewModels
         public bool needOrigin;
         public string workModeBuffer;
         public int CureTimeNum;
-        public int MagazineCngBtnDelay;
 
         public int[] robOverrideLimit;
         public int[] robSpeedMaxLimit;
@@ -165,8 +164,6 @@ namespace RobotMonitor_2.ViewModels
         private bool isWorkModeOpen; public bool IsWorkModeOpen { get { return isWorkModeOpen; } set { isWorkModeOpen = value; OnPropertyChanged(); } }
         private string isWorkModeTextColor; public string IsWorkModeTextColor { get { return isWorkModeTextColor; } set { isWorkModeTextColor = value; OnPropertyChanged(); } }
         private string loadSkipColor; public string LoadSkipColor { get { return loadSkipColor; } set { loadSkipColor = value; OnPropertyChanged(); } }
-        private string spraySkipColor; public string SpraySkipColor { get { return spraySkipColor; } set { spraySkipColor = value; OnPropertyChanged(); } }
-        private string magazineChangeColor; public string MagazineChangeColor { get { return magazineChangeColor; } set { magazineChangeColor = value; OnPropertyChanged(); } }
         private string imgCollectColor; public string ImgCollectColor { get { return imgCollectColor; } set { imgCollectColor = value; OnPropertyChanged(); } }
         private string tCounting; public string TCounting { get { return tCounting; } set { tCounting = value; OnPropertyChanged(); } }
         private bool pressIOEnable; public bool PressIOEnable { get { return pressIOEnable; } set { pressIOEnable = value; OnPropertyChanged(); } }
@@ -288,8 +285,6 @@ namespace RobotMonitor_2.ViewModels
             RobotImage = "";
             RobotMessage = "";
             ErrorData = "";
-
-            MagazineCngBtnDelay = 8;
 
             Display_StackedShotCount = "0";
             Display_UnStackedShotCount = "0";
@@ -933,10 +928,6 @@ namespace RobotMonitor_2.ViewModels
                     break;
                 case "LoadSkipTrue": LoadSkipColor = "Lime"; break;
                 case "LoadSkipFalse": LoadSkipColor = "Gray"; break;
-                case "SpraySkipTrue": SpraySkipColor = "Lime"; break;
-                case "SpraySkipFalse": SpraySkipColor = "Gray"; break;
-                case "MGZChangeTrue": MagazineChangeColor = "Lime"; break;
-                case "MGZChangeFalse": MagazineChangeColor = "Gray"; break;
                 case "ImgCollectTrue": ImgCollectColor = "Lime"; break;
                 case "ImgCollectFalse": ImgCollectColor = "Gray"; break;
                 default:
@@ -1427,20 +1418,6 @@ namespace RobotMonitor_2.ViewModels
                         }
                         break;
 
-                    case "MagazineChange":  // 매거진 교체 신호 버튼 동작 딜레이 ( 잘 안쓰는듯? )
-                        if (TimerStack > CountresetBtnDelay)
-                        {
-                            if (MagazineChangeColor == "Lime")
-                            {
-                                ServerSend("MZGChangeOff");
-                            }
-                            else
-                            {
-                                ServerSend("MZGChangeOn");
-                            }
-                        }
-                        break;
-
                     case "Stop":  // 정지 할 때 까지 ( Max 3s ) 200ms 간격으로 정지 신호 전송
                         if (TimerStack % 2 == 0) ServerSend("Stop");
                         if (R_IsStopped) timer.Stop();
@@ -1515,7 +1492,7 @@ namespace RobotMonitor_2.ViewModels
             timer.Stop();
             TimerStack = 0;
             if (RobBatteryColor == "Red") MessageBox.Show("로봇의 배터리가 부족합니다!!\r !!전원을 유지한 상태로!!\r !!전원을 유지한 상태로!!\r 배터리를 교체 해 주세요."); ;
-            // 다운에 이거 걸어놓면 타이머 동작이 안되서 업에 걸긴 했는데... 이러면 설비 동작 하고 에러 팝업 뜨는데 좀... 그르네... ( 하지만 바꿀 생각은 없지 )
+            // 다운에 걸 경우 스타트 안 걸릴듯, 업에 걸어서 스타트는 하고 메세지 박스 뜨도록 ( 이랬는데 작업자가 팝언 아보면 말짱 꽝 이긴 함, 나중에 라도 보것지 아마 )
         }
 
 
@@ -1661,39 +1638,6 @@ namespace RobotMonitor_2.ViewModels
         {
         }
 
-
-
-        internal void SpraySkipPress()
-        {
-            if (R_IsStopped)
-            {
-                if (SpraySkipColor == "Lime")
-                {
-                    ServerSend("SpraySkipOff");
-                }
-                else
-                {
-                    ServerSend("SpraySkipOn");
-                }
-            }
-            else return;
-        }
-
-
-
-        internal void MagazineChangePress()
-        {
-            TimerWorkSelect = "MagazineChange";
-            timer.Start();
-        }
-
-
-
-        internal void MagazineChangeRelease()
-        {
-            timer.Stop();
-            TimerStack = 0;
-        }
 
 
 
