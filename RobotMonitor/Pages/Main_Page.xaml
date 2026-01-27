@@ -8,6 +8,10 @@
       d:DesignHeight="533" d:DesignWidth="1024"
       Title="Main_Page">
 
+    <Page.Resources>
+        
+    </Page.Resources>
+    
     <Grid>
         <!-- Main Page -->
         <Grid Margin="0,0,0,0" Background="#FFE6E6E6" >
@@ -178,7 +182,7 @@
             <Grid Margin="5,360,376,5" Background="White">
                 <Label Content="Work Counter" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
-                    <Label Content="PCB 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
+                    <Label Content="Frame 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
                     <TextBox x:Name="tBox_PCBCount" Text="{Binding IsPCBCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_PCBCount_PreviewMouseLeftButtonDown" />
                     <Button x:Name="btn_PCBWorkCountReset" Content=" 초기화 " IsEnabled="{Binding R_IsStopped}" Margin="5,5,5,5" FontSize="24" FontWeight="Bold" PreviewMouseLeftButtonDown="btn_PCBWorkCountReset_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_PCBWorkCountReset_PreviewMouseLeftButtonUp" Height="40" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" >
                         <Button.Template>

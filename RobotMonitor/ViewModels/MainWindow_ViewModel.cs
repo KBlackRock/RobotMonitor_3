@@ -585,7 +585,6 @@ namespace RobotMonitor_3.ViewModels
         }
 
         // [보조] Speed, Count 처럼 내부에서 "Key_Value"로 한 번 더 나뉘는 경우 처리
-        // Speed_ -> sublabel[0], sublabel[1] 로직 대체
         private void SplitAndCall(string message, Action<string, string> targetMethod)
         {
             if (string.IsNullOrEmpty(message)) return;
