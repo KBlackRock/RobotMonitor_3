@@ -9,9 +9,24 @@
       Title="Main_Page">
 
     <Page.Resources>
-        
+        <Style x:Key="PressIOBox" TargetType="Button">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
     </Page.Resources>
-    
+
     <Grid>
         <!-- Main Page -->
         <Grid Margin="0,0,0,0" Background="#FFE6E6E6" >
@@ -71,114 +86,42 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-
             </Grid>
+            
             <Grid Margin="437,5,376,165" Background="White">
                 <Label Content="Press Signal" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
-                <Grid Margin="105,55,5,5" Background="#FFEBF5FF">
-                    <StackPanel>
-                        <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="5,5,5,0" Height="30" >
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_Out1" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding Out1Color}" BorderBrush="black">
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_Out1" Property="Background" Value="#00D8FF"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
-                        </Button>
-                        <Button x:Name="btn_Out2" Margin="5,5,5,0" Height="35" VerticalAlignment="Top" IsHitTestVisible="False" >
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_Out2" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding Out2Color}" BorderBrush="black" >
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_Out2" Property="Background" Value="#00D8FF"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <TextBlock Text="Press&#x0a;Up" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center" FontWeight="Bold" />
-                        </Button>
-                        <Button x:Name="btn_Out3" Margin="5,5,5,0" Height="35" VerticalAlignment="Top" IsHitTestVisible="False">
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_Out3" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding Out3Color}" BorderBrush="black">
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_Out3" Property="Background" Value="#00D8FF"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <TextBlock Text="Chamber&#x0a;Down" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center" FontWeight="Bold" />
-                        </Button>
-                        <Button x:Name="btn_Out4" Margin="5,5,5,0" Height="35" VerticalAlignment="Top" IsHitTestVisible="False" >
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_Out4" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding Out4Color}" BorderBrush="black">
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_Out4" Property="Background" Value="#00D8FF"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <TextBlock Text="Extract&#x0a;Complete" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center" FontWeight="Bold" />
-                        </Button>
-                        <Button x:Name="btn_Out5" Margin="5,5,5,0" Height="35" VerticalAlignment="Top" IsHitTestVisible="False">
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="btn_Out5" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding Out5Color}" BorderBrush="black">
-                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btn_Out5" Property="Background" Value="#00D8FF"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <TextBlock Text="Empty Sign" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center" FontWeight="Bold" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
+               
                 <Grid Margin="5,55,105,5" Background="#FFEBF5FF">
                     <StackPanel>
                         <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                         <Button x:Name="btn_In1" Margin="5,5,5,0"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
                             <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
                         </Button>
-                        <Button x:Name="btn_In2" Margin="5,5,5,0" FontWeight="Bold" Background="{Binding In2Color}" IsHitTestVisible="False" Height="35" VerticalAlignment="Top">
-                            <TextBlock Text="Press&#x0a;Closed" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center"/>
-                        </Button>
-                        <Button x:Name="btn_In3" Margin="5,5,5,0" FontWeight="Bold" Background="{Binding In3Color}" IsHitTestVisible="False" Height="35" VerticalAlignment="Top">
-                            <TextBlock Text="Chamber&#x0a;Closed" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center"/>
-                        </Button>
-                        <Button x:Name="btn_In4" Margin="5,5,5,0" FontWeight="Bold" Background="{Binding In4Color}" IsHitTestVisible="False" Height="35" VerticalAlignment="Top">
-                            <TextBlock Text="PKG&#x0a;Molding" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center"/>
-                        </Button>
-                        <Button x:Name="btn_In5" Margin="5,5,5,0" FontWeight="Bold" Background="{Binding In5Color}" IsHitTestVisible="False" Height="35" VerticalAlignment="Top">
-                            <TextBlock Text="Clamp&#x0a;Opened" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center"/>
-                        </Button>
-                        <Button x:Name="btn_In6" Margin="5,5,5,0" FontWeight="Bold" Background="{Binding In6Color}" IsHitTestVisible="False" Height="35" VerticalAlignment="Top">
-                            <TextBlock Text="Cycle&#x0a;End" LineHeight="15" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="17" TextAlignment="Center"/>
-                        </Button>
+                        <Button x:Name="btn_In2" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs2" Background="{Binding In2Color}"/>
+                        <Button x:Name="btn_In3" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs3" Background="{Binding In3Color}"/>
+                        <Button x:Name="btn_In4" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs4" Background="{Binding In4Color}"/>
+                        <Button x:Name="btn_In5" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs5" Background="{Binding In5Color}"/>
+                        <Button x:Name="btn_In6" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs6" Background="{Binding In6Color}"/>
+
                     </StackPanel>
                 </Grid>
+                
+                <Grid Margin="105,55,5,5" Background="#FFEBF5FF">
+                    <StackPanel>
+                        <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="5,5,5,0" Height="30" Background="{Binding Out1Color}">
+                            <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                        </Button>
+                        <Button x:Name="btn_Out2" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob2" Background="{Binding Out2Color}"/>
+                        <Button x:Name="btn_Out3" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob3" Background="{Binding Out3Color}"/>
+                        <Button x:Name="btn_Out4" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob4" Background="{Binding Out4Color}"/>
+                        <Button x:Name="btn_Out5" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob5" Background="{Binding Out5Color}"/>
+                        <Button x:Name="btn_Out6" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob6" Background="{Binding Out6Color}"/>
+                    </StackPanel>
+                </Grid>
+                
             </Grid>
+            
             <Grid Margin="5,360,376,5" Background="White">
                 <Label Content="Work Counter" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
