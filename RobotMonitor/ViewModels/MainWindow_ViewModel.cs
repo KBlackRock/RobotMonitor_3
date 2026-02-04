@@ -565,7 +565,7 @@ namespace RobotMonitor_3.ViewModels
         {
             if (string.IsNullOrEmpty(msg)) return;
 
-            string fullMsg = (Prefix ?? "") + msg + (Suffix ?? "");
+            string fullMsg = (Prefix ?? "") + msg + (Suffix ?? ""); // 접두어와 접미어 부착 ( 없다면 생략 )
 
             await _tcpService.SendAsync(fullMsg);
         }
@@ -602,7 +602,7 @@ namespace RobotMonitor_3.ViewModels
         {
             try
             {
-                // 1. 파서를 통해 깔끔하게 분리된 데이터 수신
+                // 1. 파서를 통해 분리된 데이터 수신
                 foreach (var parsedData in _parser.Parse(msg))
                 {
                     // 2. 딕셔너리에 등록된 키인지 확인하고 해당 메서드 실행
