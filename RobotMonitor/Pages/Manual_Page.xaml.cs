@@ -41,7 +41,7 @@ namespace RobotMonitor_3.Pages
         // EMC Manual Control Buttons
         private void btn_EMCSupply_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).EMCSuplly();
+            (DataContext as MainWindow_ViewModel).EMCSupply();
         }
 
         private void btn_EMCOpen_Click(object sender, RoutedEventArgs e)

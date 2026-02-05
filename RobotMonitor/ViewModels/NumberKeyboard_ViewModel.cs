@@ -30,7 +30,7 @@ namespace RobotMonitor_3.ViewModels
 
         public string symbol;
         private string displayNumber; public string DisplayNumber { get { return displayNumber; } set { displayNumber = value; OnPropertyChanged(); } }
-        private string displayNumerOld; public string DisplayNumberOld { get { return displayNumerOld; } set { displayNumerOld = value; OnPropertyChanged(); } }
+        private string displayNumberOld; public string DisplayNumberOld { get { return displayNumberOld; } set { displayNumberOld = value; OnPropertyChanged(); } }
 
         public NumberKeyboard_ViewModel()
         {

@@ -117,7 +117,7 @@ namespace RobotMonitor_3.ViewModels
         private string _RobotImage; public string RobotImage { get { return _RobotImage; } set { _RobotImage = value; OnPropertyChanged(); } }
         private string _ErrorMessage; public string ErrorMessage { get { return _ErrorMessage; } set { { _ErrorMessage = value; OnPropertyChanged(); } } }
         private string _ErrorImage; public string ErrorImage { get { return _ErrorImage; } set { _ErrorImage = value; OnPropertyChanged(); } }
-        private string _IsRobSpeed_Persent; public string IsRobSpeed_Persent { get { return _IsRobSpeed_Persent; } set { _IsRobSpeed_Persent = value; OnPropertyChanged(); } }
+        private string _IsRobSpeed_Percent; public string IsRobSpeed_Percent { get { return _IsRobSpeed_Percent; } set { _IsRobSpeed_Percent = value; OnPropertyChanged(); } }
         private string _IsRobSpeed_MMS; public string IsRobSpeed_MMS { get { return _IsRobSpeed_MMS; } set { _IsRobSpeed_MMS = value; OnPropertyChanged(); } }
         private string _IsPressCloseTime; public string IsPressCloseTime { get { return _IsPressCloseTime; } set { _IsPressCloseTime = value; OnPropertyChanged(); } }
         private string _IsChamberCloseTime; public string IsChamberCloseTime { get { return _IsChamberCloseTime; } set { _IsChamberCloseTime = value; OnPropertyChanged(); } }
@@ -135,10 +135,10 @@ namespace RobotMonitor_3.ViewModels
         private string _In4color; public string In4Color { get { return _In4color; } set { _In4color = value; OnPropertyChanged(); } }
         private string _In5color; public string In5Color { get { return _In5color; } set { _In5color = value; OnPropertyChanged(); } }
         private string _In6color; public string In6Color { get { return _In6color; } set { _In6color = value; OnPropertyChanged(); } }
-        private string _Sv1pw_BerderColor; public string SV1PW_BorderColor { get { return _Sv1pw_BerderColor; } set { _Sv1pw_BerderColor = value; OnPropertyChanged(); } }
-        private string _Sv2pw_BerderColor; public string SV2PW_BorderColor { get { return _Sv2pw_BerderColor; } set { _Sv2pw_BerderColor = value; OnPropertyChanged(); } }
-        private string _Sv1pw_contect; public string SV1PW_Content { get { return _Sv1pw_contect; } set { _Sv1pw_contect = value; OnPropertyChanged(); } }
-        private string _Sv2pw_contect; public string SV2PW_Content { get { return _Sv2pw_contect; } set { _Sv2pw_contect = value; OnPropertyChanged(); } }
+        private string _Sv1pw_borderColor; public string SV1PW_BorderColor { get { return _Sv1pw_borderColor; } set { _Sv1pw_borderColor = value; OnPropertyChanged(); } }
+        private string _Sv2pw_borderColor; public string SV2PW_BorderColor { get { return _Sv2pw_borderColor; } set { _Sv2pw_borderColor = value; OnPropertyChanged(); } }
+        private string _Sv1pw_content; public string SV1PW_Content { get { return _Sv1pw_content; } set { _Sv1pw_content = value; OnPropertyChanged(); } }
+        private string _Sv2pw_content; public string SV2PW_Content { get { return _Sv2pw_content; } set { _Sv2pw_content = value; OnPropertyChanged(); } }
         private string _RobAutoColor; public string RobAutoColor { get { return _RobAutoColor; } set { _RobAutoColor = value; OnPropertyChanged(); } }
         private string _RobMotorColor; public string RobMotorColor { get { return _RobMotorColor; } set { _RobMotorColor = value; OnPropertyChanged(); } }
         private string _RobTaskRunColor; public string RobTaskRunColor { get { return _RobTaskRunColor; } set { _RobTaskRunColor = value; OnPropertyChanged(); } }
@@ -153,7 +153,7 @@ namespace RobotMonitor_3.ViewModels
         private string _ImgCollectColor; public string ImgCollectColor { get { return _ImgCollectColor; } set { _ImgCollectColor = value; OnPropertyChanged(); } }
         private string _TCounting; public string TCounting { get { return _TCounting; } set { _TCounting = value; OnPropertyChanged(); } }
         private bool _PressIOEnable; public bool PressIOEnable { get { return _PressIOEnable; } set { _PressIOEnable = value; OnPropertyChanged(); } }
-        private string _IsExtractCount; public string IsExtactCount { get { return _IsExtractCount; } set { _IsExtractCount = value; OnPropertyChanged(); } }
+        private string _IsExtractCount; public string IsExtractCount { get { return _IsExtractCount; } set { _IsExtractCount = value; OnPropertyChanged(); } }
         private string _IsRobBlowSpeed; public string IsRobBlowSpeed { get { return _IsRobBlowSpeed; } set { _IsRobBlowSpeed = value; OnPropertyChanged(); } }
         private string _IsRobBlow1stTopCount; public string IsRobBlow1stTopCount { get { return _IsRobBlow1stTopCount; } set { _IsRobBlow1stTopCount = value; OnPropertyChanged(); } }
         private string _isRobBlow1stBotCount; public string IsRobBlow1stBotCount { get { return _isRobBlow1stBotCount; } set { _isRobBlow1stBotCount = value; OnPropertyChanged(); } }
@@ -166,7 +166,7 @@ namespace RobotMonitor_3.ViewModels
         private string _IsRobPortSpeed; public string IsRobPortSpeed { get { return _IsRobPortSpeed; } set { _IsRobPortSpeed = value; OnPropertyChanged(); } }
         private string _IsRobPortCount; public string IsRobPortCount { get { return _IsRobPortCount; } set { _IsRobPortCount = value; OnPropertyChanged(); } }
         private int _IsWorkIndex; public int IsWorkIndex { get { return _IsWorkIndex; } set { _IsWorkIndex = value; OnPropertyChanged(); } }
-        private string _Risplay_StackedDeviceCount; public string Display_StackedDeviceCount { get { return _Risplay_StackedDeviceCount; } set { _Risplay_StackedDeviceCount = value; OnPropertyChanged(); } }
+        private string _Display_StackedDeviceCount; public string Display_StackedDeviceCount { get { return _Display_StackedDeviceCount; } set { _Display_StackedDeviceCount = value; OnPropertyChanged(); } }
         private string _Display_UnStackedDeviceCount; public string Display_UnStackedDeviceCount { get { return _Display_UnStackedDeviceCount; } set { _Display_UnStackedDeviceCount = value; OnPropertyChanged(); } }
         private string _Display_StackedShotCount; public string Display_StackedShotCount { get { return _Display_StackedShotCount; } set { _Display_StackedShotCount = value; OnPropertyChanged(); } }
         private string _Display_UnStackedShotCount; public string Display_UnStackedShotCount { get { return _Display_UnStackedShotCount; } set { _Display_UnStackedShotCount = value; OnPropertyChanged(); } }
@@ -210,7 +210,7 @@ namespace RobotMonitor_3.ViewModels
         private int dev3UnstackedDeviceCount; public int Dev3UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev3UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev3UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev3UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev3UnStackedDeviceCount"); } } }
         private int startBtnDelay; public int StartBtnDelay { get { return m_XmlParser.SavedData.startBtnDelay; } set { if (m_XmlParser.SavedData.startBtnDelay != value) { m_XmlParser.SavedData.startBtnDelay = value; RaisePropertyChangedEvent("StartBtnDelay"); } } }
         private int homeBtnDelay; public int HomeBtnDelay { get { return m_XmlParser.SavedData.homeBtnDelay; } set { if (m_XmlParser.SavedData.homeBtnDelay != value) { m_XmlParser.SavedData.homeBtnDelay = value; RaisePropertyChangedEvent("HomeBtnDelay"); } } }
-        private int countresetBtnDelay; public int CountresetBtnDelay { get { return m_XmlParser.SavedData.countresetBtnDelay; } set { if (m_XmlParser.SavedData.countresetBtnDelay != value) { m_XmlParser.SavedData.countresetBtnDelay = value; RaisePropertyChangedEvent("CountresetBtnDelay"); } } }
+        private int countResetBtnDelay; public int CountResetBtnDelay { get { return m_XmlParser.SavedData.countResetBtnDelay; } set { if (m_XmlParser.SavedData.countResetBtnDelay != value) { m_XmlParser.SavedData.countResetBtnDelay = value; RaisePropertyChangedEvent("CountResetBtnDelay"); } } }
         #endregion
 
         #region Messenger Properties
@@ -259,7 +259,7 @@ namespace RobotMonitor_3.ViewModels
             IsWorkModeSelected = false;
             LoginCheck = false;
             needOrigin = false;
-            IsRobSpeed_Persent = "";
+            IsRobSpeed_Percent = "";
             RobotImage = "";
             RobotMessage = "";
             ErrorData = "";
@@ -390,7 +390,7 @@ namespace RobotMonitor_3.ViewModels
             if (IsSetView) return originalData;
             var KeyWindow = new NumberKeyboard();
             var MainWithSize = MainWindow.Width;
-            var MainHeigtSize = MainWindow.Height;
+            var MainHeightSize = MainWindow.Height;
             var KeyWithSize = KeyWindow.Width;
             var keyHeightSize = KeyWindow.Height;
 
@@ -401,9 +401,9 @@ namespace RobotMonitor_3.ViewModels
                 KeyWindow.Left = mPoint.X - (KeyWindow.ActualWidth);
             else KeyWindow.Left = MainWithSize - (KeyWithSize * 1.2);
 
-            if (mPoint.Y < MainHeigtSize - keyHeightSize)
+            if (mPoint.Y < MainHeightSize - keyHeightSize)
                 KeyWindow.Top = mPoint.Y - (KeyWindow.ActualHeight);
-            else KeyWindow.Top = MainHeigtSize - (keyHeightSize * 1.1);
+            else KeyWindow.Top = MainHeightSize - (keyHeightSize * 1.1);
             KeyWindow.ResizeMode = ResizeMode.NoResize;
             KeyWindow.Topmost = true;
 
@@ -422,12 +422,12 @@ namespace RobotMonitor_3.ViewModels
         {
             var LoginWindow = new LoginWindow();
             var MainWithSize = MainWindow.Width;
-            var MainHeigtSize = MainWindow.Height;
+            var MainHeightSize = MainWindow.Height;
 
             LoginWindow.ResizeMode = ResizeMode.NoResize;
             LoginWindow.Topmost = true;
             LoginWindow.Left = MainWithSize / 3;
-            LoginWindow.Top = MainHeigtSize / 3;
+            LoginWindow.Top = MainHeightSize / 3;
 
             WeakReferenceMessenger.Default.Unregister<LoginBool>(this);
             WeakReferenceMessenger.Default.Register<LoginBool>(this, (r, m) => { LoginCheck = m.Value; });
@@ -756,8 +756,8 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsRobSpeed_Persent) Logger.Write("Override Change : " + IsRobSpeed_Persent + " → " + message);
-                        IsRobSpeed_Persent = message;
+                        if (message != IsRobSpeed_Percent) Logger.Write("Override Change : " + IsRobSpeed_Percent + " → " + message);
+                        IsRobSpeed_Percent = message;
                     }
                     catch (Exception) { return; }
                     break;
@@ -891,16 +891,16 @@ namespace RobotMonitor_3.ViewModels
                     try
                     {
                         int a = Convert.ToInt32(message);
-                        if (message != IsExtactCount)
+                        if (message != IsExtractCount)
                         {
                             if (a < 11)
                             {
-                                Logger.Write("Extract Count Change : " + IsExtactCount + " → " + message);
-                                IsExtactCount = message;
+                                Logger.Write("Extract Count Change : " + IsExtractCount + " → " + message);
+                                IsExtractCount = message;
                             }
                             else
                             {
-                                Logger.Write("Extract Count Change : " + IsExtactCount + " → Full");
+                                Logger.Write("Extract Count Change : " + IsExtractCount + " → Full");
                                 _IsExtractCount = "Full";
                             }
 
@@ -1081,7 +1081,7 @@ namespace RobotMonitor_3.ViewModels
                 switch (TimerWorkSelect)
                 {
                     case "WorkCountReset":  // 작업 수량 초기화 버튼 동작 딜레이
-                        if (TimerStack > CountresetBtnDelay)
+                        if (TimerStack > CountResetBtnDelay)
                         {
                             if (IsWorkIndex == 1)
                             {
@@ -1096,7 +1096,7 @@ namespace RobotMonitor_3.ViewModels
                         break;
 
                     case "PCBCountReset":  // 매거진의 PCB 작업 수량 초기화 버튼 동작 딜레이
-                        if (TimerStack > CountresetBtnDelay)
+                        if (TimerStack > CountResetBtnDelay)
                         {
                             ServerSend("RobPCBCount_1");
                             timer.Stop();
@@ -1105,7 +1105,7 @@ namespace RobotMonitor_3.ViewModels
                         break;
 
                     case "ExtractCountReset":  // 배출 작업 완료 수량 초기화 버튼 동작 딜레이
-                        if (TimerStack > CountresetBtnDelay)
+                        if (TimerStack > CountResetBtnDelay)
                         {
                             ServerSend("RobExtractCount_1");
                             timer.Stop();
@@ -1380,7 +1380,7 @@ namespace RobotMonitor_3.ViewModels
         internal void ExtractCount()
         {
             string MsgBuff;
-            DisplayedData = IsExtactCount;
+            DisplayedData = IsExtractCount;
             MsgBuff = "RobExtractCount_" + CallNumKey(DisplayedData);
             try
             {
@@ -1518,14 +1518,14 @@ namespace RobotMonitor_3.ViewModels
         {
             DeviceWindow deviceWindow = new DeviceWindow();
             var MainWithSize = MainWindow.Width;
-            var MainHeigtSize = MainWindow.Height;
+            var MainHeightSize = MainWindow.Height;
             var SettingWithSize = deviceWindow.Width;
-            var SettingHeigtSize = deviceWindow.Height;
+            var SettingHeightSize = deviceWindow.Height;
 
             deviceWindow.ResizeMode = ResizeMode.NoResize;
             deviceWindow.Topmost = true;
             deviceWindow.Left = (MainWithSize / 2) - (SettingWithSize / 2);
-            deviceWindow.Top = (MainHeigtSize / 2) - (SettingHeigtSize / 2);
+            deviceWindow.Top = (MainHeightSize / 2) - (SettingHeightSize / 2);
 
             deviceWindow.ShowDialog();
 
@@ -1547,7 +1547,7 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-        internal void IPAdressBox()
+        internal void IPAddressBox()
         {
             DisplayedData = ClientIP;
             string MsgBuff = ClientIP;
@@ -1615,10 +1615,10 @@ namespace RobotMonitor_3.ViewModels
         {
             try
             {
-                DisplayedData = CountresetBtnDelay.ToString();
-                string MsgBuff = CountresetBtnDelay.ToString();
-                CountresetBtnDelay = Convert.ToInt32(CallNumKey(DisplayedData));
-                Logger.Write("Count Reset Button Delay Change : " + MsgBuff + " → " + CountresetBtnDelay);
+                DisplayedData = CountResetBtnDelay.ToString();
+                string MsgBuff = CountResetBtnDelay.ToString();
+                CountResetBtnDelay = Convert.ToInt32(CallNumKey(DisplayedData));
+                Logger.Write("Count Reset Button Delay Change : " + MsgBuff + " → " + CountResetBtnDelay);
             }
             catch (Exception e)
             {
@@ -1628,10 +1628,10 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        internal void RobSpeedSet_Persent()
+        internal void RobSpeedSet_Percent()
         {
             string MsgBuff;
-            DisplayedData = IsRobSpeed_Persent;
+            DisplayedData = IsRobSpeed_Percent;
             MsgBuff = "RobOverride_" + CallNumKey(DisplayedData);
             try
             {
@@ -1716,7 +1716,7 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        internal void ImageColloection()
+        internal void ImageCollection()
         {
             if (R_IsStopped)
             {
@@ -2011,9 +2011,9 @@ namespace RobotMonitor_3.ViewModels
         {
             var timerMsgBox = new TimerMessageBox(sec);
             timerMsgBox.WindowStyle = WindowStyle.None;
-            bool? resualt = timerMsgBox.ShowDialog();
+            bool? result = timerMsgBox.ShowDialog();
 
-            if (resualt == true)
+            if (result == true)
             {
                 MonitorControl.TurnOffMonitor();
                 ButtonVisible("Auto");
@@ -2117,7 +2117,7 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        internal void EMCSuplly()
+        internal void EMCSupply()
         {
             ServerSend("EMC_Supply");
         }

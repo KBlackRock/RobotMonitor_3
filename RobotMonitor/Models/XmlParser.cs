@@ -36,7 +36,7 @@ namespace RobotMonitor_3.Models
         public string keyboardData { get; set; }
         public int startBtnDelay { get; set; }
         public int homeBtnDelay { get; set; }
-        public int countresetBtnDelay { get; set; }
+        public int countResetBtnDelay { get; set; }
         public string PassWord { get; set; }
         public string SavedDeviceName1 { get; set; }
         public string SavedDeviceName2 { get; set; }
@@ -133,7 +133,7 @@ namespace RobotMonitor_3.Models
                         keyboardData = "",
                         startBtnDelay = 0,
                         homeBtnDelay = 0,
-                        countresetBtnDelay = 0,
+                        countResetBtnDelay = 0,
                         PassWord = "1111",
                         SavedDeviceName1  = "",
                         SavedDeviceName2  = "",
@@ -190,7 +190,7 @@ namespace RobotMonitor_3.Models
             SavedData.keyboardData = "";
             SavedData.startBtnDelay = 0;
             SavedData.homeBtnDelay = 0;
-            SavedData.countresetBtnDelay = 0;
+            SavedData.countResetBtnDelay = 0;
             SavedData.PassWord = "1111";
             SavedData.SavedDeviceName1 = "";
             SavedData.SavedDeviceName2  = "";

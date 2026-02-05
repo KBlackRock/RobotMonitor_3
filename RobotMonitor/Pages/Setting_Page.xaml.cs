@@ -36,7 +36,7 @@ namespace RobotMonitor_3.Pages
         // Robot Controll
         private void tBox__PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).RobSpeedSet_Persent();
+            (DataContext as MainWindow_ViewModel).RobSpeedSet_Percent();
         }
 
         private void tBox_1_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -149,7 +149,7 @@ namespace RobotMonitor_3.Pages
         // TCP/IP Setting
         private void tBox_IP_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).IPAdressBox();
+            (DataContext as MainWindow_ViewModel).IPAddressBox();
         }
 
         private void tBox_Port_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
