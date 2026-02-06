@@ -11,6 +11,61 @@
     <Page.Resources>
         <Models:ServerConnectionBoolToColor x:Key="ServerConnectionBoolToColor"/>
         <Models:BooleanToVisibilityConverterRevers x:Key="BooleanToVisibilityConverterRevers"/>
+
+        <Style x:Key="MainSectionLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FF006DDA"/>
+        </Style>
+
+        <Style x:Key="SubSectionLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#7FA7E1FF"/>
+        </Style>
+
+        <Style x:Key="MenuLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+        </Style>
+
+        <Style x:Key="TextBoxMenuStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,5,5,5"/>
+            <Setter Property="CaretBrush" Value="Transparent"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="SelectionOpacity" Value="-1"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Width" Value="85"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#FFF0F0F0"/>
+        </Style>
+
     </Page.Resources>
 
     <Grid>
@@ -22,93 +77,93 @@
                 <TabItem Header="Robot" FontSize="18" IsSelected="{Binding RobotSetting}">
                     <Grid>
                         <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
-                            <Label Content="Robot Setting Variables" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                            <Label Content="Robot Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
                             <StackPanel Margin="1,55,5,5" Orientation="Horizontal">
                                 <StackPanel Width="323" Margin="5,5,0,5" Background="White">
                                     <Grid Height="55">
-                                        <Label Content="Robot 제어" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="Robot 제어" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="백분율 속도 ( % )" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_" Text="{Binding IsRobSpeed_Percent}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox__PreviewMouseLeftButtonDown"/>
+                                        <Label  Content="백분율 속도 ( % )" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_" Text="{Binding IsRobSpeed_Percent}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox__PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="최대 속도 ( mm/s )" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_1" Text="{Binding IsRobSpeed_MMS}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_1_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="최대 속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_1" Text="{Binding IsRobSpeed_MMS}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_1_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="프레스 닫힘신호 지속시간" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="18" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_2" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding IsPressCloseTime}" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_2_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="프레스 닫힘신호 지속시간" FontSize="18" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_2" Text="{Binding IsPressCloseTime}" Style="{StaticResource TextBoxMenuStyle}"  PreviewMouseLeftButtonDown="tBox_2_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="챔버 닫힘신호 지속시간" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="18" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_3" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding IsChamberCloseTime}" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_3_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="챔버 닫힘신호 지속시간" FontSize="18" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_3" Text="{Binding IsChamberCloseTime}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_3_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_4" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=y}" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0"/>
+                                        <Label Content="" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_4" Style="{StaticResource TextBoxMenuStyle}"/>
                                     </Grid>
                                     <Grid Height="55"/>
 
                                 </StackPanel>
                                 <StackPanel Width="323" Margin="5,5,0,5" Background="White">
                                     <Grid Height="55">
-                                        <Label Content="에어 블로우 설정" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="에어 블로우 설정" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="속도 ( mm/s )" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_BlowSpeed" Text="{Binding IsRobBlowSpeed}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_BlowSpeed_PreviewMouseLeftButtonDown" />
+                                        <Label  Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_BlowSpeed" Text="{Binding IsRobBlowSpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_BlowSpeed_PreviewMouseLeftButtonDown" />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="1차 상부 작업 횟수 " HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_Blow1stTop" Text="{Binding IsRobBlow1stTopCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_Blow1stTop_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="1차 상부 작업 횟수 " Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_Blow1stTop" Text="{Binding IsRobBlow1stTopCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_Blow1stTop_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="1차 하부 작업 횟수" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_Blow1stBot" Text="{Binding IsRobBlow1stBotCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_Blow1stBot_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="1차 하부 작업 횟수" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_Blow1stBot" Text="{Binding IsRobBlow1stBotCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_Blow1stBot_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="2차 상부 작업 횟수" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_Blow2ndTop" Text="{Binding IsRobBlow2ndTopCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right"  HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_Blow2ndTop_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="2차 상부 작업 횟수" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_Blow2ndTop" Text="{Binding IsRobBlow2ndTopCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_Blow2ndTop_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="2차 하부 작업 횟수" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_Blow2ndBot" Text="{Binding IsRobBlow2ndBotCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right"  HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_Blow2ndBot_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="2차 하부 작업 횟수" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_Blow2ndBot" Text="{Binding IsRobBlow2ndBotCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_Blow2ndBot_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="포트 작업 횟수" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_BlowPort" Text="{Binding IsRobBlowPortCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_BlowPort_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="포트 작업 횟수" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_BlowPort" Text="{Binding IsRobBlowPortCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_BlowPort_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                 </StackPanel>
                                 <StackPanel Width="323" Margin="5,5,0,5" Background="White" Height="223" VerticalAlignment="Top">
                                     <Grid Height="55">
-                                        <Label Content="이형제 분사 설정" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="이형제 분사 설정" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="속도 ( mm/s )" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_SpraySpeed" Text="{Binding IsRobSpraySpeed}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_SpraySpeed_PreviewMouseLeftButtonDown" />
+                                        <Label Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_SpraySpeed" Text="{Binding IsRobSpraySpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SpraySpeed_PreviewMouseLeftButtonDown" />
                                         <Image Height="55" Width="100"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="분사 횟수 " HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_SprayTop" Text="{Binding IsRobSprayTopCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_SprayTop_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="분사 횟수 " Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_SprayTop" Text="{Binding IsRobSprayTopCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SprayTop_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="포트 분사 시간" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_SprayBot" Text="{Binding IsRobSprayPortTime}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_SprayBot_PreviewMouseLeftButtonDown"/>
+                                        <Label Content="포트 분사 시간" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_SprayBot" Text="{Binding IsRobSprayPortTime}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SprayBot_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Width="323" Margin="-323,5,0,5" Background="White" Height="161" VerticalAlignment="Bottom">
+                                <StackPanel Width="323" Margin="-323,5,0,5" Background="White" Height="185" VerticalAlignment="Bottom">
                                     <Grid Height="55">
-                                        <Label Content="포트 크리닝 설정" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="포트 크리닝 설정" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="속도 ( mm/s )" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_PortSpeed" Text="{Binding IsRobPortSpeed}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_PortSpeed_PreviewMouseLeftButtonDown"  />
+                                        <Label Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_PortSpeed" Text="{Binding IsRobPortSpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_PortSpeed_PreviewMouseLeftButtonDown"  />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="반복 동작 횟수 " HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_PortCount" Text="{Binding IsRobPortCount}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_PortCount_PreviewMouseLeftButtonDown" />
+                                        <Label Content="반복 동작 횟수 " Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_PortCount" Text="{Binding IsRobPortCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_PortCount_PreviewMouseLeftButtonDown" />
                                     </Grid>
                                 </StackPanel>
                             </StackPanel>
@@ -120,15 +175,11 @@
                 <TabItem Header="Servo/Cylinder" FontSize="18" Visibility="{Binding IsSetView, Converter={StaticResource BooleanToVisibilityConverterRevers}}" >
                     <Grid>
                         <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="27*"/>
-                                <ColumnDefinition Width="965*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="Servo/Cylinder Setting Variables" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
-                            <StackPanel Margin="1,55,5,5" Orientation="Horizontal" Grid.ColumnSpan="2">
+                            <Label Content="Servo/Cylinder Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
+                            <StackPanel Margin="0,50,0,5" Orientation="Horizontal" Grid.ColumnSpan="2">
                                 <StackPanel Width="323" Margin="5,5,0,5" Background="White">
                                     <Grid Height="55">
-                                        <Label Content="Magazine Feeder" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="Magazine Feeder" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,5,5" Content="Motor Current Position" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
@@ -137,23 +188,23 @@
                                         <TextBox x:Name="tBox_M1CurrentPos" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding M1_CurrentPosition}" Cursor="No" Background="#FFF0F0F0" IsHitTestVisible="False"  />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Motor Work Speed" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                                        <Label Margin="5,5,0,5" Content="Motor Work Speed" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <TextBox x:Name="tBox_M1Speed" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding M1_Speed}" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_M1Speed_PreviewMouseLeftButtonDown" />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_02" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=y}" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0"/>
+                                        <Label Margin="5,5,0,5" Content="" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_02" Style="{StaticResource TextBoxMenuStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_03" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=y}" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0"/>
+                                        <Label Margin="5,5,0,5" Content="" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_03" Style="{StaticResource TextBoxMenuStyle}"/>
                                     </Grid>
                                 </StackPanel>
                                 <StackPanel Width="323" Margin="5,5,0,5" Background="White">
                                     <Grid Height="55">
-                                        <Label Content="Turn Table" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="Turn Table" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,5,5" Content="Motor Current Position" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
@@ -162,39 +213,39 @@
                                         <TextBox x:Name="tBox_M2CurrentPos" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding M2_CurrentPosition}" Cursor="No" Background="#FFF0F0F0" IsHitTestVisible="False"  />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Motor Speed" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                                        <Label Margin="5,5,0,5" Content="Motor Speed" Style="{StaticResource MenuLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <TextBox x:Name="tBox_M2_Speed" Text="{Binding M2_Speed}" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_M2Speed_PreviewMouseLeftButtonDown"  />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_002" Text="{Binding y}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" />
+                                        <Label Margin="5,5,0,5" Content="" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_002" Text="{Binding y}" Style="{StaticResource TextBoxMenuStyle}" />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_003" Text="{Binding y}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right"  HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" />
+                                        <Label Margin="5,5,0,5" Content="" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_003" Text="{Binding y}" Style="{StaticResource TextBoxMenuStyle}" />
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Width="323" Margin="5,5,0,5" Background="White">
+                                <StackPanel Width="332" Margin="5,5,0,5" Background="White">
                                     <Grid Height="55">
-                                        <Label Content="EMC Box" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="Black" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#7FA7E1FF" VerticalContentAlignment="Center"/>
+                                        <Label Content="EMC Box" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Door Open Delay" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_EMCOpen" Text="{Binding EMC_CylOpenDelay}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_EMCOpen_PreviewMouseLeftButtonDown" />
+                                        <Label Margin="5,5,0,5" Content="Door Open Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_EMCOpen" Text="{Binding EMC_CylOpenDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCOpen_PreviewMouseLeftButtonDown" />
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Door Close Delay" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_EMCClose" Text="{Binding EMC_CylCloseDelay}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_EMCClose_PreviewMouseLeftButtonDown"/>
+                                        <Label Margin="5,5,0,5" Content="Door Close Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_EMCClose" Text="{Binding EMC_CylCloseDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCClose_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Stopper FWD Delay" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_EMCFWD" Text="{Binding EMC_StopperFWDDelay}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_EMCFWD_PreviewMouseLeftButtonDown"/>
+                                        <Label Margin="5,5,0,5" Content="Stopper FWD Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_EMCFWD" Text="{Binding EMC_StopperFWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCFWD_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Stopper BWD Delay" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                        <TextBox x:Name="tBox_EMCBWD" Text="{Binding EMC_StopperBWDDelay}" Margin="0,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" HorizontalAlignment="Right" Width="85" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_EMCBWD_PreviewMouseLeftButtonDown"/>
+                                        <Label Margin="5,5,0,5" Content="Stopper BWD Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
+                                        <TextBox x:Name="tBox_EMCBWD" Text="{Binding EMC_StopperBWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCBWD_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                 </StackPanel>
                             </StackPanel>
@@ -206,7 +257,7 @@
                 <TabItem Header="Panel" Height="30" FontSize="18" VerticalAlignment="Bottom" Visibility="{Binding IsSetView, Converter={StaticResource BooleanToVisibilityConverterRevers}}">
                     <Grid Background="#FFE6E6E6">
                         <Grid Margin="5,5,650,250" Background="White">
-                            <Label Content="TCP/IP" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
+                            <Label Content="TCP/IP" Style="{StaticResource MainSectionLabelStyle}"/>
                             <Label Content="IP Aderss :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
                             <Label Content="Port :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,100,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
                             <TextBox x:Name="tBox_IP" Margin="0,55,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=ClientIP}" PreviewMouseLeftButtonDown="tBox_IP_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0" />
@@ -227,7 +278,7 @@
                             </Button>
                         </Grid>
                         <Grid Margin="363,5,335,250" Background="White">
-                            <Label Content="Button Delay" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                            <Label Content="Button Delay" Style="{StaticResource MainSectionLabelStyle}"/>
                             <Label Content="Start :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Width="145" Height="40"  FontSize="22" FontWeight="Bold"/>
                             <Label Content="Home :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,100,0,0" Width="145" Height="40"  FontSize="22" FontWeight="Bold"/>
                             <Label Content="Count Reset :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,145,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold"/>
@@ -236,8 +287,8 @@
                             <TextBox x:Name="tBox_CountResetDelay" Margin="0,145,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=CountResetBtnDelay}" PreviewMouseLeftButtonDown="tBox_CountResetDelay_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="130" Cursor="Hand" Background="#FFF0F0F0"/>
                         </Grid>
                         <Grid Margin="678,5,5,5" Background="White">
-                            <Label Content="Press Signal Set" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
-                            <StackPanel Margin="5,55,160,5" Background="AliceBlue">
+                            <Label Content="Press Signal Set" Style="{StaticResource MainSectionLabelStyle}"/>
+                            <StackPanel Margin="5,55,165,5" Background="AliceBlue">
                                 <Label Content="Press" Margin="0" Height="45" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                                 <Button x:Name="btn_In1InSet" Margin="5,5,5,0"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="50" VerticalAlignment="Top">
                                     <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
@@ -258,7 +309,7 @@
                                     <TextBlock Text="Cycle&#x0a;End" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
                                 </Button>
                             </StackPanel>
-                            <StackPanel Margin="160,55,5,5" Background="AliceBlue">
+                            <StackPanel Margin="165,55,5,5" Background="AliceBlue">
                                 <Label Content="Robot" Margin="0" Height="45" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                                 <Button x:Name="btn_Out1Checkable" Click="btn_Out1_Click" Margin="5,5,5,0" Height="50" >
                                     <Button.Template>

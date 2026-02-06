@@ -49,11 +49,7 @@ namespace RobotMonitor_3.ViewModels
         internal void Btn_8() { DisplayNumber += "8"; }
         internal void Btn_9() { DisplayNumber += "9"; }
 
-        internal void Btn_Dot()
-        {
-            if (DisplayNumber == "") DisplayNumber = "0.";
-            else DisplayNumber += ".";
-        }
+        internal void Btn_Dot() => DisplayNumber = DisplayNumber == "" ? "0." : DisplayNumber += ".";
 
         internal void Btn_BS()
         {

@@ -88,41 +88,41 @@
                 </Button>
             </Grid>
             
-            <Grid Margin="437,5,376,165" Background="White">
+            <Grid Margin="441,5,374,165" Background="White">
                 <Label Content="Press Signal" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
                
-                <Grid Margin="5,55,105,5" Background="#FFEBF5FF">
+                <Grid Margin="5,55,107,5" Background="#FFEBF5FF">
                     <StackPanel>
                         <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                         <Button x:Name="btn_In1" Margin="5,5,5,0"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
                             <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
                         </Button>
-                        <Button x:Name="btn_In2" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs2" Background="{Binding In2Color}"/>
-                        <Button x:Name="btn_In3" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs3" Background="{Binding In3Color}"/>
-                        <Button x:Name="btn_In4" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs4" Background="{Binding In4Color}"/>
-                        <Button x:Name="btn_In5" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs5" Background="{Binding In5Color}"/>
-                        <Button x:Name="btn_In6" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;Prs6" Background="{Binding In6Color}"/>
+                        <Button x:Name="btn_In2" Content="Signal&#x0a;Prs2" Style="{StaticResource PressIOBox}" Background="{Binding In2Color}"/>
+                        <Button x:Name="btn_In3" Content="Signal&#x0a;Prs3" Style="{StaticResource PressIOBox}" Background="{Binding In3Color}"/>
+                        <Button x:Name="btn_In4" Content="Signal&#x0a;Prs4" Style="{StaticResource PressIOBox}" Background="{Binding In4Color}"/>
+                        <Button x:Name="btn_In5" Content="Signal&#x0a;Prs5" Style="{StaticResource PressIOBox}" Background="{Binding In5Color}"/>
+                        <Button x:Name="btn_In6" Content="Signal&#x0a;Prs6" Style="{StaticResource PressIOBox}" Background="{Binding In6Color}"/>
 
                     </StackPanel>
                 </Grid>
                 
-                <Grid Margin="105,55,5,5" Background="#FFEBF5FF">
+                <Grid Margin="107,55,5,5" Background="#FFEBF5FF">
                     <StackPanel>
                         <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                         <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="5,5,5,0" Height="30" Background="{Binding Out1Color}">
                             <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
                         </Button>
-                        <Button x:Name="btn_Out2" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob2" Background="{Binding Out2Color}"/>
-                        <Button x:Name="btn_Out3" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob3" Background="{Binding Out3Color}"/>
-                        <Button x:Name="btn_Out4" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob4" Background="{Binding Out4Color}"/>
-                        <Button x:Name="btn_Out5" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob5" Background="{Binding Out5Color}"/>
-                        <Button x:Name="btn_Out6" Style="{StaticResource PressIOBox}" Content="Signal&#x0a;rob6" Background="{Binding Out6Color}"/>
+                        <Button x:Name="btn_Out2" Content="Signal&#x0a;rob2" Style="{StaticResource PressIOBox}" Background="{Binding Out2Color}"/>
+                        <Button x:Name="btn_Out3" Content="Signal&#x0a;rob3" Style="{StaticResource PressIOBox}" Background="{Binding Out3Color}"/>
+                        <Button x:Name="btn_Out4" Content="Signal&#x0a;rob4" Style="{StaticResource PressIOBox}" Background="{Binding Out4Color}"/>
+                        <Button x:Name="btn_Out5" Content="Signal&#x0a;rob5" Style="{StaticResource PressIOBox}" Background="{Binding Out5Color}"/>
+                        <Button x:Name="btn_Out6" Content="Signal&#x0a;rob6" Style="{StaticResource PressIOBox}" Background="{Binding Out6Color}"/>
                     </StackPanel>
                 </Grid>
                 
             </Grid>
             
-            <Grid Margin="5,360,376,5" Background="White">
+            <Grid Margin="5,372,375,5" Background="White">
                 <Label Content="Work Counter" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
                     <Label Content="Frame 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
@@ -163,7 +163,7 @@
                     <TextBlock Text="{Binding TCounting}"/>
                 </StackPanel>
             </Grid>
-            <Grid Margin="650,445,5,5" Background="White">
+            <Grid Margin="653,445,5,5" Background="White">
                 <ComboBox x:Name="CB_WS" Margin="0,20,5,0" VerticalAlignment="Top" Height="40" Width="171" HorizontalAlignment="Right" SelectedItem="{Binding IsSelectedWorkMode}" ItemsSource="{Binding WorkModeList}" IsEnabled="{Binding R_IsStopped}" SelectedIndex="{Binding IsWorkIndex}" FontSize="26" PreviewMouseLeftButtonDown="ComboBox_PreviewMouseLeftButtonDown" DropDownClosed="CB_WS_DropDownClosed" />
                 <Label Content="작업모드선택" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,20,0,0" Width="144" Height="40"  FontSize="22" FontWeight="Bold"/>
             </Grid>

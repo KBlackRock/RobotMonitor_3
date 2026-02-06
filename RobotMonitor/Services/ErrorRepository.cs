@@ -74,9 +74,9 @@ namespace RobotMonitor_3.Services
                 // 로봇 툴 관련
                 { "Chuck_Sensor",            new ErrorInfo("ChuckSensor", "툴 교체 센서 이상") },
                 { "ElectricGripperError",    new ErrorInfo("EGripper", "전동 그리퍼 동작이상") },
-                { "Extract_Table",           new ErrorInfo("ExtactVac", "추출 툴 진공센서 이상\r 턴 테이블 PCB 픽업 이상") },
-                { "Extract_Press",           new ErrorInfo("ExtactVac", "추출 툴 진공센서 이상\r 프레스 완제품 픽업 이상") },
-                { "Extract_Out",             new ErrorInfo("ExtactVac", "추출 툴 진공센서 이상\r 배출부 이송중 제품 이탈 이상") },
+                { "Extract_Table",           new ErrorInfo("ExtractVac", "추출 툴 진공센서 이상\r 턴 테이블 PCB 픽업 이상") },
+                { "Extract_Press",           new ErrorInfo("ExtractVac", "추출 툴 진공센서 이상\r 프레스 완제품 픽업 이상") },
+                { "Extract_Out",             new ErrorInfo("ExtractVac", "추출 툴 진공센서 이상\r 배출부 이송중 제품 이탈 이상") },
                 { "SprayCylDown",            new ErrorInfo("SpraySensor", "이형제 분사 실린더 하강 이상") },
                 { "SprayCylUp",              new ErrorInfo("SpraySensor", "이형제 분사 실린더 상승 이상") },
                 { "PCBTurnTableError",       new ErrorInfo("", "PCB 턴테이블 동작 이상") },

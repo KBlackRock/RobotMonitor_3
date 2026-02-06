@@ -28,71 +28,23 @@ namespace RobotMonitor_3
             (DataContext as MainWindow_ViewModel).Opening(this);
         }
 
-        private void btn_Exit_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).Closing();
-        }
+        private void btn_Exit_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).Closing();
+        private void btn_Minimize_Click(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
 
-        private void btn_Setting_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).SettingButtonPress();
-        }
 
-        private void btn_Reset_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ResetButtonPress();
-        }
+        private void btn_Setting_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).SettingButtonPress();
+        private void btn_SetView_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).SetViewButtonPress();
+        private void btn_Auto_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).AutoButtonPress();
+        private void btn_Manual_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).ManualButtonPress();
 
-        private void btn_Reset_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ResetButtonPress();
-        }
 
-        private void btn_Reset_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ResetButtonUp();
-        }
-
-        private void btn_Stop_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).StopButtonUp();
-        }
-
-        private void btn_Stop_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).StopButtonPress();
-        }
-
-        private void btn_Start_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).StartButtonDown(e);
-        }
-
-        private void btn_Start_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).StartButtonUp();
-        }
-
-        private void btn_Auto_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).AutoButtonPress();
-        }
-
-        private void btn_Manual_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ManualButtonPress();
-        }
-
-        private void btn_Minimize_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void btn_SetView_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).SetViewButtonPress();
-        }
-
+        private void btn_Reset_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).ResetButtonPress();
+        private void btn_Reset_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).ResetButtonPress();
+        private void btn_Reset_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).ResetButtonUp();
+        private void btn_Stop_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).StopButtonUp();
+        private void btn_Stop_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).StopButtonPress();
+        private void btn_Start_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).StartButtonDown(e);
+        private void btn_Start_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).StartButtonUp();
 
     }
 }
