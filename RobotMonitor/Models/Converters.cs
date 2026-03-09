@@ -55,7 +55,7 @@ namespace RobotMonitor_3.Models
             if (value is bool val)
             {
                 if (val) return "Connected";
-                else return "Wating for a connection...";
+                else return "Waiting for a connection...";
             }
 
             return "";

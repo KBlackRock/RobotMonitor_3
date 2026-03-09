@@ -192,25 +192,24 @@ namespace RobotMonitor_3.ViewModels
         public bool IsServerOpened { get { return m_IsServerOpened; } set { if (m_IsServerOpened != value) { m_IsServerOpened = value; RaisePropertyChangedEvent("IsServerOpened"); } } }
         public bool ServerConnection { get { return m_ServerConnection; } set { if (m_ServerConnection != value) { m_ServerConnection = value; RaisePropertyChangedEvent("ServerConnection"); } } }
         public string ServerOutput { get { return m_ServerOutput; } set { if (m_ServerOutput != value) { m_ServerOutput = value; RaisePropertyChangedEvent("ServerOutput"); } } }
-        //public string ServerSendMsg { get { return m_ServerSendMsg; } set { if (m_ServerSendMsg != value) { m_ServerSendMsg = value; RaisePropertyChangedEvent("ServerSendMsg"); } } }
         #endregion
 
         #region Setting Data Properties
-        private int dev1StackedShotCount; public int Dev1StackedShotCount { get { return m_XmlParser.SavedData.dev1StackedShotCount; } set { if (m_XmlParser.SavedData.dev1StackedShotCount != value) { m_XmlParser.SavedData.dev1StackedShotCount = value; RaisePropertyChangedEvent("Dev1StackedShotCount"); } } }
-        private int dev1StackedDeviceCount; public int Dev1StackedDeviceCount { get { return m_XmlParser.SavedData.dev1StackedDeviceCount; } set { if (m_XmlParser.SavedData.dev1StackedDeviceCount != value) { m_XmlParser.SavedData.dev1StackedDeviceCount = value; RaisePropertyChangedEvent("Dev1StackedDeviceCount"); } } }
-        private int dev1UnstackedShotCount; public int Dev1UnStackedShotCount { get { return m_XmlParser.SavedData.dev1UnstackedShotCount; } set { if (m_XmlParser.SavedData.dev1UnstackedShotCount != value) { m_XmlParser.SavedData.dev1UnstackedShotCount = value; RaisePropertyChangedEvent("Dev1UnStackedShotCount"); } } }
-        private int dev1UnstackedDeviceCount; public int Dev1UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev1UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev1UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev1UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev1UnStackedDeviceCount"); } } }
-        private int dev2StackedShotCount; public int Dev2StackedShotCount { get { return m_XmlParser.SavedData.dev2StackedShotCount; } set { if (m_XmlParser.SavedData.dev2StackedShotCount != value) { m_XmlParser.SavedData.dev2StackedShotCount = value; RaisePropertyChangedEvent("Dev2StackedShotCount"); } } }
-        private int dev2StackedDeviceCount; public int Dev2StackedDeviceCount { get { return m_XmlParser.SavedData.dev2StackedDeviceCount; } set { if (m_XmlParser.SavedData.dev2StackedDeviceCount != value) { m_XmlParser.SavedData.dev2StackedDeviceCount = value; RaisePropertyChangedEvent("Dev2StackedDeviceCount"); } } }
-        private int dev2UnstackedShotCount; public int Dev2UnStackedShotCount { get { return m_XmlParser.SavedData.dev2UnstackedShotCount; } set { if (m_XmlParser.SavedData.dev2UnstackedShotCount != value) { m_XmlParser.SavedData.dev2UnstackedShotCount = value; RaisePropertyChangedEvent("Dev2UnStackedShotCount"); } } }
-        private int dev2UnstackedDeviceCount; public int Dev2UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev2UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev2UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev2UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev2UnStackedDeviceCount"); } } }
-        private int dev3StackedShotCount; public int Dev3StackedShotCount { get { return m_XmlParser.SavedData.dev3StackedShotCount; } set { if (m_XmlParser.SavedData.dev3StackedShotCount != value) { m_XmlParser.SavedData.dev3StackedShotCount = value; RaisePropertyChangedEvent("Dev3StackedShotCount"); } } }
-        private int dev3StackedDeviceCount; public int Dev3StackedDeviceCount { get { return m_XmlParser.SavedData.dev3StackedDeviceCount; } set { if (m_XmlParser.SavedData.dev3StackedDeviceCount != value) { m_XmlParser.SavedData.dev3StackedDeviceCount = value; RaisePropertyChangedEvent("Dev3StackedDeviceCount"); } } }
-        private int dev3UnstackedShotCount; public int Dev3UnStackedShotCount { get { return m_XmlParser.SavedData.dev3UnstackedShotCount; } set { if (m_XmlParser.SavedData.dev3UnstackedShotCount != value) { m_XmlParser.SavedData.dev3UnstackedShotCount = value; RaisePropertyChangedEvent("Dev3UnStackedShotCount"); } } }
-        private int dev3UnstackedDeviceCount; public int Dev3UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev3UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev3UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev3UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev3UnStackedDeviceCount"); } } }
-        private int startBtnDelay; public int StartBtnDelay { get { return m_XmlParser.SavedData.startBtnDelay; } set { if (m_XmlParser.SavedData.startBtnDelay != value) { m_XmlParser.SavedData.startBtnDelay = value; RaisePropertyChangedEvent("StartBtnDelay"); } } }
-        private int homeBtnDelay; public int HomeBtnDelay { get { return m_XmlParser.SavedData.homeBtnDelay; } set { if (m_XmlParser.SavedData.homeBtnDelay != value) { m_XmlParser.SavedData.homeBtnDelay = value; RaisePropertyChangedEvent("HomeBtnDelay"); } } }
-        private int countResetBtnDelay; public int CountResetBtnDelay { get { return m_XmlParser.SavedData.countResetBtnDelay; } set { if (m_XmlParser.SavedData.countResetBtnDelay != value) { m_XmlParser.SavedData.countResetBtnDelay = value; RaisePropertyChangedEvent("CountResetBtnDelay"); } } }
+        public int Dev1StackedShotCount { get { return m_XmlParser.SavedData.dev1StackedShotCount; } set { if (m_XmlParser.SavedData.dev1StackedShotCount != value) { m_XmlParser.SavedData.dev1StackedShotCount = value; RaisePropertyChangedEvent("Dev1StackedShotCount"); } } }
+        public int Dev1StackedDeviceCount { get { return m_XmlParser.SavedData.dev1StackedDeviceCount; } set { if (m_XmlParser.SavedData.dev1StackedDeviceCount != value) { m_XmlParser.SavedData.dev1StackedDeviceCount = value; RaisePropertyChangedEvent("Dev1StackedDeviceCount"); } } }
+        public int Dev1UnStackedShotCount { get { return m_XmlParser.SavedData.dev1UnstackedShotCount; } set { if (m_XmlParser.SavedData.dev1UnstackedShotCount != value) { m_XmlParser.SavedData.dev1UnstackedShotCount = value; RaisePropertyChangedEvent("Dev1UnStackedShotCount"); } } }
+        public int Dev1UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev1UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev1UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev1UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev1UnStackedDeviceCount"); } } }
+        public int Dev2StackedShotCount { get { return m_XmlParser.SavedData.dev2StackedShotCount; } set { if (m_XmlParser.SavedData.dev2StackedShotCount != value) { m_XmlParser.SavedData.dev2StackedShotCount = value; RaisePropertyChangedEvent("Dev2StackedShotCount"); } } }
+        public int Dev2StackedDeviceCount { get { return m_XmlParser.SavedData.dev2StackedDeviceCount; } set { if (m_XmlParser.SavedData.dev2StackedDeviceCount != value) { m_XmlParser.SavedData.dev2StackedDeviceCount = value; RaisePropertyChangedEvent("Dev2StackedDeviceCount"); } } }
+        public int Dev2UnStackedShotCount { get { return m_XmlParser.SavedData.dev2UnstackedShotCount; } set { if (m_XmlParser.SavedData.dev2UnstackedShotCount != value) { m_XmlParser.SavedData.dev2UnstackedShotCount = value; RaisePropertyChangedEvent("Dev2UnStackedShotCount"); } } }
+        public int Dev2UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev2UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev2UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev2UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev2UnStackedDeviceCount"); } } }
+        public int Dev3StackedShotCount { get { return m_XmlParser.SavedData.dev3StackedShotCount; } set { if (m_XmlParser.SavedData.dev3StackedShotCount != value) { m_XmlParser.SavedData.dev3StackedShotCount = value; RaisePropertyChangedEvent("Dev3StackedShotCount"); } } }
+        public int Dev3StackedDeviceCount { get { return m_XmlParser.SavedData.dev3StackedDeviceCount; } set { if (m_XmlParser.SavedData.dev3StackedDeviceCount != value) { m_XmlParser.SavedData.dev3StackedDeviceCount = value; RaisePropertyChangedEvent("Dev3StackedDeviceCount"); } } }
+        public int Dev3UnStackedShotCount { get { return m_XmlParser.SavedData.dev3UnstackedShotCount; } set { if (m_XmlParser.SavedData.dev3UnstackedShotCount != value) { m_XmlParser.SavedData.dev3UnstackedShotCount = value; RaisePropertyChangedEvent("Dev3UnStackedShotCount"); } } }
+        public int Dev3UnStackedDeviceCount { get { return m_XmlParser.SavedData.dev3UnstackedDeviceCount; } set { if (m_XmlParser.SavedData.dev3UnstackedDeviceCount != value) { m_XmlParser.SavedData.dev3UnstackedDeviceCount = value; RaisePropertyChangedEvent("Dev3UnStackedDeviceCount"); } } }
+        public int StartBtnDelay { get { return m_XmlParser.SavedData.startBtnDelay; } set { if (m_XmlParser.SavedData.startBtnDelay != value) { m_XmlParser.SavedData.startBtnDelay = value; RaisePropertyChangedEvent("StartBtnDelay"); } } }
+        public int HomeBtnDelay { get { return m_XmlParser.SavedData.homeBtnDelay; } set { if (m_XmlParser.SavedData.homeBtnDelay != value) { m_XmlParser.SavedData.homeBtnDelay = value; RaisePropertyChangedEvent("HomeBtnDelay"); } } }
+        public int CountResetBtnDelay { get { return m_XmlParser.SavedData.countResetBtnDelay; } set { if (m_XmlParser.SavedData.countResetBtnDelay != value) { m_XmlParser.SavedData.countResetBtnDelay = value; RaisePropertyChangedEvent("CountResetBtnDelay"); } } }
         #endregion
 
         #region Messenger Properties
@@ -268,6 +267,7 @@ namespace RobotMonitor_3.ViewModels
             Display_UnStackedShotCount = "0";
             Display_StackedDeviceCount = "0";
             Display_UnStackedDeviceCount = "0";
+
 
             ServerMsgList = new List<string>();
             ServerMsgListNum = 0;
@@ -943,9 +943,9 @@ namespace RobotMonitor_3.ViewModels
 
         private void RobError(string message)
         {
-           if (message == "RobEResetFail" || message == "RobMotorFail" ) FlickerTimer.Stop();
+            if (message == "RobEResetFail" || message == "RobMotorFail") FlickerTimer.Stop();
 
-           var info = _errorRepo.GetError(message);
+            var info = _errorRepo.GetError(message);
 
             Error(info.ImageName, info.Message);
         }
