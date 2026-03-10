@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using RobotMonitor_3.Models;
 using System;
 using System.Collections.Generic;
@@ -13,27 +14,16 @@ using System.Windows.Input;
 
 namespace RobotMonitor_3.ViewModels
 {
-    internal class LoginWindow_ViewModel : INotifyPropertyChanged
+    internal partial class LoginWindow_ViewModel : ObservableObject
     {
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void RaisePropertyChangedEvent(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
 
         private Models.XmlParser m_XmlParser;
         public Window LoginWindow;
 
-        private string inputPassWord; public string InputPassWord { get { return inputPassWord; } set { inputPassWord = value; OnPropertyChanged(); } }
+        [ObservableProperty] private string inputPassWord;
 
-        public string PassWord { get { return m_XmlParser.SavedData.PassWord; } set { if (m_XmlParser.SavedData.PassWord != value) { m_XmlParser.SavedData.PassWord = value; RaisePropertyChangedEvent("PassWord"); } } }
+        public string PassWord { get { return m_XmlParser.SavedData.PassWord; } set { if (m_XmlParser.SavedData.PassWord != value) { m_XmlParser.SavedData.PassWord = value; OnPropertyChanged(); } } }
 
 
         public LoginWindow_ViewModel()

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using RobotMonitor_3.Models;
 using System;
 using System.Collections.Generic;
@@ -14,67 +15,53 @@ using System.Windows;
 
 namespace RobotMonitor_3.ViewModels
 {
-    internal class DeviceWindow_ViewModel : INotifyPropertyChanged
+    internal partial class DeviceWindow_ViewModel : ObservableObject
     {
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void RaisePropertyChangedEvent(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
         private Models.XmlParser m_XmlParser;
         public Window DeviceWindow;
 
-        private string deviceName1; public string DeviceName1 { get { return deviceName1; } set { deviceName1 = value; OnPropertyChanged(); } }
-        private string deviceName2; public string DeviceName2 { get { return deviceName2; } set { deviceName2 = value; OnPropertyChanged(); } }
-        private string deviceName3; public string DeviceName3 { get { return deviceName3; } set { deviceName3 = value; OnPropertyChanged(); } }
-        private string deviceName4; public string DeviceName4 { get { return deviceName4; } set { deviceName4 = value; OnPropertyChanged(); } }
-        private string deviceName5; public string DeviceName5 { get { return deviceName5; } set { deviceName5 = value; OnPropertyChanged(); } }
-        private string deviceName6; public string DeviceName6 { get { return deviceName6; } set { deviceName6 = value; OnPropertyChanged(); } }
-        private string deviceName7; public string DeviceName7 { get { return deviceName7; } set { deviceName7 = value; OnPropertyChanged(); } }
-        private string deviceName8; public string DeviceName8 { get { return deviceName8; } set { deviceName8 = value; OnPropertyChanged(); } }
-        private string deviceName9; public string DeviceName9 { get { return deviceName9; } set { deviceName9 = value; OnPropertyChanged(); } }
-        private string deviceName10; public string DeviceName10 { get { return deviceName10; } set { deviceName10 = value; OnPropertyChanged(); } }
+        [ObservableProperty] private string deviceName1; 
+        [ObservableProperty] private string deviceName2; 
+        [ObservableProperty] private string deviceName3; 
+        [ObservableProperty] private string deviceName4; 
+        [ObservableProperty] private string deviceName5; 
+        [ObservableProperty] private string deviceName6; 
+        [ObservableProperty] private string deviceName7; 
+        [ObservableProperty] private string deviceName8; 
+        [ObservableProperty] private string deviceName9; 
+        [ObservableProperty] private string deviceName10;
+        [ObservableProperty] private string deviceSize1; 
+        [ObservableProperty] private string deviceSize2; 
+        [ObservableProperty] private string deviceSize3; 
+        [ObservableProperty] private string deviceSize4; 
+        [ObservableProperty] private string deviceSize5; 
+        [ObservableProperty] private string deviceSize6; 
+        [ObservableProperty] private string deviceSize7; 
+        [ObservableProperty] private string deviceSize8; 
+        [ObservableProperty] private string deviceSize9; 
+        [ObservableProperty] private string deviceSize10;
 
-        private string deviceSize1; public string DeviceSize1 { get { return deviceSize1; } set { deviceSize1 = value; OnPropertyChanged(); } }
-        private string deviceSize2; public string DeviceSize2 { get { return deviceSize2; } set { deviceSize2 = value; OnPropertyChanged(); } }
-        private string deviceSize3; public string DeviceSize3 { get { return deviceSize3; } set { deviceSize3 = value; OnPropertyChanged(); } }
-        private string deviceSize4; public string DeviceSize4 { get { return deviceSize4; } set { deviceSize4 = value; OnPropertyChanged(); } }
-        private string deviceSize5; public string DeviceSize5 { get { return deviceSize5; } set { deviceSize5 = value; OnPropertyChanged(); } }
-        private string deviceSize6; public string DeviceSize6 { get { return deviceSize6; } set { deviceSize6 = value; OnPropertyChanged(); } }
-        private string deviceSize7; public string DeviceSize7 { get { return deviceSize7; } set { deviceSize7 = value; OnPropertyChanged(); } }
-        private string deviceSize8; public string DeviceSize8 { get { return deviceSize8; } set { deviceSize8 = value; OnPropertyChanged(); } }
-        private string deviceSize9; public string DeviceSize9 { get { return deviceSize9; } set { deviceSize9 = value; OnPropertyChanged(); } }
-        private string deviceSize10; public string DeviceSize10 { get { return deviceSize10; } set { deviceSize10 = value; OnPropertyChanged(); } }
+        public string DeviceName1_Saved { get { return m_XmlParser.SavedData.SavedDeviceName1; } set { if (m_XmlParser.SavedData.SavedDeviceName1 != value) { m_XmlParser.SavedData.SavedDeviceName1 = value; OnPropertyChanged(); } } }
+        public string DeviceName2_Saved { get { return m_XmlParser.SavedData.SavedDeviceName2; } set { if (m_XmlParser.SavedData.SavedDeviceName2 != value) { m_XmlParser.SavedData.SavedDeviceName2 = value; OnPropertyChanged(); } } }
+        public string DeviceName3_Saved { get { return m_XmlParser.SavedData.SavedDeviceName3; } set { if (m_XmlParser.SavedData.SavedDeviceName3 != value) { m_XmlParser.SavedData.SavedDeviceName3 = value; OnPropertyChanged(); } } }
+        public string DeviceName4_Saved { get { return m_XmlParser.SavedData.SavedDeviceName4; } set { if (m_XmlParser.SavedData.SavedDeviceName4 != value) { m_XmlParser.SavedData.SavedDeviceName4 = value; OnPropertyChanged(); } } }
+        public string DeviceName5_Saved { get { return m_XmlParser.SavedData.SavedDeviceName5; } set { if (m_XmlParser.SavedData.SavedDeviceName5 != value) { m_XmlParser.SavedData.SavedDeviceName5 = value; OnPropertyChanged(); } } }
+        public string DeviceName6_Saved { get { return m_XmlParser.SavedData.SavedDeviceName6; } set { if (m_XmlParser.SavedData.SavedDeviceName6 != value) { m_XmlParser.SavedData.SavedDeviceName6 = value; OnPropertyChanged(); } } }
+        public string DeviceName7_Saved { get { return m_XmlParser.SavedData.SavedDeviceName7; } set { if (m_XmlParser.SavedData.SavedDeviceName7 != value) { m_XmlParser.SavedData.SavedDeviceName7 = value; OnPropertyChanged(); } } }
+        public string DeviceName8_Saved { get { return m_XmlParser.SavedData.SavedDeviceName8; } set { if (m_XmlParser.SavedData.SavedDeviceName8 != value) { m_XmlParser.SavedData.SavedDeviceName8 = value; OnPropertyChanged(); } } }
+        public string DeviceName9_Saved { get { return m_XmlParser.SavedData.SavedDeviceName9; } set { if (m_XmlParser.SavedData.SavedDeviceName9 != value) { m_XmlParser.SavedData.SavedDeviceName9 = value; OnPropertyChanged(); } } }
+        public string DeviceName10_Saved { get { return m_XmlParser.SavedData.SavedDeviceName10; } set { if (m_XmlParser.SavedData.SavedDeviceName10 != value) { m_XmlParser.SavedData.SavedDeviceName10 = value; OnPropertyChanged(); } } }
 
-        public string DeviceName1_Saved { get { return m_XmlParser.SavedData.SavedDeviceName1; } set { if (m_XmlParser.SavedData.SavedDeviceName1 != value) { m_XmlParser.SavedData.SavedDeviceName1 = value; RaisePropertyChangedEvent("DeviceName1_Saved"); } } }
-        public string DeviceName2_Saved { get { return m_XmlParser.SavedData.SavedDeviceName2; } set { if (m_XmlParser.SavedData.SavedDeviceName2 != value) { m_XmlParser.SavedData.SavedDeviceName2 = value; RaisePropertyChangedEvent("DeviceName2_Saved"); } } }
-        public string DeviceName3_Saved { get { return m_XmlParser.SavedData.SavedDeviceName3; } set { if (m_XmlParser.SavedData.SavedDeviceName3 != value) { m_XmlParser.SavedData.SavedDeviceName3 = value; RaisePropertyChangedEvent("DeviceName3_Saved"); } } }
-        public string DeviceName4_Saved { get { return m_XmlParser.SavedData.SavedDeviceName4; } set { if (m_XmlParser.SavedData.SavedDeviceName4 != value) { m_XmlParser.SavedData.SavedDeviceName4 = value; RaisePropertyChangedEvent("DeviceName4_Saved"); } } }
-        public string DeviceName5_Saved { get { return m_XmlParser.SavedData.SavedDeviceName5; } set { if (m_XmlParser.SavedData.SavedDeviceName5 != value) { m_XmlParser.SavedData.SavedDeviceName5 = value; RaisePropertyChangedEvent("DeviceName5_Saved"); } } }
-        public string DeviceName6_Saved { get { return m_XmlParser.SavedData.SavedDeviceName6; } set { if (m_XmlParser.SavedData.SavedDeviceName6 != value) { m_XmlParser.SavedData.SavedDeviceName6 = value; RaisePropertyChangedEvent("DeviceName6_Saved"); } } }
-        public string DeviceName7_Saved { get { return m_XmlParser.SavedData.SavedDeviceName7; } set { if (m_XmlParser.SavedData.SavedDeviceName7 != value) { m_XmlParser.SavedData.SavedDeviceName7 = value; RaisePropertyChangedEvent("DeviceName7_Saved"); } } }
-        public string DeviceName8_Saved { get { return m_XmlParser.SavedData.SavedDeviceName8; } set { if (m_XmlParser.SavedData.SavedDeviceName8 != value) { m_XmlParser.SavedData.SavedDeviceName8 = value; RaisePropertyChangedEvent("DeviceName8_Saved"); } } }
-        public string DeviceName9_Saved { get { return m_XmlParser.SavedData.SavedDeviceName9; } set { if (m_XmlParser.SavedData.SavedDeviceName9 != value) { m_XmlParser.SavedData.SavedDeviceName9 = value; RaisePropertyChangedEvent("DeviceName9_Saved"); } } }
-        public string DeviceName10_Saved { get { return m_XmlParser.SavedData.SavedDeviceName10; } set { if (m_XmlParser.SavedData.SavedDeviceName10 != value) { m_XmlParser.SavedData.SavedDeviceName10 = value; RaisePropertyChangedEvent("DeviceName10_Saved"); } } }
-
-        public string DeviceSize1_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize1.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize1.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize1 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize1_Saved"); } } }
-        public string DeviceSize2_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize2.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize2.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize2 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize2_Saved"); } } }
-        public string DeviceSize3_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize3.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize3.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize3 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize3_Saved"); } } }
-        public string DeviceSize4_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize4.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize4.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize4 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize4_Saved"); } } }
-        public string DeviceSize5_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize5.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize5.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize5 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize5_Saved"); } } }
-        public string DeviceSize6_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize6.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize6.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize6 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize6_Saved"); } } }
-        public string DeviceSize7_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize7.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize7.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize7 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize7_Saved"); } } }
-        public string DeviceSize8_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize8.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize8.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize8 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize8_Saved"); } } }
-        public string DeviceSize9_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize9.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize9.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize9 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize9_Saved"); } } }
-        public string DeviceSize10_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize10.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize10.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize10 = int.Parse(value); RaisePropertyChangedEvent("DeviceSize10_Saved"); } } }
+        public string DeviceSize1_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize1.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize1.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize1 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize2_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize2.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize2.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize2 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize3_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize3.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize3.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize3 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize4_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize4.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize4.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize4 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize5_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize5.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize5.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize5 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize6_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize6.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize6.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize6 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize7_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize7.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize7.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize7 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize8_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize8.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize8.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize8 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize9_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize9.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize9.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize9 = int.Parse(value); OnPropertyChanged(); } } }
+        public string DeviceSize10_Saved { get { return m_XmlParser.SavedData.SavedDeviceSize10.ToString(); } set { if (m_XmlParser.SavedData.SavedDeviceSize10.ToString() != value) { m_XmlParser.SavedData.SavedDeviceSize10 = int.Parse(value); OnPropertyChanged(); } } }
 
         public string KeyboardData;
 

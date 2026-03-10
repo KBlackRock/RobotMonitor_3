@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using RobotMonitor_3.Models;
 using System;
 using System.Collections.Generic;
@@ -12,25 +13,12 @@ using System.Windows;
 
 namespace RobotMonitor_3.ViewModels
 {
-    internal class NumberKeyboard_ViewModel : INotifyPropertyChanged
+    internal partial class NumberKeyboard_ViewModel : ObservableObject
     {
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void RaisePropertyChangedEvent(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
 
         public string symbol;
-        private string displayNumber; public string DisplayNumber { get { return displayNumber; } set { displayNumber = value; OnPropertyChanged(); } }
-        private string displayNumberOld; public string DisplayNumberOld { get { return displayNumberOld; } set { displayNumberOld = value; OnPropertyChanged(); } }
+        [ObservableProperty] private string displayNumber;
+        [ObservableProperty] private string displayNumberOld;
 
         public NumberKeyboard_ViewModel()
         {
