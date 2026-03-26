@@ -387,11 +387,11 @@ namespace RobotMonitor_3.ViewModels
             // 위치가 메인윈도우 크기보다 작을때는 마우스 포인터 기준으로, 클때는 메인윈도우 크기 기준으로 설정
             if (mPoint.X < MainWithSize - KeyWithSize)
                 KeyWindow.Left = mPoint.X - (KeyWindow.ActualWidth);
-            else KeyWindow.Left = MainWithSize - (KeyWithSize * 1.2);
+            else KeyWindow.Left = MainWithSize - (KeyWithSize * 1.2);  // 아예 벽에 붙어버리면 안 되니 1.2배수 적용
 
             if (mPoint.Y < MainHeightSize - keyHeightSize)
                 KeyWindow.Top = mPoint.Y - (KeyWindow.ActualHeight);
-            else KeyWindow.Top = MainHeightSize - (keyHeightSize * 1.1);
+            else KeyWindow.Top = MainHeightSize - (keyHeightSize * 1.1); // 여기도 left와 동일 이유로 1.1 배수 적용 ( 세로 폭이 더 길으니까 1.1 )
             KeyWindow.ResizeMode = ResizeMode.NoResize;
             KeyWindow.Topmost = true;
 
@@ -415,7 +415,7 @@ namespace RobotMonitor_3.ViewModels
             LoginWindow.ResizeMode = ResizeMode.NoResize;
             LoginWindow.Topmost = true;
             LoginWindow.Left = MainWithSize / 3;
-            LoginWindow.Top = MainHeightSize / 3;
+            LoginWindow.Top = MainHeightSize / 3;  
 
             WeakReferenceMessenger.Default.Unregister<LoginBool>(this);
             WeakReferenceMessenger.Default.Register<LoginBool>(this, (r, m) => { LoginCheck = m.Value; });
@@ -562,13 +562,13 @@ namespace RobotMonitor_3.ViewModels
         {
             _commandMap = new Dictionary<string, Action<string>>
             {
-                { "State",   RobState },   // State_ 처리
+                { "State",   RobState },                             // State_ 처리
                 { "Speed",   (msg) => SplitAndCall(msg, RobSpeed) }, // Speed_는 내부에서 또 쪼개짐
                 { "Count",   (msg) => SplitAndCall(msg, RobCount) }, // Count_ 처리
                 { "Motor",   (msg) => SplitAndCall(msg, RobMotor) }, // Motor_ 처리
-                { "Error",   RobError },   // Error_ 처리
-                { "RobIO",   RobIO },      // RobIO_ 처리
-                { "Check",   RobPress }    // Check_ 처리
+                { "Error",   RobError },                             // Error_ 처리
+                { "RobIO",   RobIO },                                // RobIO_ 처리
+                { "Check",   RobPress }                              // Check_ 처리
             };
         }
 

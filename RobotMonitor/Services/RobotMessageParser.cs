@@ -16,14 +16,14 @@ namespace RobotMonitor_3.Services
             if (string.IsNullOrEmpty(rawMsg) || rawMsg.Length < 4)
                 yield break; // 유효성 검사 유지
 
-            // 1. 콤마(,)로 다중 명령 분리
+            // 콤마(,)로 다중 명령 분리
             string[] commands = rawMsg.Split(',');
 
             foreach (var cmd in commands)
             {
                 if (string.IsNullOrWhiteSpace(cmd) || cmd.Length < 2) continue;
 
-                // 2. 언더바(_)로 Key와 Value 분리
+                // 언더바(_)로 Key와 Value 분리
                 int separatorIndex = cmd.IndexOf('_');
 
                 if (separatorIndex > 0)
