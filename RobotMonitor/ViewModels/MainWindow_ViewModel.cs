@@ -30,14 +30,20 @@ namespace RobotMonitor_3.ViewModels
         private Dictionary<string, Action<string>> _commandMap;
         private readonly ErrorRepository _errorRepo;
 
+        private McProtocolService _plc;
+        private bool _isPlcReading = false;
+
         private Models.XmlParser m_XmlParser;
+
         public Window MainWindow;
 
         DispatcherTimer timer;
         DispatcherTimer responseTimer;
         DispatcherTimer FlickerTimer;
         DispatcherTimer DeviceTimer;
-        DispatcherTimer eggTimer;
+        DispatcherTimer plcTimer;
+
+        private readonly PlcDataProcessor _dataProcessor;
 
         private string path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RobotMonitor_3");
 
@@ -51,9 +57,12 @@ namespace RobotMonitor_3.ViewModels
         private bool m_ClientConnection;
         private string m_ClientOutput;
         private string m_ClientSendMsg;
+        private string m_PlcIp;
+        private int m_PlcPort;
         private List<string> ClientMsgList;
         private int ClientMsgListNum;
         private bool buttonTiger;
+
         public string TimerWorkSelect;
         public string ParsingData;
         public int responseTimeStack;
@@ -84,90 +93,92 @@ namespace RobotMonitor_3.ViewModels
         private ObservableCollection<string> _WorkModeList; public ObservableCollection<string> WorkModeList { get { return _WorkModeList; } set { _WorkModeList = value; OnPropertyChanged(); } }
         [ObservableProperty] private string windowPage;
         [ObservableProperty] private bool tabVisible;
-        [ObservableProperty] private bool r_IsRunning; 
-        [ObservableProperty] private bool r_IsStopped; 
-        [ObservableProperty] private bool r_IsReady; 
-        [ObservableProperty] private bool r_IsOrigin; 
-        [ObservableProperty] private string startButtonColor; 
-        [ObservableProperty] private double resetBtnOpacity; 
-        [ObservableProperty] private bool resetbtnEnable; 
-        [ObservableProperty] private int timerStack; 
-        [ObservableProperty] private bool isAuto; 
+        [ObservableProperty] private bool r_IsRunning;
+        [ObservableProperty] private bool r_IsStopped;
+        [ObservableProperty] private bool r_IsReady;
+        [ObservableProperty] private bool r_IsOrigin;
+        [ObservableProperty] private string startButtonColor;
+        [ObservableProperty] private double resetBtnOpacity;
+        [ObservableProperty] private bool resetbtnEnable;
+        [ObservableProperty] private int timerStack;
+        [ObservableProperty] private bool isAuto;
         [ObservableProperty] private bool isManual;
         [ObservableProperty] private bool isError;
-        [ObservableProperty] private bool isSetView; 
-        [ObservableProperty] private bool autoBtn; 
-        [ObservableProperty] private bool manualBtn; 
-        [ObservableProperty] private bool isSetting; 
-        [ObservableProperty] private bool homeButton; 
-        [ObservableProperty] private string selectPage; 
-        [ObservableProperty] private string robotMessage; 
-        [ObservableProperty] private bool btnWorkWait; 
-        [ObservableProperty] private string robotImage; 
-        [ObservableProperty] private string errorMessage; 
-        [ObservableProperty] private string errorImage; 
-        [ObservableProperty] private string isRobSpeed_Percent; 
-        [ObservableProperty] private string isRobSpeed_MMS; 
-        [ObservableProperty] private string isPressCloseTime; 
-        [ObservableProperty] private string isChamberCloseTime; 
+        [ObservableProperty] private bool isSetView;
+        [ObservableProperty] private bool autoBtn;
+        [ObservableProperty] private bool manualBtn;
+        [ObservableProperty] private bool isSetting;
+        [ObservableProperty] private bool homeButton;
+        [ObservableProperty] private string selectPage;
+        [ObservableProperty] private string robotMessage;
+        [ObservableProperty] private bool btnWorkWait;
+        [ObservableProperty] private string robotImage;
+        [ObservableProperty] private string errorMessage;
+        [ObservableProperty] private string errorImage;
+        [ObservableProperty] private string isRobSpeed_Percent;
+        [ObservableProperty] private string isRobSpeed_MMS;
+        [ObservableProperty] private string isPressCloseTime;
+        [ObservableProperty] private string isChamberCloseTime;
         [ObservableProperty] private string isPCBCount;
-        [ObservableProperty] private string serverConnectBtnColor; 
+        [ObservableProperty] private string serverConnectBtnColor;
         [ObservableProperty] private string out1Color;
-        [ObservableProperty] private string out2Color; 
-        [ObservableProperty] private string out3Color; 
-        [ObservableProperty] private string out4Color; 
-        [ObservableProperty] private string out5Color; 
-        [ObservableProperty] private string out6Color; 
-        [ObservableProperty] private string in1Color; 
-        [ObservableProperty] private string in2Color; 
-        [ObservableProperty] private string in3Color; 
-        [ObservableProperty] private string in4Color; 
-        [ObservableProperty] private string in5Color; 
-        [ObservableProperty] private string in6Color; 
-        [ObservableProperty] private string sv1pw_borderColor; 
-        [ObservableProperty] private string sv2pw_borderColor; 
+        [ObservableProperty] private string out2Color;
+        [ObservableProperty] private string out3Color;
+        [ObservableProperty] private string out4Color;
+        [ObservableProperty] private string out5Color;
+        [ObservableProperty] private string out6Color;
+        [ObservableProperty] private string in1Color;
+        [ObservableProperty] private string in2Color;
+        [ObservableProperty] private string in3Color;
+        [ObservableProperty] private string in4Color;
+        [ObservableProperty] private string in5Color;
+        [ObservableProperty] private string in6Color;
+        [ObservableProperty] private string sv1pw_borderColor;
+        [ObservableProperty] private string sv2pw_borderColor;
         [ObservableProperty] private string sv1pw_content;
         [ObservableProperty] private string sv2pw_content;
-        [ObservableProperty] private string robAutoColor; 
+        [ObservableProperty] private string robAutoColor;
         [ObservableProperty] private string robMotorColor;
-        [ObservableProperty] private string robTaskRunColor; 
-        [ObservableProperty] private string robBatteryColor; 
-        [ObservableProperty] private string workMode; 
-        [ObservableProperty] private string isSelectedWorkMode; 
-        [ObservableProperty] private bool isWorkModeSelected; 
-        [ObservableProperty] private bool isWorkModeOpen; 
+        [ObservableProperty] private string robTaskRunColor;
+        [ObservableProperty] private string robBatteryColor;
+        [ObservableProperty] private string workMode;
+        [ObservableProperty] private string isSelectedWorkMode;
+        [ObservableProperty] private bool isWorkModeSelected;
+        [ObservableProperty] private bool isWorkModeOpen;
         [ObservableProperty] private string isWorkModeTextColor;
-        [ObservableProperty] private string loadSkipColor; 
-        [ObservableProperty] private string imgCollectColor; 
-        [ObservableProperty] private string tCounting; 
-        [ObservableProperty] private bool pressIOEnable; 
-        [ObservableProperty] private string isExtractCount; 
-        [ObservableProperty] private string isRobBlowSpeed; 
-        [ObservableProperty] private string isRobBlow1stTopCount; 
-        [ObservableProperty] private string isRobBlow1stBotCount; 
-        [ObservableProperty] private string isRobBlow2ndTopCount; 
-        [ObservableProperty] private string isRobBlow2ndBotCount; 
-        [ObservableProperty] private string isRobBlowPortCount; 
-        [ObservableProperty] private string isRobSpraySpeed; 
+        [ObservableProperty] private string loadSkipColor;
+        [ObservableProperty] private string imgCollectColor;
+        [ObservableProperty] private string tCounting;
+        [ObservableProperty] private bool pressIOEnable;
+        [ObservableProperty] private string isExtractCount;
+        [ObservableProperty] private string isRobBlowSpeed;
+        [ObservableProperty] private string isRobBlow1stTopCount;
+        [ObservableProperty] private string isRobBlow1stBotCount;
+        [ObservableProperty] private string isRobBlow2ndTopCount;
+        [ObservableProperty] private string isRobBlow2ndBotCount;
+        [ObservableProperty] private string isRobBlowPortCount;
+        [ObservableProperty] private string isRobSpraySpeed;
         [ObservableProperty] private string isRobSprayTopCount;
-        [ObservableProperty] private string isRobSprayPortTime; 
-        [ObservableProperty] private string isRobPortSpeed; 
-        [ObservableProperty] private string isRobPortCount; 
-        [ObservableProperty] private int isWorkIndex; 
-        [ObservableProperty] private string display_StackedDeviceCount; 
-        [ObservableProperty] private string display_UnStackedDeviceCount; 
+        [ObservableProperty] private string isRobSprayPortTime;
+        [ObservableProperty] private string isRobPortSpeed;
+        [ObservableProperty] private string isRobPortCount;
+        [ObservableProperty] private int isWorkIndex;
+        [ObservableProperty] private string display_StackedDeviceCount;
+        [ObservableProperty] private string display_UnStackedDeviceCount;
         [ObservableProperty] private string display_StackedShotCount;
-        [ObservableProperty] private string display_UnStackedShotCount; 
-        [ObservableProperty] private bool robotSetting; 
-        [ObservableProperty] private string m1_CurrentPosition; 
-        [ObservableProperty] private string m1_Speed; 
-        [ObservableProperty] private string m1_FWDLIM; 
-        [ObservableProperty] private string m2_CurrentPosition; 
-        [ObservableProperty] private string m2_Speed; 
-        [ObservableProperty] private string emc_CylOpenDelay; 
+        [ObservableProperty] private string display_UnStackedShotCount;
+        [ObservableProperty] private bool robotSetting;
+        [ObservableProperty] private string m1_CurrentPosition;
+        [ObservableProperty] private string m1_Speed;
+        [ObservableProperty] private string m1_FWDLIM;
+        [ObservableProperty] private string m2_CurrentPosition;
+        [ObservableProperty] private string m2_Speed;
+        [ObservableProperty] private string emc_CylOpenDelay;
         [ObservableProperty] private string emc_CylCloseDelay;
         [ObservableProperty] private string emc_StopperFWDDelay;
         [ObservableProperty] private string emc_StopperBWDDelay;
+        [ObservableProperty] private short[] plcInput;
+        [ObservableProperty] private short[] plcOutput;
         #endregion
 
         #region Server Properties
@@ -180,6 +191,8 @@ namespace RobotMonitor_3.ViewModels
         public bool IsServerOpened { get { return m_IsServerOpened; } set { if (m_IsServerOpened != value) { m_IsServerOpened = value; OnPropertyChanged(); } } }
         public bool ServerConnection { get { return m_ServerConnection; } set { if (m_ServerConnection != value) { m_ServerConnection = value; OnPropertyChanged(); } } }
         public string ServerOutput { get { return m_ServerOutput; } set { if (m_ServerOutput != value) { m_ServerOutput = value; OnPropertyChanged(); } } }
+        public string PlcIp { get { return m_PlcIp; } set { if (m_PlcIp != value) { m_PlcIp = value; OnPropertyChanged(); } } }
+        public int PlcPort { get { return m_PlcPort; } set { if (m_PlcPort != value) { m_PlcPort = value; OnPropertyChanged(); } } }
         #endregion
 
         #region Setting Data Properties
@@ -220,6 +233,11 @@ namespace RobotMonitor_3.ViewModels
             IsServerOpened = false;
             ServerConnection = false;
             TabVisible = false;
+
+            _dataProcessor = new PlcDataProcessor(this);
+            _plc = new McProtocolService();
+            PlcInput = new short[100];
+            PlcOutput = new short[100];
 
             robOverrideLimit = new int[2];
             robSpeedMaxLimit = new int[2];
@@ -319,6 +337,11 @@ namespace RobotMonitor_3.ViewModels
             responseTimer.Interval = TimeSpan.FromMilliseconds(200);
             responseTimer.Tick += new EventHandler(ConnectionOK);
 
+            plcTimer = new DispatcherTimer(DispatcherPriority.Send, System.Windows.Application.Current.Dispatcher);
+            plcTimer.Interval = TimeSpan.FromMilliseconds(100);
+            plcTimer.Tick += new EventHandler(PLCRead);
+
+            
             #endregion
 
         }
@@ -334,6 +357,9 @@ namespace RobotMonitor_3.ViewModels
             MainWindow.WindowStyle = WindowStyle.None;
             WindowPage = "Pages/Main_Page.xaml";
             ServerOpenClose();
+
+
+            // 작업모드 설정
             WorkModeList.Add("정지모드"); // 0
             WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName1);
             WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName2);
@@ -356,10 +382,12 @@ namespace RobotMonitor_3.ViewModels
             if (mBoxRst == MessageBoxResult.Yes)
             {
                 timer.Stop();
-                eggTimer.Stop();
                 FlickerTimer.Stop();
                 DeviceTimer.Stop();
                 responseTimer.Stop();
+                plcTimer.Stop();
+                if (_plc != null && _plc.IsConnected) _plc.Dispose();
+
                 m_XmlParser.SavedDataSave();
                 _tcpService.StopServer();
 
@@ -415,7 +443,7 @@ namespace RobotMonitor_3.ViewModels
             LoginWindow.ResizeMode = ResizeMode.NoResize;
             LoginWindow.Topmost = true;
             LoginWindow.Left = MainWithSize / 3;
-            LoginWindow.Top = MainHeightSize / 3;  
+            LoginWindow.Top = MainHeightSize / 3;
 
             WeakReferenceMessenger.Default.Unregister<LoginBool>(this);
             WeakReferenceMessenger.Default.Register<LoginBool>(this, (r, m) => { LoginCheck = m.Value; });
@@ -481,8 +509,10 @@ namespace RobotMonitor_3.ViewModels
 
 
         /// <summary>
-        /// eImg : 에러 이미지 파일명 ( 확장자 jpg 사용 _ 확장자 별도 입력 필요 없음 )
+        /// 에러 처리
         /// </summary>
+        /// <param name="eImg">에러 이미지 ( jpg only )</param>
+        /// <param name="eMsg">에러 메세지</param>
         public void Error(string eImg, string eMsg)
         {
             if (ErrorData == eMsg) return;
@@ -510,7 +540,10 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-
+        /// <summary>
+        /// 로봇 상태 라벨 변경
+        /// </summary>
+        /// <returns>ture, 변경하려는 라벨 선행 입력</returns>
         public bool RobotLabelSet()
         {
             R_IsOrigin = R_IsReady = R_IsRunning = R_IsStopped = ResetbtnEnable = false;
@@ -522,15 +555,22 @@ namespace RobotMonitor_3.ViewModels
 
 
         #region Server Methods
-        public void ServerOpenClose()
+        public async void ServerOpenClose()
         {
             IsServerOpened = !IsServerOpened;
             if (IsServerOpened)
             {
                 // 기존 설정값 사용
-                string ip = ClientIP;
-                int port = ClientPort;
-                _tcpService.StartServer(ip, port);
+                string clientIP = ClientIP;
+                int clientPort = ClientPort;
+                _tcpService.StartServer(clientIP, clientPort);
+
+                // PLC 연결
+                bool IsPlCConnected = await _plc.ConnectAsync(m_XmlParser.SavedData.PlcIp, m_XmlParser.SavedData.PlcPort);
+                if (IsPlCConnected)
+                {
+                    plcTimer.Start(); 
+                }
             }
             else
             {
@@ -627,9 +667,87 @@ namespace RobotMonitor_3.ViewModels
         {
             ServerOutput = "";
         }
+
+        private async void PLCRead(object sender, EventArgs e)
+        {
+            if (_isPlcReading || _plc == null || !_plc.IsConnected) return;
+            try
+            {
+                _isPlcReading = true;
+
+                byte[] readData = await _plc.ReadDeviceAsync("D", 100, 200); // PLC 데이터 읽기 , D, 100번지부터 200개 ( D100 ~ D299 )
+                if (readData != null && readData.Length >= 400)
+                {
+                    PLCParser(readData);
+                }
+            }
+            finally
+            {
+                _isPlcReading = false;
+            }
+        }
+
+        private void PLCParser(byte[] data)
+        {
+            bool isInputChange = false;
+            bool isOutputChange = false;
+
+            // 데이터 파싱
+            for (int i = 0; i < 100; i++) // Input D100 ~ D199
+            {
+                short newValue = BitConverter.ToInt16(data, i * 2);
+
+                if (PlcInput[i] != newValue)
+                {
+                    PlcInput[i] = newValue;
+                    isInputChange = true;
+
+                    _dataProcessor.Execute(i, PlcInput[i]); // 파싱데이터 바로 처리
+                }
+            }
+
+            for (int i = 100; i < 200; i++) // Output D200 ~ D299
+            {
+                short newValue = BitConverter.ToInt16(data, i * 2);
+                int outIndex = i - 100;
+
+                if (PlcOutput[outIndex] != newValue)
+                {
+                    PlcOutput[outIndex] = newValue;
+                    isOutputChange = true;
+                }
+            }
+
+            if (isInputChange) { OnPropertyChanged(nameof(PlcInput)); }
+            if (isOutputChange) { OnPropertyChanged(nameof(PlcOutput)); }
+        }
+
+
+        /// <summary>
+        /// PLC D 데이터 송신
+        /// </summary>
+        /// <param name="Address">유효범위 : 0 ~ 99 ( D200 ~ D299 )</param>
+        /// <param name="inputData"></param>
+        public async void PLCWrite(int Address, short inputData)
+        {
+            if (Address < 0 || Address >= 100) return; // 유효한 주소 범위 체크 ( D200 ~ D299 )
+            if (_plc != null && _plc.IsConnected)
+            {
+                int plcAddress = 200 + Address; // 실제 PLC 주소 계산
+                short[] data = new short[] { inputData };
+
+                bool isSuccess = await _plc.WriteDeviceAsync("D", plcAddress, data);  // PLC에 데이터 쓰기
+
+                if (isSuccess)
+                {
+                    PlcOutput[Address] = inputData;
+                    OnPropertyChanged(nameof(PlcOutput));
+                }
+
+            }
+        }
+
         #endregion
-
-
 
 
 
@@ -1348,23 +1466,6 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        internal void PCBResetPress()
-        {
-            TimerWorkSelect = "PCBCountReset";
-            timer.Start();
-        }
-
-
-
-        internal void PCBResetRelease()
-        {
-            timer.Stop();
-            TimerStack = 0;
-            TCounting = "";
-        }
-
-
-
         internal void ExtractCount()
         {
             string MsgBuff;
@@ -1378,24 +1479,6 @@ namespace RobotMonitor_3.ViewModels
             catch { if (KeyboardData != "") { MessageBox.Show(robExtractCountLimit[0] + "~" + robExtractCountLimit[1] + "사이의 숫자만 입력 해 주시기 바랍니다"); } return; }
             ServerSend(MsgBuff);
         }
-
-
-
-        internal void ExtractResetPress()
-        {
-            TimerWorkSelect = "ExtractCountReset";
-            timer.Start();
-        }
-
-
-
-        internal void ExtractResetRelease()
-        {
-            timer.Stop();
-            TimerStack = 0;
-        }
-
-
 
         internal void WorkModeOpen()  // 디바이스 선택 드롭다운 열릴 때 버퍼에 현재 디바이스 저장
         {
@@ -1534,25 +1617,59 @@ namespace RobotMonitor_3.ViewModels
             WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName10);
         }
 
+        internal void InterfaceView()
+        {
+            InterfaceWindow interfaceWindow = new InterfaceWindow();
+            interfaceWindow.ResizeMode = ResizeMode.NoResize;
+            interfaceWindow.ShowDialog();
+        }
 
-        internal void IPAddressBox()
+
+        internal void IPAddressBox_Robot()
         {
             DisplayedData = ClientIP;
             string MsgBuff = ClientIP;
             ClientIP = CallNumKey(DisplayedData);
-            Logger.Write("Client IP Change : " + MsgBuff + " → " + ClientIP);
+            Logger.Write("Robot IP Change : " + MsgBuff + " → " + ClientIP);
         }
 
 
 
-        internal void PortBox()
+        internal void PortBox_Robot()
         {
             try
             {
                 DisplayedData = ClientPort.ToString();
                 string MsgBuff = ClientPort.ToString();
                 ClientPort = Convert.ToInt32(CallNumKey(DisplayedData));
-                Logger.Write("Client Port Change : " + MsgBuff + " → " + ClientPort);
+                Logger.Write("Robot Port Change : " + MsgBuff + " → " + ClientPort);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+        }
+
+
+        internal void IPAddressBox_PLC()
+        {
+            DisplayedData = PlcIp;
+            string MsgBuff = PlcIp;
+            PlcIp = CallNumKey(DisplayedData);
+            Logger.Write("PLC IP Change : " + MsgBuff + " → " + PlcIp);
+        }
+
+
+
+        internal void PortBox_PLC()
+        {
+            try
+            {
+                DisplayedData = PlcPort.ToString();
+                string MsgBuff = PlcPort.ToString();
+                PlcPort = Convert.ToInt32(CallNumKey(DisplayedData));
+                Logger.Write("PLC Port Change : " + MsgBuff + " → " + PlcPort);
             }
             catch (Exception e)
             {

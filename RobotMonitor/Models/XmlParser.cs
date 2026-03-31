@@ -59,6 +59,8 @@ namespace RobotMonitor_3.Models
         public int SavedDeviceSize8 { get; set; }
         public int SavedDeviceSize9 { get; set; }
         public int SavedDeviceSize10 { get; set; }
+        public string PlcIp { get; set; }
+        public int PlcPort { get; set; }
 
         public SavedData()
         {
@@ -89,7 +91,7 @@ namespace RobotMonitor_3.Models
                     SavedDataXmlSerializer.Serialize(tw, SavedData);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"데이터 저장 실패.\r 에러 : {ex.Message}");
             }
@@ -115,6 +117,8 @@ namespace RobotMonitor_3.Models
                         ServerPort = 1541,
                         ClientIP = "192.168.125.20",
                         ClientPort = 1541,
+                        PlcIp = "192.168.110.20",
+                        PlcPort = 1541,
                         IsReadHex = false,
                         IsWriteHex = false,
                         Prefix = "",
@@ -136,25 +140,25 @@ namespace RobotMonitor_3.Models
                         homeBtnDelay = 0,
                         countResetBtnDelay = 0,
                         PassWord = "1111",
-                        SavedDeviceName1  = "",
-                        SavedDeviceName2  = "",
-                        SavedDeviceName3  = "",
-                        SavedDeviceName4  = "",
-                        SavedDeviceName5  = "",
-                        SavedDeviceName6  = "",
-                        SavedDeviceName7  = "",
-                        SavedDeviceName8  = "",
-                        SavedDeviceName9  = "",
+                        SavedDeviceName1 = "",
+                        SavedDeviceName2 = "",
+                        SavedDeviceName3 = "",
+                        SavedDeviceName4 = "",
+                        SavedDeviceName5 = "",
+                        SavedDeviceName6 = "",
+                        SavedDeviceName7 = "",
+                        SavedDeviceName8 = "",
+                        SavedDeviceName9 = "",
                         SavedDeviceName10 = "",
-                        SavedDeviceSize1  = 0,
-                        SavedDeviceSize2  = 0,
-                        SavedDeviceSize3  = 0,
-                        SavedDeviceSize4  = 0,
-                        SavedDeviceSize5  = 0,
-                        SavedDeviceSize6  = 0,
-                        SavedDeviceSize7  = 0,
-                        SavedDeviceSize8  = 0,
-                        SavedDeviceSize9  = 0,
+                        SavedDeviceSize1 = 0,
+                        SavedDeviceSize2 = 0,
+                        SavedDeviceSize3 = 0,
+                        SavedDeviceSize4 = 0,
+                        SavedDeviceSize5 = 0,
+                        SavedDeviceSize6 = 0,
+                        SavedDeviceSize7 = 0,
+                        SavedDeviceSize8 = 0,
+                        SavedDeviceSize9 = 0,
                         SavedDeviceSize10 = 0
                     };
                 }
@@ -172,6 +176,8 @@ namespace RobotMonitor_3.Models
             SavedData.ServerPort = 1541;
             SavedData.ClientIP = "192.168.125.20";
             SavedData.ClientPort = 1541;
+            SavedData.PlcIp = "192.168.110.20";
+            SavedData.PlcPort = 1541;
             SavedData.IsReadHex = false;
             SavedData.IsWriteHex = false;
             SavedData.Prefix = "";
@@ -194,24 +200,24 @@ namespace RobotMonitor_3.Models
             SavedData.countResetBtnDelay = 0;
             SavedData.PassWord = "1111";
             SavedData.SavedDeviceName1 = "";
-            SavedData.SavedDeviceName2  = "";
-            SavedData.SavedDeviceName3  = "";
-            SavedData.SavedDeviceName4  = "";
-            SavedData.SavedDeviceName5  = "";
-            SavedData.SavedDeviceName6  = "";
-            SavedData.SavedDeviceName7  = "";
-            SavedData.SavedDeviceName8  = "";
-            SavedData.SavedDeviceName9  = "";
+            SavedData.SavedDeviceName2 = "";
+            SavedData.SavedDeviceName3 = "";
+            SavedData.SavedDeviceName4 = "";
+            SavedData.SavedDeviceName5 = "";
+            SavedData.SavedDeviceName6 = "";
+            SavedData.SavedDeviceName7 = "";
+            SavedData.SavedDeviceName8 = "";
+            SavedData.SavedDeviceName9 = "";
             SavedData.SavedDeviceName10 = "";
-            SavedData.SavedDeviceSize1  = 0;
-            SavedData.SavedDeviceSize2  = 0;
-            SavedData.SavedDeviceSize3  = 0;
-            SavedData.SavedDeviceSize4  = 0;
-            SavedData.SavedDeviceSize5  = 0;
-            SavedData.SavedDeviceSize6  = 0;
-            SavedData.SavedDeviceSize7  = 0;
-            SavedData.SavedDeviceSize8  = 0;
-            SavedData.SavedDeviceSize9  = 0;
+            SavedData.SavedDeviceSize1 = 0;
+            SavedData.SavedDeviceSize2 = 0;
+            SavedData.SavedDeviceSize3 = 0;
+            SavedData.SavedDeviceSize4 = 0;
+            SavedData.SavedDeviceSize5 = 0;
+            SavedData.SavedDeviceSize6 = 0;
+            SavedData.SavedDeviceSize7 = 0;
+            SavedData.SavedDeviceSize8 = 0;
+            SavedData.SavedDeviceSize9 = 0;
             SavedData.SavedDeviceSize10 = 0;
         }
     }

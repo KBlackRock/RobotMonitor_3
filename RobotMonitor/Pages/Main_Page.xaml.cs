@@ -47,15 +47,6 @@ namespace RobotMonitor_3.Pages
         {
             (DataContext as MainWindow_ViewModel).WorkCountReset();
         }
-        private void btn_PCBWorkCountReset_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).PCBResetPress();
-        }
-
-        private void btn_PCBWorkCountReset_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).PCBResetRelease();
-        }
         private void btn_PCBEMCSkip_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             (DataContext as MainWindow_ViewModel).LoadingsSkipPress();
@@ -69,16 +60,6 @@ namespace RobotMonitor_3.Pages
         private void tBox_ExtractCount_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             (DataContext as MainWindow_ViewModel).ExtractCount();
-        }
-
-        private void btn_ExtractCountReset_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ExtractResetPress();
-        }
-
-        private void btn_ExtractCountReset_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ExtractResetPress();
         }
 
         private void CB_WS_DropDownClosed(object sender, EventArgs e)

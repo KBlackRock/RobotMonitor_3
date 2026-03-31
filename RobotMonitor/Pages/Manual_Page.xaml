@@ -42,7 +42,7 @@
         </Style>
 
         <Style x:Key="SectionLabelStyle" TargetType="Label">
-            <Setter Property="Margin" Value="5"/> 
+            <Setter Property="Margin" Value="5"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="Foreground" Value="White"/>
@@ -53,50 +53,94 @@
             <Setter Property="Background" Value="#FF006DDA"/>
         </Style>
     </Page.Resources>
+    <Grid Margin="5,0,5,0" Background="#FFE6E6E6">
 
-    <Grid>
-        <Grid Background="#FFF0F0F0">
-            <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
+        <TabControl Margin="0" BorderBrush="{x:Null}">
+            <TabItem Header="Robot" FontSize="18">
+                <Grid Background="#FFF0F0F0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid Margin="5,5,673,348" Background="White">
-                    <Label Content="Robot" Style="{StaticResource SectionLabelStyle}"/>
-                    <Button x:Name="btn_Home" Content="HOME" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" IsEnabled="{Binding HomeButton}" Background="#FF1919EB" BorderBrush="#FF000082" Tag="#FF000064" PreviewMouseLeftButtonUp="btn_Home_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_Home_PreviewMouseLeftButtonDown"/>
+                    <Grid Margin="2" Background="White" Grid.Column="0">
+                        <Label Content="Robot" Style="{StaticResource SectionLabelStyle}"/>
+                        <Button x:Name="btn_Home" Content="HOME" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" IsEnabled="{Binding HomeButton}" Background="#FF1919EB" BorderBrush="#FF000082" Tag="#FF000064" PreviewMouseLeftButtonUp="btn_Home_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_Home_PreviewMouseLeftButtonDown"/>
+                        <Button x:Name="btn_Monitor" Content="모니터 끄기" Style="{StaticResource OperationButtonStyle}" Margin="5,0,0,5" VerticalAlignment="Bottom" Height="80" Width="311" Background="#FF19EBD3" BorderBrush="#FF1F9487" Tag="#FF54B1D0" Click="btn_Monitor_Click" HorizontalAlignment="Stretch"/>
+                    </Grid>
+
+                    <Grid Margin="2" Background="White" Grid.Column="1">
+                        <Label Content="Tool ( Gripper )" Style="{StaticResource SectionLabelStyle}"/>
+                        <Button x:Name="btn_EG_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" />
+                        <Button x:Name="btn_EG_Open" Content="Open" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600"/>
+                        <Button x:Name="btn_EG_Grip" Content="Grip" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600"/>
+                        
+                    </Grid>
+
+                    <Grid Margin="2" Background="White" Grid.Column="2">
+                        <Label Content="Tool ( Other )" Style="{StaticResource SectionLabelStyle}"/>
+
+                    </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Auto Loader" FontSize="18">
+                <Grid Background="#FFF0F0F0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="2" Background="White" Grid.Column="0">
+                        <Label Content="M1] Magazien Loader" Style="{StaticResource SectionLabelStyle}"/>
+                        <Button x:Name="btn_M1_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M1_Origin_Click"/>
+                        <Button x:Name="btn_M1_Feed" Content="Feed" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Feed_Click"/>
+                        <Button x:Name="btn_M1_Release" Content="Release" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Release_Click"/>
+                        <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
+                        <TextBox x:Name="tBox_M1CurrentPosMN" Text="{Binding M1_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextWrapping="Wrap" FontSize="32" TextAlignment="Right" />
+                        <Button x:Name="btn_M1_CylLeft" Content="Cylinder&#10;   Left" Style="{StaticResource OperationButtonStyle}" Margin="20,394,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_CylLeft_Click"/>
+                        <Button x:Name="btn_M1_CylRight" Content="Cylinder&#10;  Right" Style="{StaticResource OperationButtonStyle}" Margin="170,394,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_CylRight_Click"/>
+                    </Grid>
 
-                <Grid Margin="5,152,673,5" Background="White" Grid.Column="1">
-                    <Label Content="EMC Supply Cylinder" Style="{StaticResource SectionLabelStyle}"/>
-                    <Button x:Name="btn_EMCSupply" Content="Supply" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_EMCSupply_Click"/>
-                    <Button x:Name="btn_EMCOpen" Content="Door&#10;Open" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0"  Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCOpen_Click"/>
-                    <Button x:Name="btn_EMCClose" Content="Door&#10;Close" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCClose_Click"/>
-                    <Button x:Name="btn_EMCStopper" Content="Stopper&#10;Forward" Style="{StaticResource OperationButtonStyle}" Margin="20,246,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCStopper_Click"/>
-                    <Button x:Name="btn_EMCRelease" Content=" Stopper&#10;Backward" Style="{StaticResource OperationButtonStyle}" Margin="170,246,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCRelease_Click"/>
+                    <Grid Margin="2" Background="White" Grid.Column="1">
+                        <Label Content="M2] PCB Load Table" Style="{StaticResource SectionLabelStyle}"/>
+
+                        <Button x:Name="btn_M2_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M2_Origin_Click"/>
+                        <Button x:Name="btn_M2_Turn" Content="Trun" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Turn_Click"/>
+                        <Button x:Name="btn_M2_Return" Content="Retrun" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Return_Click"/>
+
+                        <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
+                        <TextBox x:Name="tBox_M2CurrentPosMN" Text="{Binding M2_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextAlignment="Right" TextWrapping="Wrap" FontSize="32"/>
+
+                    </Grid>
                 </Grid>
+            </TabItem>
 
-                <Grid Margin="340,5,338,5" Background="White" Grid.Column="1">
-                    <Label Content="M1] Magazien Loader" Style="{StaticResource SectionLabelStyle}"/>
-                    <Button x:Name="btn_M1_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M1_Origin_Click"/>
-                    <Button x:Name="btn_M1_Feed" Content="Feed" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Feed_Click"/>
-                    <Button x:Name="btn_M1_Release" Content="Release" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Release_Click"/>
-                    <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
-                    <TextBox x:Name="tBox_M1CurrentPosMN" Text="{Binding M1_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextWrapping="Wrap" FontSize="32" TextAlignment="Right" />
-                    <Button x:Name="btn_M1_CylLeft" Content="Cylinder&#10;   Left" Style="{StaticResource OperationButtonStyle}" Margin="20,394,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_CylLeft_Click"/>
-                    <Button x:Name="btn_M1_CylRight" Content="Cylinder&#10;  Right" Style="{StaticResource OperationButtonStyle}" Margin="170,394,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_CylRight_Click"/>
+            <TabItem Header="EMC Box" FontSize="18">
+                <Grid Background="#FFF0F0F0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="2" Background="White" Grid.Column="0">
+                        <Label Content="EMC Supply Cylinder" Style="{StaticResource SectionLabelStyle}"/>
+                        <Button x:Name="btn_EMCSupply" Content="Supply" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_EMCSupply_Click"/>
+                        <Button x:Name="btn_EMCOpen" Content="Door&#10;Open" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0"  Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCOpen_Click"/>
+                        <Button x:Name="btn_EMCClose" Content="Door&#10;Close" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCClose_Click"/>
+                        <Button x:Name="btn_EMCStopper" Content="Stopper&#10;Forward" Style="{StaticResource OperationButtonStyle}" Margin="20,246,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCStopper_Click"/>
+                        <Button x:Name="btn_EMCRelease" Content=" Stopper&#10;Backward" Style="{StaticResource OperationButtonStyle}" Margin="170,246,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCRelease_Click"/>
+                    </Grid>
+                    <Grid Margin="2" Background="White" Grid.Column="1">
+                        <Label Content="Empty" Style="{StaticResource SectionLabelStyle}"/>
+
+                    </Grid>
+                    <Grid Margin="2" Background="White" Grid.Column="2">
+                        <Label Content="Empty" Style="{StaticResource SectionLabelStyle}"/>
+
+                    </Grid>
                 </Grid>
-
-                <Grid Margin="673,5,5,5" Background="White" Grid.Column="1">
-                    <Label Content="M2] PCB Load Table" Style="{StaticResource SectionLabelStyle}"/>
-
-                    <Button x:Name="btn_M2_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M2_Origin_Click"/>
-                    <Button x:Name="btn_M2_Turn" Content="Trun" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Turn_Click"/>
-                    <Button x:Name="btn_M2_Return" Content="Retrun" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Return_Click"/>
-
-                    <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
-                    <TextBox x:Name="tBox_M2CurrentPosMN" Text="{Binding M2_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextAlignment="Right" TextWrapping="Wrap" FontSize="32"/>
-
-                    <Button x:Name="btn_Monitor" Content="모니터 끄기" Style="{StaticResource OperationButtonStyle}" Margin="5,0,0,5" VerticalAlignment="Bottom" Height="80" Width="311" Background="#FF19EBD3" BorderBrush="#FF1F9487" Tag="#FF54B1D0" Click="btn_Monitor_Click" HorizontalAlignment="Stretch"/>
-                </Grid>
-
-            </Grid>
-        </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>

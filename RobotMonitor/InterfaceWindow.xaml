@@ -1,0 +1,1365 @@
+﻿<Window x:Class="RobotMonitor_3.InterfaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RobotMonitor_3"
+        mc:Ignorable="d"
+        Title="InterfaceWindow" Height="450" Width="600">
+    <Window.Resources>
+        <Style x:Key="Box" TargetType="Border">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="Coment_Label" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="50"/>
+        </Style>
+
+        <Style x:Key="Value_Label" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <TabControl Margin="2" Background="{x:Null}">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Padding" Value="15,5"/>
+                    <Setter Property="Margin" Value="0,0,2,0"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border x:Name="TabBorder"
+                                Background="#E0E0E0"
+                                BorderBrush="Gray"
+                                BorderThickness="1,1,1,0"
+                                CornerRadius="10,10,0,0"
+                                Margin="{TemplateBinding Margin}"
+                                Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"/>
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="TabBorder" Property="Background" Value="Green"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            
+            
+            <TabItem Header="In (100~149)" FontSize="16" Width="140" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D100 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[0]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D101 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[1]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D102 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[2]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D103 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[3]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D104 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[4]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D105 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[5]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D106 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[6]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D107 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[7]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D108 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[8]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D109 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[9]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D110 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[10]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D111 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[11]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D112 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[12]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D113 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[13]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D114 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[14]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D115 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[15]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D116 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[16]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D117 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[17]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D118 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[18]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D119 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[19]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D120 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[20]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D121 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[21]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D122 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[22]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D123 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[23]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D124 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[24]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D125 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[25]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D126 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[26]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D127 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[27]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D128 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[28]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D129 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[29]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D130 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[30]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D131 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[31]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D132 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[32]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D133 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[33]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D134 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[34]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D135 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[35]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D136 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[36]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D137 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[37]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D138 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[38]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D139 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[39]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D140 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[40]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D141 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[41]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D142 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[42]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D143 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[43]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D144 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[44]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D145 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[45]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D146 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[46]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D147 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[47]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D148 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[48]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D149 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[49]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="In (150~199)" FontSize="16" Width="140" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D150 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[50]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D151 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[51]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D152 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[52]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D153 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[53]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D154 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[54]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D155 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[55]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D156 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[56]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D157 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[57]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D158 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[58]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D159 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[59]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D160 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[60]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D161 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[61]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D162 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[62]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D163 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[63]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D164 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[64]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D165 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[65]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D166 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[66]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D167 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[67]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D168 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[68]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D169 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[69]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D170 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[70]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D171 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[71]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D172 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[72]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D173 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[73]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D174 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[74]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D175 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[75]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D176 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[76]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D177 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[77]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D178 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[78]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D179 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[79]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D180 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[80]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D181 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[81]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D182 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[82]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D183 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[83]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D184 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[84]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D185 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[85]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D186 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[86]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D187 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[87]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D188 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[88]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D189 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[89]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D190 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[90]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D191 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[91]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D192 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[92]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D193 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[93]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D194 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[94]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D195 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[95]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D196 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[96]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D197 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[97]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D198 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[98]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D199 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcInput[99]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Out (200~249)" FontSize="16" Width="140" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D200 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[0]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D201 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[1]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D202 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[2]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D203 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[3]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D204 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[4]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D205 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[5]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D206 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[6]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D207 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[7]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D208 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[8]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D209 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[9]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D210 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[10]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D211 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[11]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D212 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[12]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D213 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[13]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D214 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[14]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D215 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[15]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D216 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[16]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D217 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[17]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D218 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[18]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D219 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[19]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D220 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[20]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D221 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[21]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D222 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[22]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D223 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[23]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D224 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[24]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D225 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[25]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D226 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[26]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D227 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[27]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D228 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[28]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D229 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[29]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D230 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[30]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D231 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[31]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D232 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[32]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D233 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[33]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D234 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[34]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D235 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[35]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D236 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[36]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D237 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[37]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D238 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[38]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D239 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[39]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D240 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[40]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D241 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[41]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D242 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[42]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D243 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[43]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D244 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[44]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D245 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[45]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D246 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[46]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D247 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[47]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D248 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[48]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D249 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[49]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Out (250~299)" FontSize="16" Width="140" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D250 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[50]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D251 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[51]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D252 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[52]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D253 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[53]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D254 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[54]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D255 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[55]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D256 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[56]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D257 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[57]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D258 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[58]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D259 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[59]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D260 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[60]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D261 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[61]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D262 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[62]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D263 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[63]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D264 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[64]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D265 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[65]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D266 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[66]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D267 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[67]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D268 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[68]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D269 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[69]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D270 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[70]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D271 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[71]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D272 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[72]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D273 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[73]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D274 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[74]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D275 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[75]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D276 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[76]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D277 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[77]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D278 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[78]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D279 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[79]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D280 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[80]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D281 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[81]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D282 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[82]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D283 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[83]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D284 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[84]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D285 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[85]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D286 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[86]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D287 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[87]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D288 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[88]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D289 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[89]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D290 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[90]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D291 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[91]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D292 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[92]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D293 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[93]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D294 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[94]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D295 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[95]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D296 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[96]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D297 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[97]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D298 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[98]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource Box}">
+                            <Grid>
+                                <Label Content="D299 :" Style="{StaticResource Coment_Label}"/>
+                                <Label Content="{Binding PlcOutput[99]}" Style="{StaticResource Value_Label}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+
+
+    </Grid>
+</Window>

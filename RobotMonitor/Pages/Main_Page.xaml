@@ -10,12 +10,12 @@
 
     <Page.Resources>
         <Style x:Key="PressIOBox" TargetType="Button">
-            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="Margin" Value="2,2,2,2"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
             <Setter Property="Height" Value="38"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
-            
+
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -87,79 +87,59 @@
                     </Button.Template>
                 </Button>
             </Grid>
-            
-            <Grid Margin="441,5,374,165" Background="White">
-                <Label Content="Press Signal" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
-               
-                <Grid Margin="5,55,107,5" Background="#FFEBF5FF">
-                    <StackPanel>
-                        <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <Button x:Name="btn_In1" Margin="5,5,5,0"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
-                            <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
-                        </Button>
-                        <Button x:Name="btn_In2" Content="Signal&#x0a;Prs2" Style="{StaticResource PressIOBox}" Background="{Binding In2Color}"/>
-                        <Button x:Name="btn_In3" Content="Signal&#x0a;Prs3" Style="{StaticResource PressIOBox}" Background="{Binding In3Color}"/>
-                        <Button x:Name="btn_In4" Content="Signal&#x0a;Prs4" Style="{StaticResource PressIOBox}" Background="{Binding In4Color}"/>
-                        <Button x:Name="btn_In5" Content="Signal&#x0a;Prs5" Style="{StaticResource PressIOBox}" Background="{Binding In5Color}"/>
-                        <Button x:Name="btn_In6" Content="Signal&#x0a;Prs6" Style="{StaticResource PressIOBox}" Background="{Binding In6Color}"/>
 
-                    </StackPanel>
+            <Grid Margin="441,5,374,165" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="53"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Press Signal" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="2" Grid.Column="0" Background="#FFEBF5FF">
+                        <StackPanel>
+                            <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            <Button x:Name="btn_In1" Margin="2"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
+                                <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
+                            </Button>
+                            <Button x:Name="btn_In2" Content="Signal&#x0a;Prs2" Style="{StaticResource PressIOBox}" Background="{Binding In2Color}"/>
+                            <Button x:Name="btn_In3" Content="Signal&#x0a;Prs3" Style="{StaticResource PressIOBox}" Background="{Binding In3Color}"/>
+                            <Button x:Name="btn_In4" Content="Signal&#x0a;Prs4" Style="{StaticResource PressIOBox}" Background="{Binding In4Color}"/>
+                            <Button x:Name="btn_In5" Content="Signal&#x0a;Prs5" Style="{StaticResource PressIOBox}" Background="{Binding In5Color}"/>
+                            <Button x:Name="btn_In6" Content="Signal&#x0a;Prs6" Style="{StaticResource PressIOBox}" Background="{Binding In6Color}"/>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="2" Grid.Column="1" Background="#FFEBF5FF">
+                        <StackPanel>
+                            <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="2" Height="30" Background="{Binding Out1Color}">
+                                <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                            </Button>
+                            <Button x:Name="btn_Out2" Content="Signal&#x0a;rob2" Style="{StaticResource PressIOBox}" Background="{Binding Out2Color}"/>
+                            <Button x:Name="btn_Out3" Content="Signal&#x0a;rob3" Style="{StaticResource PressIOBox}" Background="{Binding Out3Color}"/>
+                            <Button x:Name="btn_Out4" Content="Signal&#x0a;rob4" Style="{StaticResource PressIOBox}" Background="{Binding Out4Color}"/>
+                            <Button x:Name="btn_Out5" Content="Signal&#x0a;rob5" Style="{StaticResource PressIOBox}" Background="{Binding Out5Color}"/>
+                            <Button x:Name="btn_Out6" Content="Signal&#x0a;rob6" Style="{StaticResource PressIOBox}" Background="{Binding Out6Color}"/>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
-                
-                <Grid Margin="107,55,5,5" Background="#FFEBF5FF">
-                    <StackPanel>
-                        <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="5,5,5,0" Height="30" Background="{Binding Out1Color}">
-                            <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
-                        </Button>
-                        <Button x:Name="btn_Out2" Content="Signal&#x0a;rob2" Style="{StaticResource PressIOBox}" Background="{Binding Out2Color}"/>
-                        <Button x:Name="btn_Out3" Content="Signal&#x0a;rob3" Style="{StaticResource PressIOBox}" Background="{Binding Out3Color}"/>
-                        <Button x:Name="btn_Out4" Content="Signal&#x0a;rob4" Style="{StaticResource PressIOBox}" Background="{Binding Out4Color}"/>
-                        <Button x:Name="btn_Out5" Content="Signal&#x0a;rob5" Style="{StaticResource PressIOBox}" Background="{Binding Out5Color}"/>
-                        <Button x:Name="btn_Out6" Content="Signal&#x0a;rob6" Style="{StaticResource PressIOBox}" Background="{Binding Out6Color}"/>
-                    </StackPanel>
-                </Grid>
-                
             </Grid>
-            
+
             <Grid Margin="5,372,375,5" Background="White">
                 <Label Content="Work Counter" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
                     <Label Content="Frame 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
                     <TextBox x:Name="tBox_PCBCount" Text="{Binding IsPCBCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_PCBCount_PreviewMouseLeftButtonDown" />
-                    <Button x:Name="btn_PCBWorkCountReset" Content=" 초기화 " IsEnabled="{Binding R_IsStopped}" Margin="5,5,5,5" FontSize="24" FontWeight="Bold" PreviewMouseLeftButtonDown="btn_PCBWorkCountReset_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_PCBWorkCountReset_PreviewMouseLeftButtonUp" Height="40" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" >
-                        <Button.Template>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border x:Name="btnPCBReset" CornerRadius="0" Margin="0" BorderThickness="3" Background="WhiteSmoke" BorderBrush="#FF949494">
-                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="btnPCBReset" Property="Background" Value="#FF646464"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
                     <TextBlock Text="{Binding TCounting}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,95,5,5">
                     <Label Content="작업 샷 카운터 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
                     <TextBox x:Name="tBox_ExtractCount" Text="{Binding IsExtractCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_ExtractCount_PreviewMouseLeftButtonDown" />
-                    <Button x:Name="btn_ExtractCountReset" Content=" 초기화 " IsEnabled="{Binding R_IsStopped}" Margin="5,5,5,5" FontSize="24" FontWeight="Bold" Height="40" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewMouseLeftButtonDown="btn_ExtractCountReset_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_ExtractCountReset_PreviewMouseLeftButtonUp" >
-                        <Button.Template>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border x:Name="btnExtReset" CornerRadius="0" Margin="0" BorderThickness="3" Background="WhiteSmoke" BorderBrush="#FF949494">
-                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="btnExtReset" Property="Background" Value="#FF646464"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
                     <TextBlock Text="{Binding TCounting}"/>
                 </StackPanel>
             </Grid>

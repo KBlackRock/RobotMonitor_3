@@ -78,8 +78,13 @@
                     <Grid>
                         <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
                             <Label Content="Robot Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
-                            <StackPanel Margin="1,55,5,5" Orientation="Horizontal">
-                                <StackPanel Width="323" Margin="5,5,0,5" Background="White">
+                            <Grid Margin="0,50,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Margin="3" Grid.Column="0" Background="White">
                                     <Grid Height="55">
                                         <Label Content="Robot 제어" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
@@ -106,7 +111,7 @@
                                     <Grid Height="55"/>
 
                                 </StackPanel>
-                                <StackPanel Width="323" Margin="5,5,0,5" Background="White">
+                                <StackPanel Margin="3" Grid.Column="1" Background="White">
                                     <Grid Height="55">
                                         <Label Content="에어 블로우 설정" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
@@ -135,49 +140,60 @@
                                         <TextBox x:Name="tBox_BlowPort" Text="{Binding IsRobBlowPortCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_BlowPort_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Width="323" Margin="5,5,0,5" Background="White" Height="223" VerticalAlignment="Top">
-                                    <Grid Height="55">
-                                        <Label Content="이형제 분사 설정" Style="{StaticResource SubSectionLabelStyle}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_SpraySpeed" Text="{Binding IsRobSpraySpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SpraySpeed_PreviewMouseLeftButtonDown" />
-                                        <Image Height="55" Width="100"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Content="분사 횟수 " Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_SprayTop" Text="{Binding IsRobSprayTopCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SprayTop_PreviewMouseLeftButtonDown"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Content="포트 분사 시간" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_SprayBot" Text="{Binding IsRobSprayPortTime}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SprayBot_PreviewMouseLeftButtonDown"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Width="323" Margin="-323,5,0,5" Background="White" Height="185" VerticalAlignment="Bottom">
-                                    <Grid Height="55">
-                                        <Label Content="포트 크리닝 설정" Style="{StaticResource SubSectionLabelStyle}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_PortSpeed" Text="{Binding IsRobPortSpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_PortSpeed_PreviewMouseLeftButtonDown"  />
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Content="반복 동작 횟수 " Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_PortCount" Text="{Binding IsRobPortCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_PortCount_PreviewMouseLeftButtonDown" />
-                                    </Grid>
-                                </StackPanel>
-                            </StackPanel>
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1.2*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Margin="3" Grid.Row="0" Background="White">
+                                        <Grid Height="55">
+                                            <Label Content="이형제 분사 설정" Style="{StaticResource SubSectionLabelStyle}"/>
+                                        </Grid>
+                                        <Grid Height="55">
+                                            <Label Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
+                                            <TextBox x:Name="tBox_SpraySpeed" Text="{Binding IsRobSpraySpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SpraySpeed_PreviewMouseLeftButtonDown" />
+                                            <Image Height="55" Width="100"/>
+                                        </Grid>
+                                        <Grid Height="55">
+                                            <Label Content="분사 횟수 " Style="{StaticResource MenuLabelStyle}"/>
+                                            <TextBox x:Name="tBox_SprayTop" Text="{Binding IsRobSprayTopCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SprayTop_PreviewMouseLeftButtonDown"/>
+                                        </Grid>
+                                        <Grid Height="55">
+                                            <Label Content="포트 분사 시간" Style="{StaticResource MenuLabelStyle}"/>
+                                            <TextBox x:Name="tBox_SprayBot" Text="{Binding IsRobSprayPortTime}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_SprayBot_PreviewMouseLeftButtonDown"/>
+                                        </Grid>
+                                    </StackPanel>
+                                    <StackPanel Margin="3" Grid.Row="1" Background="White">
+                                        <Grid Height="55">
+                                            <Label Content="포트 크리닝 설정" Style="{StaticResource SubSectionLabelStyle}"/>
+                                        </Grid>
+                                        <Grid Height="55">
+                                            <Label Content="속도 ( mm/s )" Style="{StaticResource MenuLabelStyle}"/>
+                                            <TextBox x:Name="tBox_PortSpeed" Text="{Binding IsRobPortSpeed}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_PortSpeed_PreviewMouseLeftButtonDown"  />
+                                        </Grid>
+                                        <Grid Height="55">
+                                            <Label Content="반복 동작 횟수 " Style="{StaticResource MenuLabelStyle}"/>
+                                            <TextBox x:Name="tBox_PortCount" Text="{Binding IsRobPortCount}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_PortCount_PreviewMouseLeftButtonDown" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </TabItem>
 
                 <!-- Servo/Cylinder Setting Page -->
-                <TabItem Header="Servo/Cylinder" FontSize="18" Visibility="{Binding IsSetView, Converter={StaticResource BooleanToVisibilityConverterRevers}}" >
+                <TabItem Header="Auto Loader" FontSize="18" Visibility="{Binding IsSetView, Converter={StaticResource BooleanToVisibilityConverterRevers}}" >
                     <Grid>
                         <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
-                            <Label Content="Servo/Cylinder Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
-                            <StackPanel Margin="0,50,0,5" Orientation="Horizontal" Grid.ColumnSpan="2">
-                                <StackPanel Width="323" Margin="5,5,0,5" Background="White">
+                            <Label Content="Auto Loader Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
+                            <Grid Margin="0,50,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Margin="3" Grid.Column="0" Background="White">
                                     <Grid Height="55">
                                         <Label Content="Magazine Feeder" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
@@ -202,7 +218,7 @@
                                         <TextBox x:Name="tBox_03" Style="{StaticResource TextBoxMenuStyle}"/>
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Width="323" Margin="5,5,0,5" Background="White">
+                                <StackPanel Margin="3" Grid.Column="1" Background="White">
                                     <Grid Height="55">
                                         <Label Content="Turn Table" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
@@ -227,9 +243,25 @@
                                         <TextBox x:Name="tBox_003" Text="{Binding y}" Style="{StaticResource TextBoxMenuStyle}" />
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Width="332" Margin="5,5,0,5" Background="White">
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="EMC Box" FontSize="18" Visibility="{Binding IsSetView, Converter={StaticResource BooleanToVisibilityConverterRevers}}" >
+                    <Grid>
+                        <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
+                            <Label Content="EMC Box Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
+                            <Grid Margin="0,50,0,5" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Margin="3" Grid.Column="0" Background="White">
                                     <Grid Height="55">
-                                        <Label Content="EMC Box" Style="{StaticResource SubSectionLabelStyle}"/>
+                                        <Label Content="Cylinder" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,0,5" Content="Door Open Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
@@ -248,7 +280,7 @@
                                         <TextBox x:Name="tBox_EMCBWD" Text="{Binding EMC_StopperBWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCBWD_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                 </StackPanel>
-                            </StackPanel>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -256,28 +288,42 @@
                 <!-- System Data Setting Page -->
                 <TabItem Header="Panel" Height="30" FontSize="18" VerticalAlignment="Bottom" Visibility="{Binding IsSetView, Converter={StaticResource BooleanToVisibilityConverterRevers}}">
                     <Grid Background="#FFE6E6E6">
-                        <Grid Margin="5,5,650,250" Background="White">
-                            <Label Content="TCP/IP" Style="{StaticResource MainSectionLabelStyle}"/>
-                            <Label Content="IP Aderss :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
-                            <Label Content="Port :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,100,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
-                            <TextBox x:Name="tBox_IP" Margin="0,55,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=ClientIP}" PreviewMouseLeftButtonDown="tBox_IP_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0" />
-                            <TextBox x:Name="tBox_Port" Margin="0,100,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=ClientPort}" PreviewMouseLeftButtonDown="tBox_Port_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0"/>
-                            <Button x:Name="btn_ServerConnect" Content="서버 연결/해제" Margin="5,145,5,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Click="btn_ServerConnect_Click" Height="40" Grid.ColumnSpan="2">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="btnServerOC" CornerRadius="0" Margin="0" BorderThickness="3" Background="WhiteSmoke" BorderBrush="{Binding ServerConnection, Converter={StaticResource ServerConnectionBoolToColor}}">
-                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="btnServerOC" Property="Background" Value="#FF646464"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                        <Grid Margin="5,5,650,120" Background="White">
+                            <StackPanel Orientation="Vertical" >
+                                <Label Content="TCP/IP" Style="{StaticResource MainSectionLabelStyle}"/>
+                                <Grid>
+                                    <Label Content="Robot IP :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                                    <TextBox x:Name="tBox_RobIP" Margin="0,5,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=ClientIP}" PreviewMouseLeftButtonDown="tBox_RobIP_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0" />
+                                </Grid>
+                                <Grid>
+                                    <Label Content="Robot Port :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                                    <TextBox x:Name="tBox_RobPort" Margin="0,5,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=ClientPort}" PreviewMouseLeftButtonDown="tBox_RobPort_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0"/>
+                                </Grid>
+                                <Grid>
+                                    <Label Content="PLC IP :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                                    <TextBox x:Name="tBox_PlcIP" Margin="0,5,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=PlcIP}" PreviewMouseLeftButtonDown="tBox_PlcIP_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0" />
+                                </Grid>
+                                <Grid>
+                                    <Label Content="PLC Port :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                                    <TextBox x:Name="tBox_PlcPort" Margin="0,5,5,0" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="40" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding Path=PlcPort}" PreviewMouseLeftButtonDown="tBox_PlcPort_PreviewMouseLeftButtonDown" HorizontalAlignment="Right" Width="200" Cursor="Hand" Grid.Column="1" Background="#FFF0F0F0"/>
+                                </Grid>
+                                <Button x:Name="btn_ServerConnect" Content="서버 연결/해제" Margin="0,5,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Click="btn_ServerConnect_Click" Height="40">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="btnServerOC" CornerRadius="0" Margin="0" BorderThickness="3" Background="WhiteSmoke" BorderBrush="{Binding ServerConnection, Converter={StaticResource ServerConnectionBoolToColor}}">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="btnServerOC" Property="Background" Value="#FF646464"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
                         </Grid>
-                        <Grid Margin="363,5,335,250" Background="White">
+                        <Grid Margin="363,5,335,120" Background="White">
                             <Label Content="Button Delay" Style="{StaticResource MainSectionLabelStyle}"/>
                             <Label Content="Start :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Width="145" Height="40"  FontSize="22" FontWeight="Bold"/>
                             <Label Content="Home :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,100,0,0" Width="145" Height="40"  FontSize="22" FontWeight="Bold"/>
@@ -402,6 +448,21 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
+                        <Button x:Name="btn_Interface" Content="Interface List" HorizontalAlignment="Left" Margin="200,382,0,5" Height="80" Width="185" FontSize="24" FontWeight="Bold" Click="btn_Interface_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="btnSet" CornerRadius="0" Margin="0" BorderThickness="5" Background="WhiteSmoke" BorderBrush="#FF949494">
+                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="btnSet" Property="Background" Value="#FF646464"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
                     </Grid>
                 </TabItem>
 

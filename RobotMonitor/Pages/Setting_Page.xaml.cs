@@ -31,6 +31,10 @@ namespace RobotMonitor_3.Pages
         {
             (DataContext as MainWindow_ViewModel).DeviceNameSet();
         }
+        private void btn_Interface_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).InterfaceView();
+        }
 
         #region Robot Page
         // Robot Controll
@@ -147,14 +151,24 @@ namespace RobotMonitor_3.Pages
 
         #region Panel Page
         // TCP/IP Setting
-        private void tBox_IP_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void tBox_RobIP_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).IPAddressBox();
+            (DataContext as MainWindow_ViewModel).IPAddressBox_Robot();
         }
 
-        private void tBox_Port_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void tBox_RobPort_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).PortBox();
+            (DataContext as MainWindow_ViewModel).PortBox_Robot();
+        }
+
+        private void tBox_PlcIP_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).IPAddressBox_PLC();
+        }
+
+        private void tBox_PlcPort_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).PortBox_PLC();
         }
 
         private void btn_ServerConnect_Click(object sender, RoutedEventArgs e)
@@ -211,5 +225,7 @@ namespace RobotMonitor_3.Pages
             (DataContext as MainWindow_ViewModel).OutBtn6Click();
         }
         #endregion
+
+
     }
 }
