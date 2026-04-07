@@ -9,6 +9,19 @@
       Title="Main_Page">
 
     <Page.Resources>
+        <Style x:Key="MainLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="2,4,2,0"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FF006DDA"/>
+        </Style>
+
+
         <Style x:Key="PressIOBox" TargetType="Button">
             <Setter Property="Margin" Value="2,2,2,2"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -25,13 +38,155 @@
             </Setter>
 
         </Style>
+
+        <Style x:Key="ConditionViewBox" TargetType="Label">
+            <Setter Property="Margin" Value="5,2,5,2"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Padding" Value="5,0,5,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="45"/>
+        </Style>
     </Page.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.7*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <!-- Main Page -->
-        <Grid Margin="0,0,0,0" Background="#FFE6E6E6" >
-            <Grid Margin="0,5,5,90" Background="White" HorizontalAlignment="Right" Width="366">
-                <Label Content="Work Count" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
+        <Grid Grid.Column="0" Background="#FFE6E6E6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#FFE6E6E6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="2" Background="White" Grid.Column="0">
+                    <Label Content="Robot State" Style="{StaticResource MainLabelStyle}"/>
+                    <Grid Margin="0,52,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" >
+                            <Label Content="Auto" Background="{Binding RobAutoColor}" Style="{StaticResource ConditionViewBox}"/>
+                            <Label Content="Motor" Background="{Binding RobMotorColor}" Style="{StaticResource ConditionViewBox}"/>
+                            <Label Content="TaskRun" Background="{Binding RobTaskRunColor}" Style="{StaticResource ConditionViewBox}"/>
+                            <Label Content="Low Battery" Background="{Binding RobBatteryColor}" Style="{StaticResource ConditionViewBox}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label Content="Robot Speed" Margin="2" Height="45" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
+                            <Grid Margin="20,2,5,2" Height="45">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="tBox_Override" Text="{Binding IsRobSpeed_Percent}"  Margin="2" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" IsHitTestVisible="False" />
+                                <Label Grid.Column="1" Content="%" Margin="2" FontSize="32" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
+                            </Grid>
+                            <Grid Margin="20,2,5,2" Height="45">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="tBox_MaxSpeed" Text="{Binding IsRobSpeed_MMS}" Margin="2"  FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center"  Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" IsHitTestVisible="False" />
+                                <Label Grid.Column="1" Content="mm/s" Margin="0"  FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="5,0,5,5" VerticalAlignment="Bottom"/>
+                            </Grid>
+                            <Grid Margin="10,2,10,2" Height="45">
+                                <Button x:Name="btn_PCBEMCSkip" Content="PCB,EMC 로딩스킵" IsEnabled="{Binding R_IsStopped}" Margin="0" FontSize="22" FontWeight="Bold" PreviewMouseLeftButtonDown="btn_PCBEMCSkip_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_PCBEMCSkip_PreviewMouseLeftButtonUp" >
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="btnskip" CornerRadius="0" Margin="0" BorderThickness="2" Background="{Binding LoadSkipColor}" BorderBrush="#FF949494">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="btnskip" Property="Background" Value="#FF646464"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        
+
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+                <Grid Margin="2" Background="White" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="53"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Press Signal" Style="{StaticResource MainLabelStyle}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Margin="2" Grid.Column="0" Background="#FFEBF5FF">
+                            <StackPanel>
+                                <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                <Button x:Name="btn_In1" Margin="2"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
+                                    <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
+                                </Button>
+                                <Button x:Name="btn_In2" Content="Signal&#x0a;Prs2" Style="{StaticResource PressIOBox}" Background="{Binding In2Color}"/>
+                                <Button x:Name="btn_In3" Content="Signal&#x0a;Prs3" Style="{StaticResource PressIOBox}" Background="{Binding In3Color}"/>
+                                <Button x:Name="btn_In4" Content="Signal&#x0a;Prs4" Style="{StaticResource PressIOBox}" Background="{Binding In4Color}"/>
+                                <Button x:Name="btn_In5" Content="Signal&#x0a;Prs5" Style="{StaticResource PressIOBox}" Background="{Binding In5Color}"/>
+                                <Button x:Name="btn_In6" Content="Signal&#x0a;Prs6" Style="{StaticResource PressIOBox}" Background="{Binding In6Color}"/>
+
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="2" Grid.Column="1" Background="#FFEBF5FF">
+                            <StackPanel>
+                                <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="2" Height="30" Background="{Binding Out1Color}">
+                                    <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                                </Button>
+                                <Button x:Name="btn_Out2" Content="Signal&#x0a;rob2" Style="{StaticResource PressIOBox}" Background="{Binding Out2Color}"/>
+                                <Button x:Name="btn_Out3" Content="Signal&#x0a;rob3" Style="{StaticResource PressIOBox}" Background="{Binding Out3Color}"/>
+                                <Button x:Name="btn_Out4" Content="Signal&#x0a;rob4" Style="{StaticResource PressIOBox}" Background="{Binding Out4Color}"/>
+                                <Button x:Name="btn_Out5" Content="Signal&#x0a;rob5" Style="{StaticResource PressIOBox}" Background="{Binding Out5Color}"/>
+                                <Button x:Name="btn_Out6" Content="Signal&#x0a;rob6" Style="{StaticResource PressIOBox}" Background="{Binding Out6Color}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Margin="2" Background="White" Grid.Row="1">
+                <Label Content="Work Counter" Style="{StaticResource MainLabelStyle}"/>
+                <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
+                    <Label Content="Frame 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
+                    <TextBox x:Name="tBox_PCBCount" Text="{Binding IsPCBCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_PCBCount_PreviewMouseLeftButtonDown" />
+                    <TextBlock Text="{Binding TCounting}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,95,5,5">
+                    <Label Content="작업 샷 카운터 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
+                    <TextBox x:Name="tBox_ExtractCount" Text="{Binding IsExtractCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_ExtractCount_PreviewMouseLeftButtonDown" />
+                    <TextBlock Text="{Binding TCounting}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Background="#FFE6E6E6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="2" Background="White" Grid.Row="0">
+                <Label Content="Work Count" Style="{StaticResource MainLabelStyle}"/>
                 <Grid Margin="5,50,5,150">
                     <Label Content=" 누적 수량" Margin="5,5,5,0" VerticalAlignment="Top" Width="346" Height="42" Background="#7FA7E1FF" FontSize="24" FontWeight="Bold"/>
                     <Label Content="샷 수량 :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,60,0,0" Width="185" Height="40"  FontSize="22" FontWeight="Bold"/>
@@ -61,92 +216,11 @@
                     </Button.Template>
                 </Button>
             </Grid>
-            <Grid Margin="5,5,586,165" Background="White">
-                <Label Content="Robot State" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
-                <Label Content="Auto" Background="{Binding RobAutoColor}" BorderThickness="2" Margin="10,55,0,0" VerticalAlignment="Top" Height="50" Width="200" FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" BorderBrush="#FF040000" Padding="5,0,5,5"/>
-                <Label Content="Motor" Background="{Binding RobMotorColor}" BorderThickness="2" Margin="10,110,0,0" VerticalAlignment="Top" Height="50" Width="200" FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" BorderBrush="#FF040000" Padding="5,0,5,5"/>
-                <Label Content="TaskRun" Background="{Binding RobTaskRunColor}" BorderThickness="2" Margin="10,165,0,0" VerticalAlignment="Top" Height="50" Width="200" FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" BorderBrush="#FF040000" Padding="5,0,5,5"/>
-                <Label Content="Low Battery" Background="{Binding RobBatteryColor}" BorderThickness="2" Margin="10,220,0,0" VerticalAlignment="Top" Height="50" Width="200" FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" BorderBrush="#FF040000" Padding="5,0,5,5"/>
-                <Label Content="Robot Speed" Margin="0,55,5,0" VerticalAlignment="Top" Height="50" Width="200" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" Padding="5,0,5,5"/>
-                <TextBox x:Name="tBox_Override" Text="{Binding IsRobSpeed_Percent}"  Margin="222,110,90,0" VerticalAlignment="Top" Height="50" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" IsHitTestVisible="False" />
-                <Label Content="%" Margin="342,110,0,0" VerticalAlignment="Top" Height="50" Width="80" FontSize="32" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
-                <TextBox x:Name="tBox_MaxSpeed" Text="{Binding IsRobSpeed_MMS}"  Margin="222,165,90,0" VerticalAlignment="Top" Height="50" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Right" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" IsHitTestVisible="False" />
-                <Label  Content="mm/s" Margin="0,165,5,0" VerticalAlignment="Top" Height="50" Width="80" FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" Padding="5,0,5,5"/>
-                <Button x:Name="btn_PCBEMCSkip" Content="PCB,EMC 로딩스킵" IsEnabled="{Binding R_IsStopped}" Margin="0,220,5,0" FontSize="22" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Width="200" PreviewMouseLeftButtonDown="btn_PCBEMCSkip_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_PCBEMCSkip_PreviewMouseLeftButtonUp" >
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border x:Name="btnskip" CornerRadius="0" Margin="0" BorderThickness="2" Background="{Binding LoadSkipColor}" BorderBrush="#FF949494">
-                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="btnskip" Property="Background" Value="#FF646464"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </Grid>
-
-            <Grid Margin="441,5,374,165" Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="53"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Content="Press Signal" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Margin="2" Grid.Column="0" Background="#FFEBF5FF">
-                        <StackPanel>
-                            <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                            <Button x:Name="btn_In1" Margin="2"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
-                                <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
-                            </Button>
-                            <Button x:Name="btn_In2" Content="Signal&#x0a;Prs2" Style="{StaticResource PressIOBox}" Background="{Binding In2Color}"/>
-                            <Button x:Name="btn_In3" Content="Signal&#x0a;Prs3" Style="{StaticResource PressIOBox}" Background="{Binding In3Color}"/>
-                            <Button x:Name="btn_In4" Content="Signal&#x0a;Prs4" Style="{StaticResource PressIOBox}" Background="{Binding In4Color}"/>
-                            <Button x:Name="btn_In5" Content="Signal&#x0a;Prs5" Style="{StaticResource PressIOBox}" Background="{Binding In5Color}"/>
-                            <Button x:Name="btn_In6" Content="Signal&#x0a;Prs6" Style="{StaticResource PressIOBox}" Background="{Binding In6Color}"/>
-
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Margin="2" Grid.Column="1" Background="#FFEBF5FF">
-                        <StackPanel>
-                            <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                            <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="2" Height="30" Background="{Binding Out1Color}">
-                                <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
-                            </Button>
-                            <Button x:Name="btn_Out2" Content="Signal&#x0a;rob2" Style="{StaticResource PressIOBox}" Background="{Binding Out2Color}"/>
-                            <Button x:Name="btn_Out3" Content="Signal&#x0a;rob3" Style="{StaticResource PressIOBox}" Background="{Binding Out3Color}"/>
-                            <Button x:Name="btn_Out4" Content="Signal&#x0a;rob4" Style="{StaticResource PressIOBox}" Background="{Binding Out4Color}"/>
-                            <Button x:Name="btn_Out5" Content="Signal&#x0a;rob5" Style="{StaticResource PressIOBox}" Background="{Binding Out5Color}"/>
-                            <Button x:Name="btn_Out6" Content="Signal&#x0a;rob6" Style="{StaticResource PressIOBox}" Background="{Binding Out6Color}"/>
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-            </Grid>
-
-            <Grid Margin="5,372,375,5" Background="White">
-                <Label Content="Work Counter" Margin="5,5,5,0" Height="45" FontSize="26" Foreground="White" FontWeight="Bold" Padding="20,0,0,0" VerticalAlignment="Top" Background="#FF006DDA" VerticalContentAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
-                    <Label Content="Frame 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
-                    <TextBox x:Name="tBox_PCBCount" Text="{Binding IsPCBCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_PCBCount_PreviewMouseLeftButtonDown" />
-                    <TextBlock Text="{Binding TCounting}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5,95,5,5">
-                    <Label Content="작업 샷 카운터 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
-                    <TextBox x:Name="tBox_ExtractCount" Text="{Binding IsExtractCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_ExtractCount_PreviewMouseLeftButtonDown" />
-                    <TextBlock Text="{Binding TCounting}"/>
-                </StackPanel>
-            </Grid>
-            <Grid Margin="653,445,5,5" Background="White">
+            <Grid Margin="2" Background="White" Grid.Row="1">
                 <ComboBox x:Name="CB_WS" Margin="0,20,5,0" VerticalAlignment="Top" Height="40" Width="171" HorizontalAlignment="Right" SelectedItem="{Binding IsSelectedWorkMode}" ItemsSource="{Binding WorkModeList}" IsEnabled="{Binding R_IsStopped}" SelectedIndex="{Binding IsWorkIndex}" FontSize="26" PreviewMouseLeftButtonDown="ComboBox_PreviewMouseLeftButtonDown" DropDownClosed="CB_WS_DropDownClosed" />
                 <Label Content="작업모드선택" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,20,0,0" Width="144" Height="40"  FontSize="22" FontWeight="Bold"/>
             </Grid>
+
         </Grid>
     </Grid>
 </Page>

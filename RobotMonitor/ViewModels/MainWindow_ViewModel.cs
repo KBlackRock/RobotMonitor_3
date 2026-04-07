@@ -652,7 +652,6 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-
         private void ConnectionOK(object sender, EventArgs e)
         {
             ServerSend("ConnectionOK");  // 통신 상태 확인용 인데 E10이 통신 오류 있어서 있으나 마나 ( 관상용 )
