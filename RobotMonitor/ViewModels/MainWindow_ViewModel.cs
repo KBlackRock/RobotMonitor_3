@@ -37,8 +37,6 @@ namespace RobotMonitor_3.ViewModels
 
         private Models.XmlParser m_XmlParser;
 
-        public Window MainWindow;
-
         DispatcherTimer timer;
         DispatcherTimer responseTimer;
         DispatcherTimer FlickerTimer;
@@ -358,10 +356,10 @@ namespace RobotMonitor_3.ViewModels
 
         internal void Opening(Window window)
         {
-            MainWindow = window;
-            MainWindow.ResizeMode = ResizeMode.NoResize;
-            MainWindow.WindowState = WindowState.Maximized; // Window Maximize -------------------------------------
-            MainWindow.WindowStyle = WindowStyle.None;
+            MainWindow _window = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            _window.ResizeMode = ResizeMode.NoResize;
+            _window.WindowState = WindowState.Maximized; // Window Maximize -------------------------------------
+            _window.WindowStyle = WindowStyle.None;
             WindowPage = "Pages/Main_Page.xaml";
             ServerOpenClose();
 
@@ -433,42 +431,52 @@ namespace RobotMonitor_3.ViewModels
 
         public string CallNumKey(string originalData) // 숫자키보드 출력
         {
-            if (IsSetView) return originalData;
-            var KeyWindow = new NumberKeyboard();
-            var MainWithSize = MainWindow.Width;
-            var MainHeightSize = MainWindow.Height;
-            var KeyWithSize = KeyWindow.Width;
-            var keyHeightSize = KeyWindow.Height;
+            try
+            {
+                MainWindow mWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+                if (IsSetView) return originalData;
+                var KeyWindow = new NumberKeyboard();
+                var MainWithSize = mWindow.Width;
+                var MainHeightSize = mWindow.Height;
+                var KeyWithSize = KeyWindow.Width;
+                var keyHeightSize = KeyWindow.Height;
 
-            // 키 윈도우 출력 위치 설정
-            Point mPoint = Mouse.GetPosition(MainWindow);
-            // 위치가 메인윈도우 크기보다 작을때는 마우스 포인터 기준으로, 클때는 메인윈도우 크기 기준으로 설정
-            if (mPoint.X < MainWithSize - KeyWithSize)
-                KeyWindow.Left = mPoint.X - (KeyWindow.ActualWidth);
-            else KeyWindow.Left = MainWithSize - (KeyWithSize * 1.2);  // 아예 벽에 붙어버리면 안 되니 1.2배수 적용
+                // 키 윈도우 출력 위치 설정
+                Point mPoint = Mouse.GetPosition(mWindow);
+                // 위치가 메인윈도우 크기보다 작을때는 마우스 포인터 기준으로, 클때는 메인윈도우 크기 기준으로 설정
+                if (mPoint.X < MainWithSize - KeyWithSize)
+                    KeyWindow.Left = mPoint.X - (KeyWindow.ActualWidth);
+                else KeyWindow.Left = MainWithSize - (KeyWithSize * 1.2);  // 아예 벽에 붙어버리면 안 되니 1.2배수 적용
 
-            if (mPoint.Y < MainHeightSize - keyHeightSize)
-                KeyWindow.Top = mPoint.Y - (KeyWindow.ActualHeight);
-            else KeyWindow.Top = MainHeightSize - (keyHeightSize * 1.1); // 여기도 left와 동일 이유로 1.1 배수 적용 ( 세로 폭이 더 길으니까 1.1 )
-            KeyWindow.ResizeMode = ResizeMode.NoResize;
-            KeyWindow.Topmost = true;
+                if (mPoint.Y < MainHeightSize - keyHeightSize)
+                    KeyWindow.Top = mPoint.Y - (KeyWindow.ActualHeight);
+                else KeyWindow.Top = MainHeightSize - (keyHeightSize * 1.1); // 여기도 left와 동일 이유로 1.1 배수 적용 ( 세로 폭이 더 길으니까 1.1 )
+                KeyWindow.ResizeMode = ResizeMode.NoResize;
+                KeyWindow.Topmost = true;
 
-            WeakReferenceMessenger.Default.Send(new DisplayDataSender(originalData)); // 기존 데이터 전송
-            WeakReferenceMessenger.Default.Unregister<KeyboardDataSender>(this);  // 키보드 데이터 수신 대기
-            WeakReferenceMessenger.Default.Register<KeyboardDataSender>(this, (r, m) => { KeyboardData = m.Value; }); // 키보드 데이터 수신
+                WeakReferenceMessenger.Default.Send(new DisplayDataSender(originalData)); // 기존 데이터 전송
+                WeakReferenceMessenger.Default.Unregister<KeyboardDataSender>(this);  // 키보드 데이터 수신 대기
+                WeakReferenceMessenger.Default.Register<KeyboardDataSender>(this, (r, m) => { KeyboardData = m.Value; }); // 키보드 데이터 수신
 
-            KeyWindow.ShowDialog();
+                KeyWindow.ShowDialog();
 
-            return KeyboardData != "" ? KeyboardData : originalData; //키보드 데이터가 없으면("") 기존값, 있으면 키보드 데이터 반환
+                return KeyboardData != "" ? KeyboardData : originalData; //키보드 데이터가 없으면("") 기존값, 있으면 키보드 데이터 반환
+            }
+            catch (Exception ex)
+            {
+                SystemError("숫자키보드 실행 중 오류가 발생했습니다.\r" + ex.Message);
+            }
+            return originalData;
         }
 
 
 
         public void CallLogin() // 로그인 창 출력
         {
+            MainWindow mWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             var LoginWindow = new LoginWindow();
-            var MainWithSize = MainWindow.Width;
-            var MainHeightSize = MainWindow.Height;
+            var MainWithSize = mWindow.Width;
+            var MainHeightSize = mWindow.Height;
 
             LoginWindow.ResizeMode = ResizeMode.NoResize;
             LoginWindow.Topmost = true;
@@ -1616,9 +1624,10 @@ namespace RobotMonitor_3.ViewModels
         #region Setting Page Methods
         internal void DeviceNameSet()  // 디바이스 명 설정 윈도우 팝업
         {
+            MainWindow mWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             DeviceWindow deviceWindow = new DeviceWindow();
-            var MainWithSize = MainWindow.Width;
-            var MainHeightSize = MainWindow.Height;
+            var MainWithSize = mWindow.Width;
+            var MainHeightSize = mWindow.Height;
             var SettingWithSize = deviceWindow.Width;
             var SettingHeightSize = deviceWindow.Height;
 
