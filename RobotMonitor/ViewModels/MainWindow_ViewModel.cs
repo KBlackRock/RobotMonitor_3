@@ -1,23 +1,25 @@
-﻿using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Net.Sockets;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows;
-using System.Windows.Threading;
-using System.Collections.ObjectModel;
-using System.IO.Ports;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using RobotMonitor_3.Models;
-using System.Collections.Concurrent;
-using CommunityToolkit.Mvvm.ComponentModel;
 using RobotMonitor_3.Services;
-using System.Collections.Generic;
 using RobotMonitor_3.Utilities;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.IO.Ports;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace RobotMonitor_3.ViewModels
 {
@@ -87,6 +89,7 @@ namespace RobotMonitor_3.ViewModels
         public bool Btn6Checked;
 
         public bool IsServoBtnPressed;
+        public ICommand PLCDataClick { get; private set; }
         #endregion
 
         #region OnPropertyChange Properties
@@ -179,6 +182,8 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private string emc_StopperBWDDelay;
         [ObservableProperty] private short[] plcInput;
         [ObservableProperty] private short[] plcOutput;
+        [ObservableProperty] private string dataName;
+        [ObservableProperty] private string dataComment;
         #endregion
 
         #region Server Properties
@@ -228,6 +233,8 @@ namespace RobotMonitor_3.ViewModels
         public MainWindow_ViewModel()
         {
             #region Initialization
+            PLCDataClick = new RelayCommand<string>(ExecutePLCDataClick);
+
             m_XmlParser = new Models.XmlParser();
 
             IsServerOpened = false;
@@ -341,7 +348,7 @@ namespace RobotMonitor_3.ViewModels
             plcTimer.Interval = TimeSpan.FromMilliseconds(100);
             plcTimer.Tick += new EventHandler(PLCRead);
 
-            
+
             #endregion
 
         }
@@ -397,10 +404,33 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-
-
-
         #region Function Methods
+        private void ExecutePLCDataClick(string para)
+        {
+            PLCDataComments _comment = new PLCDataComments(this);
+            Window PlcCommentWindow = new PLCDataCommentWindow();
+            Window openInterfaceWindow = Application.Current.Windows.OfType<InterfaceWindow>().FirstOrDefault();
+
+            PlcCommentWindow.ResizeMode = ResizeMode.NoResize;
+            PlcCommentWindow.Topmost = true;
+
+            if (openInterfaceWindow != null)
+            {
+                PlcCommentWindow.Owner = openInterfaceWindow;
+                PlcCommentWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+            else
+            {
+                PlcCommentWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+
+            PlcCommentWindow.DataContext = this;
+            DataName = para;
+            DataComment = _comment.Execute(para);
+
+            PlcCommentWindow.ShowDialog();
+        }
+
         public string CallNumKey(string originalData) // 숫자키보드 출력
         {
             if (IsSetView) return originalData;
@@ -522,7 +552,7 @@ namespace RobotMonitor_3.ViewModels
             Logger.Write("!! Error !! : " + eMsg);
             ButtonVisible("Error");  // 에러 창 On
             ServerSend("Stop"); // 로봇 정지
-            Thread.Sleep(200);
+            Thread.Sleep(100);
         }
 
 
@@ -536,7 +566,7 @@ namespace RobotMonitor_3.ViewModels
             ErrorMessage = "[ 통신프로그램 에러 ]\r" + eMsg;
             Logger.Write("!! Error !! : " + eMsg);
             ButtonVisible("Error");  // 에러 창 On
-            Thread.Sleep(200);
+            Thread.Sleep(100);
         }
 
 
@@ -569,7 +599,7 @@ namespace RobotMonitor_3.ViewModels
                 bool IsPlCConnected = await _plc.ConnectAsync(m_XmlParser.SavedData.PlcIp, m_XmlParser.SavedData.PlcPort);
                 if (IsPlCConnected)
                 {
-                    plcTimer.Start(); 
+                    plcTimer.Start();
                 }
             }
             else
@@ -630,18 +660,18 @@ namespace RobotMonitor_3.ViewModels
         {
             try
             {
-                // 1. 파서를 통해 분리된 데이터 수신
+                // 파서를 통해 분리된 데이터 수신
                 foreach (var parsedData in _parser.Parse(msg))
                 {
-                    // 2. 딕셔너리에 등록된 키인지 확인하고 해당 메서드 실행
+                    // 딕셔너리에 등록된 키인지 확인하고 해당 메서드 실행
                     if (_commandMap.ContainsKey(parsedData.Key))
                     {
                         _commandMap[parsedData.Key]?.Invoke(parsedData.Value);
                     }
                     else
                     {
-                        // 등록되지 않은 명령어 처리 (로그 등)
-                        // Logger.Write($"Unknown Command: {parsedData.Key}");
+                        // 딕셔너리에 등록 안된 키는 로그 기록
+                        Logger.Write($"Unknown Command: {parsedData.Key}");
                     }
                 }
             }
@@ -1619,6 +1649,18 @@ namespace RobotMonitor_3.ViewModels
         internal void InterfaceView()
         {
             InterfaceWindow interfaceWindow = new InterfaceWindow();
+            Window? openInterfaceWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
+            if (openInterfaceWindow != null)
+            {
+                interfaceWindow.Owner = openInterfaceWindow;
+                interfaceWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+            else
+            {
+                interfaceWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+
             interfaceWindow.ResizeMode = ResizeMode.NoResize;
             interfaceWindow.ShowDialog();
         }

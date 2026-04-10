@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotMonitor_3"
         mc:Ignorable="d"
-        Title="NumberKeyboard" Height="310" Width="225" WindowStyle="None">
+        Title="NumberKeyboard" Height="310" Width="225" WindowStyle="None" >
     <Grid>
         <TextBox x:Name="tBox_Number" Margin="5,49,5,0" TextWrapping="Wrap" Text="{Binding DisplayNumber}" VerticalAlignment="Top" Height="40" FontSize="28" TextAlignment="Right" IsReadOnly="True" IsHitTestVisible="False"/>
         <Button x:Name="btn_7" Content="7" HorizontalAlignment="Left" Margin="5,92,0,0" VerticalAlignment="Top" Height="50" Width="50" Background="#FFE2E2E2" FontSize="30" Padding="3,3,3,3" Click="btn_7_Click"/>
