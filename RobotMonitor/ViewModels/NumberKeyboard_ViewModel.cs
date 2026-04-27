@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using RobotMonitor_3.Models;
+using RobotMonitor_3.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

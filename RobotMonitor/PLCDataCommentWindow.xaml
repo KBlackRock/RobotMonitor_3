@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotMonitor_3"
         mc:Ignorable="d"
-        Title="PLCDataComment" Width="300" WindowStyle="None" 
-        SizeToContent="Height">
+        Title="PLCDataComment" WindowStyle="None" 
+        SizeToContent="WidthAndHeight">
     <Grid Background="Gray">
         <StackPanel VerticalAlignment="Center" Margin="2" Background="AliceBlue">
             <TextBlock Text="{Binding DataName}" FontSize="28" 
-                   TextAlignment="Center" Margin="5"/>
+                   TextAlignment="Center" Margin="10"/>
             <TextBlock Text="{Binding DataComment}" FontSize="20" 
-                   TextAlignment="Center" Margin="5"/>
+                   TextAlignment="Center" Margin="15,10,15,10"/>
             <Button x:Name="OKButton" 
                 Content="확인"
                 Width="100" Height="40"  Margin="10" FontSize="22" Click="OKButton_Click"/>

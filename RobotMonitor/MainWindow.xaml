@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotMonitor_3"
         xmlns:ViewModels="clr-namespace:RobotMonitor_3.ViewModels" x:Class="RobotMonitor_3.MainWindow"
-        xmlns:Models="clr-namespace:RobotMonitor_3.Models"
+        xmlns:Utilities="clr-namespace:RobotMonitor_3.Utilities"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024" WindowStyle="None">
     <Window.Resources>
 
-        <Models:BooleanToVisibilityConverterRevers x:Key="BooleanToVisibilityConverterRevers"/>
-        <Models:BoolToSettingString x:Key="BoolToSettingString"/>
-        <Models:BoolToSetViewString x:Key="BoolToSetViewString"/>
-        <Models:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Utilities:BooleanToVisibilityConverterRevers x:Key="BooleanToVisibilityConverterRevers"/>
+        <Utilities:BoolToSettingString x:Key="BoolToSettingString"/>
+        <Utilities:BoolToSetViewString x:Key="BoolToSetViewString"/>
+        <Utilities:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style x:Key="BaseButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="24"/>

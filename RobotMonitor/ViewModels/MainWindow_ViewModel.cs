@@ -35,7 +35,7 @@ namespace RobotMonitor_3.ViewModels
         private McProtocolService _plc;
         private bool _isPlcReading = false;
 
-        private Models.XmlParser m_XmlParser;
+        private XmlParser m_XmlParser;
 
         DispatcherTimer timer;
         DispatcherTimer responseTimer;
@@ -233,7 +233,7 @@ namespace RobotMonitor_3.ViewModels
             #region Initialization
             PLCDataClick = new RelayCommand<string>(ExecutePLCDataClick);
 
-            m_XmlParser = new Models.XmlParser();
+            m_XmlParser = new Utilities.XmlParser();
 
             IsServerOpened = false;
             ServerConnection = false;
@@ -350,8 +350,6 @@ namespace RobotMonitor_3.ViewModels
             #endregion
 
         }
-
-
 
 
         internal void Opening(Window window)
@@ -763,21 +761,20 @@ namespace RobotMonitor_3.ViewModels
         /// <summary>
         /// PLC D 데이터 송신
         /// </summary>
-        /// <param name="Address">유효범위 : 0 ~ 99 ( D200 ~ D299 )</param>
+        /// <param name="Address">유효범위 : 200 ~ 299 ( D200 ~ D299 )</param>
         /// <param name="inputData"></param>
         public async void PLCWrite(int Address, short inputData)
         {
-            if (Address < 0 || Address >= 100) return; // 유효한 주소 범위 체크 ( D200 ~ D299 )
+            if (Address < 200 || Address >= 300) return; // 유효한 주소 범위 체크 ( D200 ~ D299 )
             if (_plc != null && _plc.IsConnected)
             {
-                int plcAddress = 200 + Address; // 실제 PLC 주소 계산
                 short[] data = new short[] { inputData };
 
-                bool isSuccess = await _plc.WriteDeviceAsync("D", plcAddress, data);  // PLC에 데이터 쓰기
+                bool isSuccess = await _plc.WriteDeviceAsync("D", Address, data);  // PLC에 데이터 쓰기
 
                 if (isSuccess)
                 {
-                    PlcOutput[Address] = inputData;
+                    PlcOutput[Address - 200] = inputData;
                     OnPropertyChanged(nameof(PlcOutput));
                 }
 
@@ -1088,11 +1085,10 @@ namespace RobotMonitor_3.ViewModels
         {
             if (message == "RobEResetFail" || message == "RobMotorFail") FlickerTimer.Stop();
 
-            var info = _errorRepo.GetError(message);
+            var info = _errorRepo.GetRobotError(message);
 
             Error(info.ImageName, info.Message);
         }
-
 
         private void RobIO(string message)
         {
@@ -1870,24 +1866,6 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-
-        internal void ImageCollection()
-        {
-            if (R_IsStopped)
-            {
-                if (ImgCollectColor == "Lime")
-                {
-                    ServerSend("ImgCollectOff");
-                }
-                else
-                {
-                    ServerSend("ImgCollectOn");
-                }
-            }
-        }
-
-
-
         internal void RobBlowSpeedSet()
         {
             string MsgBuff;
@@ -2161,17 +2139,16 @@ namespace RobotMonitor_3.ViewModels
 
 
         #region Manual Page Methods
-
         public void ScreenOffCountDown(int sec)
         {
             var timerMsgBox = new TimerMessageBox(sec);
             timerMsgBox.WindowStyle = WindowStyle.None;
-            bool? result = timerMsgBox.ShowDialog();
+            bool? result = timerMsgBox.ShowDialog(); // Timer Out 되면 true 반환, 취소 입력시 타이머 멈추고 false 반환
 
-            if (result == true)
+            if (result == true)                      // 시간 다 되면
             {
-                MonitorControl.TurnOffMonitor();
-                ButtonVisible("Auto");
+                MonitorControl.TurnOffMonitor();     // 모니터 끄고
+                ButtonVisible("Auto");               // 메인 화면으로 변경
             }
         }
 
@@ -2292,22 +2269,5 @@ namespace RobotMonitor_3.ViewModels
         }
         #endregion
 
-
-
-
-
-        #region DataConverter
-        private string ReadByteToString(byte[] data, int len)
-        {
-            return Encoding.Default.GetString(data, 0, len);
-        }
-
-
-
-        private byte[] WriteStringAsString(string data)
-        {
-            return Encoding.Default.GetBytes(data);
-        }
-        #endregion
     }
 }

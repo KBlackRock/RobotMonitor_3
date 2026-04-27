@@ -17,7 +17,8 @@ namespace RobotMonitor_3.Models
             _viewModel = viewModel;
             _comments = new Dictionary<string, string>
             {
-                { "D100", "입력 신호 확인\r0: 1: " },
+                // PLC to PC Section
+                { "D100", "설비 상태\r\r0: 연결 끊김, 1: 정지, 2: 리셋, 3: 가동중" },
                 { "D101", "" },
                 { "D102", "" },
                 { "D103", "" },
@@ -117,10 +118,12 @@ namespace RobotMonitor_3.Models
                 { "D197", "" },
                 { "D198", "" },
                 { "D199", "" },
-                { "D200", "" },
-                { "D201", "" },
-                { "D202", "" },
-                { "D203", "" },
+
+                // PC to PLC Section
+                { "D200", "Stop 버튼\r\r0: OFF, 1: ON" },
+                { "D201", "Ready 버튼\r\r0: OFF, 1: ON" },
+                { "D202", "Start 버튼\r\r0: OFF, 1: ON" },
+                { "D203", "Auto/Manual 상태 수신\r\r0: Manual, 1: Auto" },
                 { "D204", "" },
                 { "D205", "" },
                 { "D206", "" },

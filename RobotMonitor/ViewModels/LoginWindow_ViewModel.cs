@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using RobotMonitor_3.Models;
+using RobotMonitor_3.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +18,7 @@ namespace RobotMonitor_3.ViewModels
     {
 
 
-        private Models.XmlParser m_XmlParser;
+        private XmlParser m_XmlParser;
         public Window LoginWindow;
 
         [ObservableProperty] private string inputPassWord;
@@ -28,7 +28,7 @@ namespace RobotMonitor_3.ViewModels
 
         public LoginWindow_ViewModel()
         {
-            m_XmlParser = new Models.XmlParser();
+            m_XmlParser = new Utilities.XmlParser();
         }
 
         public void Start(Window window)

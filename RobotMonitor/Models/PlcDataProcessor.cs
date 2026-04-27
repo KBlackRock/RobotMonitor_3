@@ -1,4 +1,5 @@
-﻿using RobotMonitor_3.ViewModels;
+﻿using RobotMonitor_3.Utilities;
+using RobotMonitor_3.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace RobotMonitor_3.Models
         private readonly Dictionary<int, Action<short>> _handlers;
 
         private readonly MainWindow_ViewModel _viewModel;
+
+        private readonly ErrorRepository _errorRepository = new ErrorRepository();
+
+        private short _tempD198;
 
         public PlcDataProcessor(MainWindow_ViewModel viewModel)
         {
@@ -40,9 +45,10 @@ namespace RobotMonitor_3.Models
             }
         }
 
-        public void D100(short data)
+        public void D100(short data)  // PLC 에러 코드
         {
-            _viewModel.M1_Speed = Convert.ToString(data);
+            var errorInfo = _errorRepository.GetPlcError(data);
+            _viewModel.Error(errorInfo.ImageName, errorInfo.Message);
         }
 
         public void D101(short data)
@@ -438,10 +444,12 @@ namespace RobotMonitor_3.Models
 
         public void D198(short data)
         {
+            _tempD198 = data;
         }
 
         public void D199(short data)
         {
+            int combinedInt = (int)((ushort)_tempD198 | ((uint)data << 16));
         }
     }
 }

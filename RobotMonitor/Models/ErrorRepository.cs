@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
-namespace RobotMonitor_3.Services
+namespace RobotMonitor_3.Models
 {
     // 에러 정보를 담을 간단한 모델
     public class ErrorInfo
@@ -19,12 +20,14 @@ namespace RobotMonitor_3.Services
 
     public class ErrorRepository
     {
-        private readonly Dictionary<string, ErrorInfo> _errorMap;
+        private readonly Dictionary<string, ErrorInfo> _errorMapRobot;
+        private readonly Dictionary<short, ErrorInfo> _errorMapPLC;
 
         public ErrorRepository()
         {
-            _errorMap = new Dictionary<string, ErrorInfo>
+            _errorMapRobot = new Dictionary<string, ErrorInfo>
             {
+
                 // 안전 관련
                 { "EStop",                    new ErrorInfo("Emergency", "[비상정지]") },
                 { "DoorOpen",                 new ErrorInfo("Door", "[도어 열림 감지]") },
@@ -89,18 +92,34 @@ namespace RobotMonitor_3.Services
                 { "VisionNG_Press",          new ErrorInfo("VisionPress", "Vision NG\r 프레스 이물 검사 이상") },
                 { "VisionNG_Table",          new ErrorInfo("VisionTable", "Vision NG\r PCB 로드 테이블 안착 이상") },
                 { "VisionNG_Extract",        new ErrorInfo("VisionExtract", "Vision NG\r 완제품 성형 이상") },
+            };
 
+            _errorMapPLC = new Dictionary<short, ErrorInfo>
+            {
+                { 1, new ErrorInfo("", "PLC 에러 001\r 통신 실패") },
+                { 2, new ErrorInfo("", "PLC 에러 002\r 센서 이상") },
+                { 3, new ErrorInfo("", "PLC 에러 003\r 모터 과부하") },
             };
         }
 
-        public ErrorInfo GetError(string code)
+        public ErrorInfo GetRobotError(string code)
         {
-            if (_errorMap.ContainsKey(code))
+            if (_errorMapRobot.ContainsKey(code))
             {
-                return _errorMap[code];
+                return _errorMapRobot[code];
             }
             // 정의되지 않은 에러 처리
-            return new ErrorInfo("", $"에러메세지 미 할당\rCode : {code}");
+            return new ErrorInfo("", $"Robot 에러메세지 미 할당\rCode : {code}");
         }
+
+        public ErrorInfo GetPlcError(short code)
+        {
+            if (_errorMapPLC.ContainsKey(code))
+            {
+                return _errorMapPLC[code];
+            }
+            return new ErrorInfo("", $"PLC 에러코드 미 할당\rCode : {code}");
+        }
+
     }
 }

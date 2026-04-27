@@ -3,14 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:Models="clr-namespace:RobotMonitor_3.Models"
+      xmlns:Utilities="clr-namespace:RobotMonitor_3.Utilities"
       xmlns:local="clr-namespace:RobotMonitor_3.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="533" d:DesignWidth="1024"
       Title="Setting_Page">
     <Page.Resources>
-        <Models:ServerConnectionBoolToColor x:Key="ServerConnectionBoolToColor"/>
-        <Models:BooleanToVisibilityConverterRevers x:Key="BooleanToVisibilityConverterRevers"/>
+        <Utilities:ServerConnectionBoolToColor x:Key="ServerConnectionBoolToColor"/>
+        <Utilities:BooleanToVisibilityConverterRevers x:Key="BooleanToVisibilityConverterRevers"/>
 
         <Style x:Key="MainSectionLabelStyle" TargetType="Label">
             <Setter Property="Margin" Value="5"/>

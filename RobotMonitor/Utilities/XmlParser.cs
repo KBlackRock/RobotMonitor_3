@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace RobotMonitor_3.Models
+namespace RobotMonitor_3.Utilities
 {
 
     public class SavedData

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace RobotMonitor_3.Models
+namespace RobotMonitor_3.Utilities
 {
     #region Converters
     public class ServerOpenBoolToString : IValueConverter
