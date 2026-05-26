@@ -52,6 +52,73 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Height" Value="45"/>
         </Style>
+
+
+        <Style x:Key="HeaterButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="2,5,2,5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" LineHeight="26" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="24" TextAlignment="Center"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="0" BorderThickness="3" 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                            <Grid>
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Border x:Name="DarkenOverlay" Background="Black" Opacity="0.05"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="DarkenOverlay" Property="Opacity" Value="0.3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+        <Style x:Key="FrameSensorButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="2,2,2,2"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" LineHeight="22" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="5" BorderThickness="2" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                            <Grid>
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -62,7 +129,7 @@
         <!-- Main Page -->
         <Grid Grid.Column="0" Background="#FFE6E6E6">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.8*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#FFE6E6E6">
@@ -102,7 +169,7 @@
                                 <Label Grid.Column="1" Content="mm/s" Margin="0"  FontSize="24" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Padding="5,0,5,5" VerticalAlignment="Bottom"/>
                             </Grid>
                             <Grid Margin="10,2,10,2" Height="45">
-                                <Button x:Name="btn_PCBEMCSkip" Content="PCB,EMC 로딩스킵" IsEnabled="{Binding R_IsStopped}" Margin="0" FontSize="22" FontWeight="Bold" PreviewMouseLeftButtonDown="btn_PCBEMCSkip_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_PCBEMCSkip_PreviewMouseLeftButtonUp" >
+                                <Button x:Name="btn_PCBEMCSkip" Content="EMC 로딩스킵" IsEnabled="{Binding R_IsStopped}" Margin="0" FontSize="22" FontWeight="Bold" PreviewMouseLeftButtonDown="btn_PCBEMCSkip_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btn_PCBEMCSkip_PreviewMouseLeftButtonUp" >
                                     <Button.Template>
                                         <ControlTemplate TargetType="{x:Type Button}">
                                             <Border x:Name="btnskip" CornerRadius="0" Margin="0" BorderThickness="2" Background="{Binding LoadSkipColor}" BorderBrush="#FF949494">
@@ -117,7 +184,7 @@
                                     </Button.Template>
                                 </Button>
                             </Grid>
-                        
+
 
                         </StackPanel>
                     </Grid>
@@ -167,16 +234,44 @@
             </Grid>
 
             <Grid Margin="2" Background="White" Grid.Row="1">
-                <Label Content="Auto Loader State" Style="{StaticResource MainLabelStyle}"/>
-                <StackPanel Orientation="Horizontal" Margin="5,50,5,5">
-                    <Label Content="Frame 작업 위치 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
-                    <TextBox x:Name="tBox_PCBCount" Text="{Binding IsPCBCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_PCBCount_PreviewMouseLeftButtonDown" />
-                    <TextBlock Text="{Binding TCounting}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5,95,5,5">
-                    <Label Content="작업 샷 카운터 :" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="250" FontSize="28" FontWeight="Bold" IsHitTestVisible="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Padding="5,0,5,5"/>
-                    <TextBox x:Name="tBox_ExtractCount" Text="{Binding IsExtractCount}" IsEnabled="{Binding R_IsStopped}" Margin="0,5,5,0" VerticalAlignment="Top" Height="40" Width="115" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="5,0,5,5" BorderBrush="Black" Background="#FFE6E6E6" IsReadOnly="True" PreviewMouseLeftButtonDown="tBox_ExtractCount_PreviewMouseLeftButtonDown" />
-                    <TextBlock Text="{Binding TCounting}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Label Content="Auto Loader State" Style="{StaticResource MainLabelStyle}"/>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Row="1">
+                    <Button x:Name="btn_Heater1" Content="Heater&#x0a;1" Style="{StaticResource HeaterButtonStyle}" Background="{Binding HeaterBtn1BG}" Click="btn_Heater1_Click" />
+                    <Button x:Name="btn_Heater2" Content="Heater&#x0a;2" Style="{StaticResource HeaterButtonStyle}" Background="{Binding HeaterBtn2BG}" Click="btn_Heater2_Click" />
+                    <Grid Margin="10,5,10,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" x:Name="btn_Sensor8" Content="Frame8" Background="{Binding FrameSensor4}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="0" Grid.Row="1" x:Name="btn_Sensor7" Content="Frame7" Background="{Binding FrameSensor3}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="0" Grid.Row="2" x:Name="btn_Sensor6" Content="Frame6" Background="{Binding FrameSensor2}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="0" Grid.Row="3" x:Name="btn_Sensor5" Content="Frame5" Background="{Binding FrameSensor1}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="1" Grid.Row="0" x:Name="btn_Sensor4" Content="Frame4" Background="{Binding FrameSensor4}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="1" Grid.Row="1" x:Name="btn_Sensor3" Content="Frame3" Background="{Binding FrameSensor3}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="1" Grid.Row="2" x:Name="btn_Sensor2" Content="Frame2" Background="{Binding FrameSensor2}" Style="{StaticResource FrameSensorButtonStyle}" />
+                        <Button Grid.Column="1" Grid.Row="3" x:Name="btn_Sensor1" Content="Frame1" Background="{Binding FrameSensor1}" Style="{StaticResource FrameSensorButtonStyle}" />
+                    </Grid>
+                    <Grid Margin="10,5,10,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Content="M/G 공급 위치" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" />
+                            <TextBox Grid.Row="1" Text="{Binding MagazineElevPos}" Margin="5" Width="150" FontSize="22" TextAlignment="Center" TextWrapping="Wrap" />
+                    </Grid>
                 </StackPanel>
             </Grid>
         </Grid>

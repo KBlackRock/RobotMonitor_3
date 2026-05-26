@@ -24,7 +24,8 @@ namespace RobotMonitor_3.Pages
         public Manual_Page()
         {
             InitializeComponent();
-            DataContext = new MainWindow_ViewModel();
+            this.DataContext = Application.Current.MainWindow.DataContext;
+            //DataContext = new MainWindow_ViewModel();
         }
 
         private void btn_Home_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

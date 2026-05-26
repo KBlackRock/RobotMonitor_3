@@ -24,15 +24,15 @@ namespace RobotMonitor_3.Models
 
             _handlers = new Dictionary<int, Action<short>>
             {
-                { 0,  D100}, { 1,  D101}, { 2,  D102}, { 3,  D103}, { 4,  D104}, { 5,  D105}, { 6,  D106}, { 7,  D107}, { 8,  D108}, { 9,  D109}, 
-                {10,  D110}, {11,  D111}, {12,  D112}, {13,  D113}, {14,  D114}, {15,  D115}, {16,  D116}, {17,  D117}, {18,  D118}, {19,  D119}, 
-                {20,  D120}, {21,  D121}, {22,  D122}, {23,  D123}, {24,  D124}, {25,  D125}, {26,  D126}, {27,  D127}, {28,  D128}, {29,  D129}, 
-                {30,  D130}, {31,  D131}, {32,  D132}, {33,  D133}, {34,  D134}, {35,  D135}, {36,  D136}, {37,  D137}, {38,  D138}, {39,  D139}, 
-                {40,  D140}, {41,  D141}, {42,  D142}, {43,  D143}, {44,  D144}, {45,  D145}, {46,  D146}, {47,  D147}, {48,  D148}, {49,  D149}, 
-                {50,  D150}, {51,  D151}, {52,  D152}, {53,  D153}, {54,  D154}, {55,  D155}, {56,  D156}, {57,  D157}, {58,  D158}, {59,  D159}, 
-                {60,  D160}, {61,  D161}, {62,  D162}, {63,  D163}, {64,  D164}, {65,  D165}, {66,  D166}, {67,  D167}, {68,  D168}, {69,  D169}, 
-                {70,  D170}, {71,  D171}, {72,  D172}, {73,  D173}, {74,  D174}, {75,  D175}, {76,  D176}, {77,  D177}, {78,  D178}, {79,  D179}, 
-                {80,  D180}, {81,  D181}, {82,  D182}, {83,  D183}, {84,  D184}, {85,  D185}, {86,  D186}, {87,  D187}, {88,  D188}, {89,  D189}, 
+                { 0,  D100}, { 1,  D101}, { 2,  D102}, { 3,  D103}, { 4,  D104}, { 5,  D105}, { 6,  D106}, { 7,  D107}, { 8,  D108}, { 9,  D109},
+                {10,  D110}, {11,  D111}, {12,  D112}, {13,  D113}, {14,  D114}, {15,  D115}, {16,  D116}, {17,  D117}, {18,  D118}, {19,  D119},
+                {20,  D120}, {21,  D121}, {22,  D122}, {23,  D123}, {24,  D124}, {25,  D125}, {26,  D126}, {27,  D127}, {28,  D128}, {29,  D129},
+                {30,  D130}, {31,  D131}, {32,  D132}, {33,  D133}, {34,  D134}, {35,  D135}, {36,  D136}, {37,  D137}, {38,  D138}, {39,  D139},
+                {40,  D140}, {41,  D141}, {42,  D142}, {43,  D143}, {44,  D144}, {45,  D145}, {46,  D146}, {47,  D147}, {48,  D148}, {49,  D149},
+                {50,  D150}, {51,  D151}, {52,  D152}, {53,  D153}, {54,  D154}, {55,  D155}, {56,  D156}, {57,  D157}, {58,  D158}, {59,  D159},
+                {60,  D160}, {61,  D161}, {62,  D162}, {63,  D163}, {64,  D164}, {65,  D165}, {66,  D166}, {67,  D167}, {68,  D168}, {69,  D169},
+                {70,  D170}, {71,  D171}, {72,  D172}, {73,  D173}, {74,  D174}, {75,  D175}, {76,  D176}, {77,  D177}, {78,  D178}, {79,  D179},
+                {80,  D180}, {81,  D181}, {82,  D182}, {83,  D183}, {84,  D184}, {85,  D185}, {86,  D186}, {87,  D187}, {88,  D188}, {89,  D189},
                 {90,  D190}, {91,  D191}, {92,  D192}, {93,  D193}, {94,  D194}, {95,  D195}, {96,  D196}, {97,  D197}, {98,  D198}, {99,  D199}
             };
         }
@@ -45,10 +45,28 @@ namespace RobotMonitor_3.Models
             }
         }
 
-        public void D100(short data)  // PLC 에러 코드
+        public void D100(short data)  
         {
-            var errorInfo = _errorRepository.GetPlcError(data);
-            _viewModel.Error(errorInfo.ImageName, errorInfo.Message);
+            switch (data)
+            {
+                case 0:
+
+                    break;
+                case 1:
+                    _viewModel.RobotLabelSet("Stopped");
+                    break;
+                case 2:
+                    _viewModel.RobotLabelSet("Ready");
+                    break;
+                case 3:
+                    _viewModel.RobotLabelSet("Running");
+                    break;
+                case 4:
+                    _viewModel.RobotLabelSet("Origin");
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void D101(short data)
@@ -92,46 +110,61 @@ namespace RobotMonitor_3.Models
 
         public void D110(short data)
         {
+            _viewModel.HeaterBtn1BG = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D111(short data)
         {
+            _viewModel.HeaterBtn2BG = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D112(short data)
         {
+            try
+            {
+                _viewModel.MagazineElevPos = Convert.ToString(data);
+            }
+            catch { }
         }
 
         public void D113(short data)
         {
+            _viewModel.FrameSensor1 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D114(short data)
         {
+            _viewModel.FrameSensor2 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D115(short data)
         {
+            _viewModel.FrameSensor3 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D116(short data)
         {
+            _viewModel.FrameSensor4 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D117(short data)
         {
+            _viewModel.FrameSensor5 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D118(short data)
         {
+            _viewModel.FrameSensor6 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D119(short data)
         {
+            _viewModel.FrameSensor7 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D120(short data)
         {
+            _viewModel.FrameSensor8 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D121(short data)
@@ -444,12 +477,13 @@ namespace RobotMonitor_3.Models
 
         public void D198(short data)
         {
-            _tempD198 = data;
         }
 
         public void D199(short data)
         {
-            int combinedInt = (int)((ushort)_tempD198 | ((uint)data << 16));
+            var errorInfo = _errorRepository.GetPlcError(data);
+
+            _viewModel.Error(errorInfo.Message);
         }
     }
 }

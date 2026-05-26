@@ -24,7 +24,8 @@ namespace RobotMonitor_3.Pages
         public Setting_Page()
         {
             InitializeComponent();
-            DataContext = new MainWindow_ViewModel();
+            this.DataContext = Application.Current.MainWindow.DataContext;
+            //DataContext = new MainWindow_ViewModel();
         }
 
         private void btn_DeviceSet_Click(object sender, RoutedEventArgs e)

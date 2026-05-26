@@ -24,7 +24,7 @@ namespace RobotMonitor_3.Pages
         public Error_Page()
         {
             InitializeComponent();
-            DataContext = new MainWindow_ViewModel();
+            this.DataContext = Application.Current.MainWindow.DataContext;
         }
     }
 }

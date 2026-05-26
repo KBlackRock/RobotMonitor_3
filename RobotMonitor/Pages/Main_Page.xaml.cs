@@ -24,13 +24,9 @@ namespace RobotMonitor_3.Pages
         public Main_Page()
         {
             InitializeComponent();
-            DataContext = new MainWindow_ViewModel();
+            this.DataContext = Application.Current.MainWindow.DataContext;
+            //DataContext = new MainWindow_ViewModel();
 
-        }
-
-        private void tBox_PCBCount_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).PCBCount();
         }
 
         private void ComboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -57,14 +53,20 @@ namespace RobotMonitor_3.Pages
             (DataContext as MainWindow_ViewModel).LoadingSkipRelease();
         }
 
-        private void tBox_ExtractCount_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).ExtractCount();
-        }
 
         private void CB_WS_DropDownClosed(object sender, EventArgs e)
         {
             (DataContext as MainWindow_ViewModel).WorkModeClose();
+        }
+
+        private void btn_Heater1_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).Heater1Press();
+        }
+
+        private void btn_Heater2_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).Heater2Press();
         }
     }
 }

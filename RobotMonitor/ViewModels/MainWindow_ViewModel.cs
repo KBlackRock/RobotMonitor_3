@@ -92,6 +92,7 @@ namespace RobotMonitor_3.ViewModels
 
         #region OnPropertyChange Properties
         private ObservableCollection<string> _WorkModeList; public ObservableCollection<string> WorkModeList { get { return _WorkModeList; } set { _WorkModeList = value; OnPropertyChanged(); } }
+        [ObservableProperty] private ObservableCollection<string> errorList;
         [ObservableProperty] private string windowPage;
         [ObservableProperty] private bool tabVisible;
         [ObservableProperty] private bool r_IsRunning;
@@ -114,8 +115,6 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private string robotMessage;
         [ObservableProperty] private bool btnWorkWait;
         [ObservableProperty] private string robotImage;
-        [ObservableProperty] private string errorMessage;
-        [ObservableProperty] private string errorImage;
         [ObservableProperty] private string isRobSpeed_Percent;
         [ObservableProperty] private string isRobSpeed_MMS;
         [ObservableProperty] private string isPressCloseTime;
@@ -182,6 +181,17 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private short[] plcOutput;
         [ObservableProperty] private string dataName;
         [ObservableProperty] private string dataComment;
+        [ObservableProperty] private string heaterBtn1BG;
+        [ObservableProperty] private string heaterBtn2BG;
+        [ObservableProperty] private string magazineElevPos;
+        [ObservableProperty] private string frameSensor1;
+        [ObservableProperty] private string frameSensor2;
+        [ObservableProperty] private string frameSensor3;
+        [ObservableProperty] private string frameSensor4;
+        [ObservableProperty] private string frameSensor5;
+        [ObservableProperty] private string frameSensor6;
+        [ObservableProperty] private string frameSensor7;
+        [ObservableProperty] private string frameSensor8;
         #endregion
 
         #region Server Properties
@@ -238,6 +248,8 @@ namespace RobotMonitor_3.ViewModels
             IsServerOpened = false;
             ServerConnection = false;
             TabVisible = false;
+
+            ErrorList = new ObservableCollection<string>();
 
             _dataProcessor = new PlcDataProcessor(this);
             _plc = new McProtocolService();
@@ -298,6 +310,9 @@ namespace RobotMonitor_3.ViewModels
             RobMotorColor = "Gray";
             RobTaskRunColor = "Gray";
             RobBatteryColor = "Gray";
+
+            HeaterBtn1BG = "LightGray";
+            HeaterBtn2BG = "LightGray";
 
             Btn1Checked = false;
             Btn2Checked = false;
@@ -360,7 +375,6 @@ namespace RobotMonitor_3.ViewModels
             _window.WindowStyle = WindowStyle.None;
             WindowPage = "Pages/Main_Page.xaml";
             ServerOpenClose();
-
 
             // 작업모드 설정
             WorkModeList.Add("정지모드"); // 0
@@ -544,46 +558,59 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        /// <summary>
-        /// 에러 처리
-        /// </summary>
-        /// <param name="eImg">에러 이미지 ( jpg only )</param>
-        /// <param name="eMsg">에러 메세지</param>
-        public void Error(string eImg, string eMsg)
+        public void Error(string eMsg)
         {
-            if (ErrorData == eMsg) return;
-            R_IsOrigin = false; R_IsReady = false; R_IsRunning = false; R_IsStopped = true; // 스탑 레이블 셋팅
-            ErrorImage = path + @"\\Images\\Error\\" + eImg + ".jpg"; // 에러 이미지 불러오기 ( jpg 타입만 )
-            ErrorMessage = ErrorData = eMsg;
+            if (ErrorList.Contains(eMsg)) return;
+
+            RobotLabelSet("Stopped");
+            ButtonVisible("Error");
+
+            ErrorList.Add(eMsg);
             Logger.Write("!! Error !! : " + eMsg);
-            ButtonVisible("Error");  // 에러 창 On
-            ServerSend("Stop"); // 로봇 정지
+
             Thread.Sleep(100);
         }
-
-
-
         public void SystemError(string eMsg)
         {
-            if (ErrorData == eMsg) return;
-            R_IsOrigin = R_IsReady = R_IsRunning = R_IsStopped = false; // 레이블 초기화
-            ErrorImage = "";
-            ErrorData = eMsg;
-            ErrorMessage = "[ 통신프로그램 에러 ]\r" + eMsg;
+            if (ErrorList.Contains(eMsg)) return;
+
+            RobotLabelSet("Stopped");
+            ButtonVisible("Error");
+
+            ErrorList.Add(eMsg);
             Logger.Write("!! Error !! : " + eMsg);
-            ButtonVisible("Error");  // 에러 창 On
+
             Thread.Sleep(100);
         }
 
-
         /// <summary>
-        /// 로봇 상태 라벨 변경
+        ///  Sets the robot state flags based on the specified label.
         /// </summary>
-        /// <returns>ture, 변경하려는 라벨 선행 입력</returns>
-        public bool RobotLabelSet()
+        /// <remarks>Origin, Ready, Running, Stopped </remarks>
+        /// <param name="label">The label representing the robot state to set. Valid values are "Origin", "Ready", "Running", and "Stopped".
+        /// If the label does not match any known state, all state flags are set to false.</param>
+        public void RobotLabelSet(string label)
         {
             R_IsOrigin = R_IsReady = R_IsRunning = R_IsStopped = ResetbtnEnable = false;
-            return true;
+            switch (label)
+            {
+                case "Origin":
+                    R_IsOrigin = true;
+                    break;
+                case "Ready":
+                    R_IsReady = true;
+                    ErrorList.Clear();
+                    break;
+                case "Running":
+                    R_IsRunning = true;
+                    break;
+                case "Stopped":
+                    R_IsStopped = true;
+                    break;
+                default:
+
+                    break;
+            }
         }
 
         #endregion
@@ -611,7 +638,7 @@ namespace RobotMonitor_3.ViewModels
             else
             {
                 _tcpService.StopServer();
-                RobotLabelSet();
+                RobotLabelSet("");
             }
         }
 
@@ -793,14 +820,12 @@ namespace RobotMonitor_3.ViewModels
                 case "Ready":
                     if (!R_IsReady)
                     {
-                        R_IsReady = RobotLabelSet();
+                        RobotLabelSet("Ready");
                         Logger.Write("System_State : Ready");
                         ErrorData = "";
                         ResetbtnEnable = true;
                         // 에러 메세지 초기화
                         if (IsError) IsAuto = true;
-                        ErrorImage = path + "";
-                        ErrorMessage = "";
                     }
                     // 리셋 버튼 플리커 해제
                     FlickerTimer.Stop();
@@ -812,7 +837,7 @@ namespace RobotMonitor_3.ViewModels
                 case "Stopped":
                     if (!R_IsStopped)
                     {
-                        R_IsStopped = RobotLabelSet();
+                        RobotLabelSet("Stopped");
                         Logger.Write("System_State : Stopped");
                         StartButtonColor = "Gray";
                         ResetbtnEnable = true;
@@ -821,16 +846,16 @@ namespace RobotMonitor_3.ViewModels
                 case "Running":
                     if (!R_IsRunning)
                     {
-                        R_IsRunning = RobotLabelSet();
+                        RobotLabelSet("Running");
                         Logger.Write("System_State : Running");
                     }
                     break;
                 case "OriginStart":
-                    R_IsOrigin = RobotLabelSet();
+                    RobotLabelSet("Origin");
                     IsAuto = true;
                     break;
                 case "OriginEND":
-                    R_IsStopped = RobotLabelSet();
+                    RobotLabelSet("Stopped");
                     ButtonVisible("Auto");
                     ResetbtnEnable = true;
                     needOrigin = false;
@@ -1087,7 +1112,7 @@ namespace RobotMonitor_3.ViewModels
 
             var info = _errorRepo.GetRobotError(message);
 
-            Error(info.ImageName, info.Message);
+            Error(info.Message);
         }
 
         private void RobIO(string message)
@@ -1256,7 +1281,7 @@ namespace RobotMonitor_3.ViewModels
                         if (TimerStack > StartBtnDelay)
                         {
                             StartButtonColor = "DarkGreen";
-                            ServerSend("Start");
+                            PLCWrite(202, 1);
                             timer.Stop();
                             TimerStack = 0;
                         }
@@ -1265,14 +1290,14 @@ namespace RobotMonitor_3.ViewModels
                     case "RobotHome":  // 로봇 홈 위치 이동 버튼 동작 딜레이
                         if (TimerStack > HomeBtnDelay)
                         {
-                            ServerSend("Home");
+                            PLCWrite(203, 1);
                             timer.Stop();
                             TimerStack = 0;
                         }
                         break;
 
                     case "Stop":  // 정지 할 때 까지 ( Max 3s ) 200ms 간격으로 정지 신호 전송
-                        if (TimerStack % 2 == 0) ServerSend("Stop");
+                        if (TimerStack % 2 == 0) PLCWrite(200, 1);
                         if (R_IsStopped) timer.Stop();
                         if (TimerStack > 30) { timer.Stop(); TimerStack = 0; }
                         break;
@@ -1292,12 +1317,12 @@ namespace RobotMonitor_3.ViewModels
             if (OpReverse) ResetBtnOpacity += 0.02;
             if (ResetBtnOpacity >= 1) OpReverse = false;
             colorCount++;  // 얘는 또 퍼블릭이네...
-            if (colorCount % 100 == 0) ServerSend("Reset");
+            if (colorCount % 100 == 0) PLCWrite(201, 1);
             if (colorCount > 500)
             {
                 StopButtonPress();
                 ButtonVisible("Error");
-                ErrorMessage = "로봇 초기화 실패.  ";
+                Error("로봇 초기화 실패.  ");
             }
         }
 
@@ -1316,11 +1341,11 @@ namespace RobotMonitor_3.ViewModels
 
 
         #region MainWindow Button Action
-        internal void StartButtonDown(MouseButtonEventArgs e)  // 로봇 가동 시작
+        internal void StartButtonDown(MouseButtonEventArgs e)  // 설비 가동 신호 송신
         {
             if (!R_IsReady) return;
             if (!IsWorkModeSelected || WorkMode == "") { MessageBox.Show("작업 모드가 선택되지 않았습니다."); return; }
-            if (needOrigin) { Error("", "작업모드 변경 후 HOME 동작 미완료"); return; }
+            if (needOrigin) { Error("작업모드 변경 후 HOME 동작 미완료"); return; }
             StartButtonColor = "#63AA00";
             TimerWorkSelect = "StartButtonDown";
             timer.Start();
@@ -1347,7 +1372,7 @@ namespace RobotMonitor_3.ViewModels
             timerBreak = false;
             FlickerTimer.Stop();
             colorCount = 0;
-            ServerSend("Stop");
+            PLCWrite(200, 1);
             if (IsAuto)
             {
                 TimerWorkSelect = "Stop";
@@ -1375,15 +1400,13 @@ namespace RobotMonitor_3.ViewModels
             if (!R_IsStopped) return;
             if (!IsWorkModeSelected || WorkMode == "") { IsAuto = true; MessageBox.Show("작업 모드가 선택되지 않았습니다."); return; }
             if (IsWorkIndex == 0) { IsAuto = true; MessageBox.Show("정지모드가 선택되어 있습니다."); return; }
-            ErrorMessage = "";
-            ErrorImage = "";
             ButtonVisible("Auto");
             if (RobAutoColor == "Gray") return;
             ResetbtnEnable = false;
             OpReverse = false;    // 플리커
             ResetBtnOpacity = 1;  // 관련
             colorCount = 0;       // 변수들
-            ServerSend("Reset");
+            PLCWrite(201, 1);
             FlickerTimer.Start();
         }
 
@@ -1481,37 +1504,27 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-
-
-        internal void PCBCount()
+        internal void Heater1Press()
         {
-            string MsgBuff;
-            DisplayedData = IsPCBCount;
-            MsgBuff = "RobPCBCount_" + CallNumKey(DisplayedData);
-            try
+            if (!R_IsStopped) 
             {
-                if (Convert.ToInt32(KeyboardData) > robPCBCountLimit[1] || Convert.ToInt32(KeyboardData) < robPCBCountLimit[0])
-                { MessageBox.Show(robPCBCountLimit[0] + "~" + robPCBCountLimit[1] + "사이의 숫자만 입력 해 주시기 바랍니다"); return; }
+                if (PlcInput[10] == 1) PLCWrite(210, 0);  // 히터 1 이 켜져 있으면 OFF ( Input 10 : Heater 1, Out210 : 히터 1 제어 )
+                else PLCWrite(210, 1);                    // 아니면 ON
             }
-            catch { if (KeyboardData != "") { MessageBox.Show(robPCBCountLimit[0] + "~" + robPCBCountLimit[1] + "사이의 숫자만 입력 해 주시기 바랍니다"); } return; }
-            ServerSend(MsgBuff);
+            else return;
         }
 
 
-
-        internal void ExtractCount()
+        internal void Heater2Press()
         {
-            string MsgBuff;
-            DisplayedData = IsExtractCount;
-            MsgBuff = "RobExtractCount_" + CallNumKey(DisplayedData);
-            try
+            if (!R_IsStopped)
             {
-                if (Convert.ToInt32(KeyboardData) > robExtractCountLimit[1] || Convert.ToInt32(KeyboardData) < robExtractCountLimit[0])
-                { MessageBox.Show(robExtractCountLimit[0] + "~" + robExtractCountLimit[1] + "사이의 숫자만 입력 해 주시기 바랍니다"); return; }
+                if (PlcInput[12] == 1) PLCWrite(211, 0);   // 히터 2 이 켜져 있으면 OFF ( Input 12 : Heater 2, Out211 : 히터 2 제어 )
+                else PLCWrite(211, 1);                     // 아니면 ON
             }
-            catch { if (KeyboardData != "") { MessageBox.Show(robExtractCountLimit[0] + "~" + robExtractCountLimit[1] + "사이의 숫자만 입력 해 주시기 바랍니다"); } return; }
-            ServerSend(MsgBuff);
+            else return;
         }
+
 
         internal void WorkModeOpen()  // 디바이스 선택 드롭다운 열릴 때 버퍼에 현재 디바이스 저장
         {

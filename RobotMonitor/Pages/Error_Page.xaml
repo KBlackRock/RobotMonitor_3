@@ -13,8 +13,7 @@
         <Grid Background="#FFE6E6E6">
             <Label Content=" Error Message" Margin="5,5,5,0" Height="45" FontSize="30" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Background="#FFBB0000" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
             <Grid Margin="5,50,5,5" Background="White">
-                <TextBox x:Name="tBox_ErrorMessage" Margin="10,370,10,0" FontSize="28" Text="{Binding ErrorMessage}" IsHitTestVisible="False" Height="80" VerticalAlignment="Bottom" BorderBrush="{x:Null}"/>
-                <Image Margin="10,10,10,80"  Source="{Binding ErrorImage}"/>
+                <ListBox Margin="5" ItemsSource="{Binding ErrorList}" FontSize="22" IsHitTestVisible="False"/>
             </Grid>
         </Grid>
     </Grid>
