@@ -1,4 +1,5 @@
 ﻿using RobotMonitor_3.Utilities;
+using RobotMonitor_3.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -13,6 +14,8 @@ namespace RobotMonitor_3.Services
     {
         private TcpClient _client;
         private NetworkStream _stream;
+
+        private readonly MainWindow_ViewModel _viewModel;
 
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1); // 동시 접근 제어용 세마포어
         private bool _disposed = false;

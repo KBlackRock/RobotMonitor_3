@@ -40,7 +40,7 @@
         </Style>
 
         <Style x:Key="ConditionViewBox" TargetType="Label">
-            <Setter Property="Margin" Value="5,2,5,2"/>
+            <Setter Property="Margin" Value="5,2"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Height" Value="50"/>
             <Setter Property="FontSize" Value="24"/>
@@ -55,7 +55,7 @@
 
 
         <Style x:Key="HeaterButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="2,5,2,5"/>
+            <Setter Property="Margin" Value="2,5"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Width" Value="110"/>
             <Setter Property="BorderBrush" Value="Black"/>
@@ -91,7 +91,7 @@
         </Style>
 
         <Style x:Key="FrameSensorButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="2,2,2,2"/>
+            <Setter Property="Margin" Value="2,2"/>
             <Setter Property="Width" Value="80"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
@@ -266,11 +266,11 @@
                     </Grid>
                     <Grid Margin="10,5,10,5">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1.8*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="M/G 공급 위치" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" />
-                            <TextBox Grid.Row="1" Text="{Binding MagazineElevPos}" Margin="5" Width="150" FontSize="22" TextAlignment="Center" TextWrapping="Wrap" />
+                            <Label Grid.Row="0" Content="  매거진&#x0a;공급 위치" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Text="{Binding MagazineElevPos}" Margin="5" Width="150" FontSize="24" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"/>
                     </Grid>
                 </StackPanel>
             </Grid>

@@ -124,7 +124,7 @@ namespace RobotMonitor_3.Models
                 { "D201", "Ready 버튼\r\r0: OFF, 1: ON" },
                 { "D202", "Start 버튼\r\r0: OFF, 1: ON" },
                 { "D203", "Auto/Manual 상태 수신\r\r0: Manual, 1: Auto" },
-                { "D204", "" },
+                { "D204", "Home 버튼\r\r0: OFF, 1: ON" },
                 { "D205", "" },
                 { "D206", "" },
                 { "D207", "" },

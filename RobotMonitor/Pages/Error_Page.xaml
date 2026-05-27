@@ -13,7 +13,26 @@
         <Grid Background="#FFE6E6E6">
             <Label Content=" Error Message" Margin="5,5,5,0" Height="45" FontSize="30" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Background="#FFBB0000" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0"/>
             <Grid Margin="5,50,5,5" Background="White">
-                <ListBox Margin="5" ItemsSource="{Binding ErrorList}" FontSize="22" IsHitTestVisible="False"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Margin="5" Source="{Binding SelectedItem.ImageName, ElementName=ErrorListBox}" Stretch="Uniform"/>
+                <ListBox x:Name="ErrorListBox" Grid.Column="1" Margin="5" ItemsSource="{Binding ErrorList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="LightGray" BorderThickness="0,0,0,2" Padding="5,8">
+                                <TextBlock Text="{Binding Message}" FontSize="20" TextWrapping="Wrap" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </Grid>
         </Grid>
     </Grid>

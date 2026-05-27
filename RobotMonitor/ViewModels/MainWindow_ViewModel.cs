@@ -30,7 +30,7 @@ namespace RobotMonitor_3.ViewModels
         private readonly TcpServerService _tcpService;
         private readonly RobotMessageParser _parser;
         private Dictionary<string, Action<string>> _commandMap;
-        private readonly ErrorRepository _errorRepo;
+        private readonly ErrorRepository _errorRepo = new ErrorRepository();
 
         private McProtocolService _plc;
         private bool _isPlcReading = false;
@@ -91,8 +91,9 @@ namespace RobotMonitor_3.ViewModels
         #endregion
 
         #region OnPropertyChange Properties
+        public ObservableCollection<ErrorInfo> ErrorList { get; set; } = new ObservableCollection<ErrorInfo>();
         private ObservableCollection<string> _WorkModeList; public ObservableCollection<string> WorkModeList { get { return _WorkModeList; } set { _WorkModeList = value; OnPropertyChanged(); } }
-        [ObservableProperty] private ObservableCollection<string> errorList;
+        [ObservableProperty] private string errorImage;
         [ObservableProperty] private string windowPage;
         [ObservableProperty] private bool tabVisible;
         [ObservableProperty] private bool r_IsRunning;
@@ -249,8 +250,6 @@ namespace RobotMonitor_3.ViewModels
             ServerConnection = false;
             TabVisible = false;
 
-            ErrorList = new ObservableCollection<string>();
-
             _dataProcessor = new PlcDataProcessor(this);
             _plc = new McProtocolService();
             PlcInput = new short[100];
@@ -333,7 +332,7 @@ namespace RobotMonitor_3.ViewModels
             };
             _tcpService.OnErrorOccurred += (errMsg) =>
             {
-                SystemError(errMsg);
+                Error(errMsg);
             };
 
             // Parser Initialization
@@ -476,7 +475,7 @@ namespace RobotMonitor_3.ViewModels
             }
             catch (Exception ex)
             {
-                SystemError("숫자키보드 실행 중 오류가 발생했습니다.\r" + ex.Message);
+                Error("숫자키보드 실행 중 오류가 발생했습니다.\r" + ex.Message);
             }
             return originalData;
         }
@@ -510,6 +509,7 @@ namespace RobotMonitor_3.ViewModels
             {
                 case "Auto":
                     WindowPage = "Pages/Main_Page.xaml";
+                    PLCWrite(203, 1, 0);
                     IsAuto = true;
                     IsManual = false;
                     IsSetView = false;
@@ -519,6 +519,7 @@ namespace RobotMonitor_3.ViewModels
                     break;
                 case "Manual":
                     WindowPage = "Pages/Manual_Page.xaml";
+                    PLCWrite(203, 0, 0);
                     IsManual = true;
                     IsAuto = false;
                     IsSetView = false;
@@ -558,37 +559,30 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        public void Error(string eMsg)
+        // 로봇 에러
+        public void Error(string errorCode)
         {
-            if (ErrorList.Contains(eMsg)) return;
+            ErrorInfo errorData = _errorRepo.GetRobotError(errorCode);
+            ProcessError(errorData);
+        }
+
+        // PLC 에러
+        public void Error(short errorCode)
+        {
+            ErrorInfo errorData = _errorRepo.GetPlcError(errorCode);
+            ProcessError(errorData);
+        }
+
+        private void ProcessError(ErrorInfo errorData)
+        {
+            if (ErrorList.Any(e => e.Message == errorData.Message)) return;
 
             RobotLabelSet("Stopped");
             ButtonVisible("Error");
-
-            ErrorList.Add(eMsg);
-            Logger.Write("!! Error !! : " + eMsg);
-
-            Thread.Sleep(100);
-        }
-        public void SystemError(string eMsg)
-        {
-            if (ErrorList.Contains(eMsg)) return;
-
-            RobotLabelSet("Stopped");
-            ButtonVisible("Error");
-
-            ErrorList.Add(eMsg);
-            Logger.Write("!! Error !! : " + eMsg);
-
-            Thread.Sleep(100);
+            ErrorList.Add(errorData);
+            Logger.Write("!! Error !! : " + errorData.Message);
         }
 
-        /// <summary>
-        ///  Sets the robot state flags based on the specified label.
-        /// </summary>
-        /// <remarks>Origin, Ready, Running, Stopped </remarks>
-        /// <param name="label">The label representing the robot state to set. Valid values are "Origin", "Ready", "Running", and "Stopped".
-        /// If the label does not match any known state, all state flags are set to false.</param>
         public void RobotLabelSet(string label)
         {
             R_IsOrigin = R_IsReady = R_IsRunning = R_IsStopped = ResetbtnEnable = false;
@@ -623,6 +617,7 @@ namespace RobotMonitor_3.ViewModels
             IsServerOpened = !IsServerOpened;
             if (IsServerOpened)
             {
+
                 // 기존 설정값 사용
                 string clientIP = ClientIP;
                 int clientPort = ClientPort;
@@ -634,6 +629,11 @@ namespace RobotMonitor_3.ViewModels
                 {
                     plcTimer.Start();
                 }
+                else
+                {
+                    Error("PLC 연결에 실패했습니다.");
+                }
+
             }
             else
             {
@@ -710,7 +710,7 @@ namespace RobotMonitor_3.ViewModels
             }
             catch (Exception ex)
             {
-                SystemError(ex.Message); // 예외 처리 유지
+                Error(ex.Message); // 예외 처리 유지
             }
         }
 
@@ -790,7 +790,7 @@ namespace RobotMonitor_3.ViewModels
         /// </summary>
         /// <param name="Address">유효범위 : 200 ~ 299 ( D200 ~ D299 )</param>
         /// <param name="inputData"></param>
-        public async void PLCWrite(int Address, short inputData)
+        public async void PLCWrite(int Address, short inputData, int pulse)
         {
             if (Address < 200 || Address >= 300) return; // 유효한 주소 범위 체크 ( D200 ~ D299 )
             if (_plc != null && _plc.IsConnected)
@@ -802,6 +802,14 @@ namespace RobotMonitor_3.ViewModels
                 if (isSuccess)
                 {
                     PlcOutput[Address - 200] = inputData;
+                    OnPropertyChanged(nameof(PlcOutput));
+                }
+                if(pulse > 0) // 펄스 신호인 경우 일정 시간 후 자동으로 0으로 리셋
+                {
+                    await Task.Delay(pulse);
+                    short[] resetData = new short[] { 0 };
+                    await _plc.WriteDeviceAsync("D", Address, resetData);
+                    PlcOutput[Address - 200] = 0;
                     OnPropertyChanged(nameof(PlcOutput));
                 }
 
@@ -1281,7 +1289,7 @@ namespace RobotMonitor_3.ViewModels
                         if (TimerStack > StartBtnDelay)
                         {
                             StartButtonColor = "DarkGreen";
-                            PLCWrite(202, 1);
+                            PLCWrite(202, 1, 100);
                             timer.Stop();
                             TimerStack = 0;
                         }
@@ -1290,14 +1298,14 @@ namespace RobotMonitor_3.ViewModels
                     case "RobotHome":  // 로봇 홈 위치 이동 버튼 동작 딜레이
                         if (TimerStack > HomeBtnDelay)
                         {
-                            PLCWrite(203, 1);
+                            PLCWrite(204, 1, 100);
                             timer.Stop();
                             TimerStack = 0;
                         }
                         break;
 
                     case "Stop":  // 정지 할 때 까지 ( Max 3s ) 200ms 간격으로 정지 신호 전송
-                        if (TimerStack % 2 == 0) PLCWrite(200, 1);
+                        if (TimerStack % 2 == 0) PLCWrite(200, 1, 100);
                         if (R_IsStopped) timer.Stop();
                         if (TimerStack > 30) { timer.Stop(); TimerStack = 0; }
                         break;
@@ -1305,7 +1313,7 @@ namespace RobotMonitor_3.ViewModels
                         break;
                 }
             }
-            catch (Exception ex) { SystemError(ex.Message); }
+            catch (Exception ex) { Error(ex.Message); }
         }
 
 
@@ -1317,7 +1325,7 @@ namespace RobotMonitor_3.ViewModels
             if (OpReverse) ResetBtnOpacity += 0.02;
             if (ResetBtnOpacity >= 1) OpReverse = false;
             colorCount++;  // 얘는 또 퍼블릭이네...
-            if (colorCount % 100 == 0) PLCWrite(201, 1);
+            if (colorCount % 100 == 0) PLCWrite(201, 1, 100);
             if (colorCount > 500)
             {
                 StopButtonPress();
@@ -1372,7 +1380,7 @@ namespace RobotMonitor_3.ViewModels
             timerBreak = false;
             FlickerTimer.Stop();
             colorCount = 0;
-            PLCWrite(200, 1);
+            PLCWrite(200, 1, 100);
             if (IsAuto)
             {
                 TimerWorkSelect = "Stop";
@@ -1406,7 +1414,7 @@ namespace RobotMonitor_3.ViewModels
             OpReverse = false;    // 플리커
             ResetBtnOpacity = 1;  // 관련
             colorCount = 0;       // 변수들
-            PLCWrite(201, 1);
+            PLCWrite(201, 1, 100);
             FlickerTimer.Start();
         }
 
@@ -1504,26 +1512,29 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
+
         internal void Heater1Press()
         {
             if (!R_IsStopped) 
             {
-                if (PlcInput[10] == 1) PLCWrite(210, 0);  // 히터 1 이 켜져 있으면 OFF ( Input 10 : Heater 1, Out210 : 히터 1 제어 )
-                else PLCWrite(210, 1);                    // 아니면 ON
+                if (PlcInput[10] == 1) PLCWrite(210, 0, 0);  // 히터 1 이 켜져 있으면 OFF ( Input 10 : Heater 1, Out210 : 히터 1 제어 )
+                else PLCWrite(210, 1, 0);                    // 아니면 ON
             }
             else return;
         }
+
 
 
         internal void Heater2Press()
         {
             if (!R_IsStopped)
             {
-                if (PlcInput[12] == 1) PLCWrite(211, 0);   // 히터 2 이 켜져 있으면 OFF ( Input 12 : Heater 2, Out211 : 히터 2 제어 )
-                else PLCWrite(211, 1);                     // 아니면 ON
+                if (PlcInput[12] == 1) PLCWrite(211, 0, 0);   // 히터 2 가 켜져 있으면 OFF ( Input 12 : Heater 2, Out211 : 히터 2 제어 )
+                else PLCWrite(211, 1, 0);                     // 아니면 ON
             }
             else return;
         }
+
 
 
         internal void WorkModeOpen()  // 디바이스 선택 드롭다운 열릴 때 버퍼에 현재 디바이스 저장
@@ -1664,6 +1675,7 @@ namespace RobotMonitor_3.ViewModels
             WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName10);
         }
 
+
         internal void InterfaceView()
         {
             InterfaceWindow interfaceWindow = new InterfaceWindow();
@@ -1711,13 +1723,14 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
+
         internal void IPAddressBox_PLC()
         {
             DisplayedData = PlcIp;
             string MsgBuff = PlcIp;
             PlcIp = CallNumKey(DisplayedData);
             Logger.Write("PLC IP Change : " + MsgBuff + " → " + PlcIp);
-        }
+        }   
 
 
 
@@ -1847,7 +1860,7 @@ namespace RobotMonitor_3.ViewModels
             }
             catch (Exception e)
             {
-                SystemError(e.Message);
+                Error(e.Message);
             }
         }
 
@@ -1874,7 +1887,7 @@ namespace RobotMonitor_3.ViewModels
             }
             catch (Exception e)
             {
-                SystemError(e.Message);
+                Error(e.Message);
             }
         }
 

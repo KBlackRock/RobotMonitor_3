@@ -122,7 +122,14 @@ namespace RobotMonitor_3.Models
         {
             try
             {
-                _viewModel.MagazineElevPos = Convert.ToString(data);
+                if (data != 0)
+                {
+                    _viewModel.MagazineElevPos = Convert.ToString(data);
+                }
+                else
+                {
+                    _viewModel.MagazineElevPos = "대기위치";
+                }
             }
             catch { }
         }
