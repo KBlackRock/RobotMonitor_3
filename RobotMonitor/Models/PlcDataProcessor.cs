@@ -136,42 +136,34 @@ namespace RobotMonitor_3.Models
 
         public void D113(short data)
         {
-            _viewModel.FrameSensor1 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D114(short data)
         {
-            _viewModel.FrameSensor2 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D115(short data)
         {
-            _viewModel.FrameSensor3 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D116(short data)
         {
-            _viewModel.FrameSensor4 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D117(short data)
         {
-            _viewModel.FrameSensor5 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D118(short data)
         {
-            _viewModel.FrameSensor6 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D119(short data)
         {
-            _viewModel.FrameSensor7 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D120(short data)
         {
-            _viewModel.FrameSensor8 = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D121(short data)
@@ -488,9 +480,12 @@ namespace RobotMonitor_3.Models
 
         public void D199(short data)
         {
-            var errorInfo = _errorRepository.GetPlcError(data);
+            if (data >= 100)
+            {
+                var errorInfo = _errorRepository.GetPlcError(data);
 
-            _viewModel.Error(errorInfo.Message);
+                _viewModel.Error(errorInfo.Message);
+            }
         }
     }
 }

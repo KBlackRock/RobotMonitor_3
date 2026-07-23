@@ -92,6 +92,8 @@ namespace RobotMonitor_3.ViewModels
 
         #region OnPropertyChange Properties
         public ObservableCollection<ErrorInfo> ErrorList { get; set; } = new ObservableCollection<ErrorInfo>();
+        public ObservableCollection<short> PlcInput { get; } = new ObservableCollection<short>(new short[100]);
+        public ObservableCollection<short> PlcOutput { get; } = new ObservableCollection<short>(new short[100]);
         private ObservableCollection<string> _WorkModeList; public ObservableCollection<string> WorkModeList { get { return _WorkModeList; } set { _WorkModeList = value; OnPropertyChanged(); } }
         [ObservableProperty] private string errorImage;
         [ObservableProperty] private string windowPage;
@@ -178,8 +180,6 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private string emc_CylCloseDelay;
         [ObservableProperty] private string emc_StopperFWDDelay;
         [ObservableProperty] private string emc_StopperBWDDelay;
-        [ObservableProperty] private short[] plcInput;
-        [ObservableProperty] private short[] plcOutput;
         [ObservableProperty] private string dataName;
         [ObservableProperty] private string dataComment;
         [ObservableProperty] private string heaterBtn1BG;
@@ -205,8 +205,8 @@ namespace RobotMonitor_3.ViewModels
         public bool IsServerOpened { get { return m_IsServerOpened; } set { if (m_IsServerOpened != value) { m_IsServerOpened = value; OnPropertyChanged(); } } }
         public bool ServerConnection { get { return m_ServerConnection; } set { if (m_ServerConnection != value) { m_ServerConnection = value; OnPropertyChanged(); } } }
         public string ServerOutput { get { return m_ServerOutput; } set { if (m_ServerOutput != value) { m_ServerOutput = value; OnPropertyChanged(); } } }
-        public string PlcIp { get { return m_PlcIp; } set { if (m_PlcIp != value) { m_PlcIp = value; OnPropertyChanged(); } } }
-        public int PlcPort { get { return m_PlcPort; } set { if (m_PlcPort != value) { m_PlcPort = value; OnPropertyChanged(); } } }
+        public string PlcIP { get { return m_XmlParser.SavedData.PlcIp; } set { if (m_XmlParser.SavedData.PlcIp != value) { m_XmlParser.SavedData.PlcIp = value; OnPropertyChanged(); } } }
+        public int PlcPort { get { return m_XmlParser.SavedData.PlcPort; } set { if (m_XmlParser.SavedData.PlcPort != value) { m_XmlParser.SavedData.PlcPort = value; OnPropertyChanged(); } } }
         #endregion
 
         #region Setting Data Properties
@@ -252,8 +252,6 @@ namespace RobotMonitor_3.ViewModels
 
             _dataProcessor = new PlcDataProcessor(this);
             _plc = new McProtocolService();
-            PlcInput = new short[100];
-            PlcOutput = new short[100];
 
             robOverrideLimit = new int[2];
             robSpeedMaxLimit = new int[2];
@@ -402,7 +400,6 @@ namespace RobotMonitor_3.ViewModels
                 DeviceTimer.Stop();
                 responseTimer.Stop();
                 plcTimer.Stop();
-                if (_plc != null && _plc.IsConnected) _plc.Dispose();
 
                 m_XmlParser.SavedDataSave();
                 _tcpService.StopServer();
@@ -717,11 +714,9 @@ namespace RobotMonitor_3.ViewModels
 
         private void ConnectionOK(object sender, EventArgs e)
         {
-            ServerSend("ConnectionOK");  // 통신 상태 확인용 인데 E10이 통신 오류 있어서 있으나 마나 ( 관상용 )
+            ServerSend("ConnectionOK");  // 통신 상태 확인용
 
-            // 커넥션 확인 할 때마다 매뉴얼 온오프 상태 전송 ( 이젠 이 녀석이 이 메소드의 메인... )
-            if (IsManual) ServerSend("Manual_On");
-            else ServerSend("Manual_Off");
+            PLCWrite(299, 1, 0); // PLC 통신 상태 확인용 D299번지 1로 설정
         }
 
 
@@ -735,6 +730,7 @@ namespace RobotMonitor_3.ViewModels
             if (_isPlcReading || _plc == null || !_plc.IsConnected) return;
             try
             {
+                
                 _isPlcReading = true;
 
                 byte[] readData = await _plc.ReadDeviceAsync("D", 100, 200); // PLC 데이터 읽기 , D, 100번지부터 200개 ( D100 ~ D299 )
@@ -742,6 +738,7 @@ namespace RobotMonitor_3.ViewModels
                 {
                     PLCParser(readData);
                 }
+
             }
             finally
             {
@@ -764,7 +761,7 @@ namespace RobotMonitor_3.ViewModels
                     PlcInput[i] = newValue;
                     isInputChange = true;
 
-                    _dataProcessor.Execute(i, PlcInput[i]); // 파싱데이터 바로 처리
+                    _dataProcessor.Execute(i, newValue); // 파싱데이터 바로 처리
                 }
             }
 
@@ -780,8 +777,6 @@ namespace RobotMonitor_3.ViewModels
                 }
             }
 
-            if (isInputChange) { OnPropertyChanged(nameof(PlcInput)); }
-            if (isOutputChange) { OnPropertyChanged(nameof(PlcOutput)); }
         }
 
 
@@ -802,7 +797,6 @@ namespace RobotMonitor_3.ViewModels
                 if (isSuccess)
                 {
                     PlcOutput[Address - 200] = inputData;
-                    OnPropertyChanged(nameof(PlcOutput));
                 }
                 if(pulse > 0) // 펄스 신호인 경우 일정 시간 후 자동으로 0으로 리셋
                 {
@@ -810,7 +804,6 @@ namespace RobotMonitor_3.ViewModels
                     short[] resetData = new short[] { 0 };
                     await _plc.WriteDeviceAsync("D", Address, resetData);
                     PlcOutput[Address - 200] = 0;
-                    OnPropertyChanged(nameof(PlcOutput));
                 }
 
             }
@@ -1679,6 +1672,7 @@ namespace RobotMonitor_3.ViewModels
         internal void InterfaceView()
         {
             InterfaceWindow interfaceWindow = new InterfaceWindow();
+            interfaceWindow.DataContext = this;
             Window? openInterfaceWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
 
             if (openInterfaceWindow != null)
@@ -1726,10 +1720,10 @@ namespace RobotMonitor_3.ViewModels
 
         internal void IPAddressBox_PLC()
         {
-            DisplayedData = PlcIp;
-            string MsgBuff = PlcIp;
-            PlcIp = CallNumKey(DisplayedData);
-            Logger.Write("PLC IP Change : " + MsgBuff + " → " + PlcIp);
+            DisplayedData = PlcIP;
+            string MsgBuff = PlcIP;
+            PlcIP = CallNumKey(DisplayedData);
+            Logger.Write("PLC IP Change : " + MsgBuff + " → " + PlcIP);
         }   
 
 

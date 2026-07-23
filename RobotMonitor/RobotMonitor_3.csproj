@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <OutputPath>bin\Release\MRS_2</OutputPath>
+    <OutputPath>bin\Release\MRS_3</OutputPath>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
     <ApplicationIcon>KODENSHI.ico</ApplicationIcon>
+    <AssemblyName>RobotMonitor_3</AssemblyName>
+    <RootNamespace>RobotMonitor_3</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

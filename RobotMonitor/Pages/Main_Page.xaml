@@ -90,35 +90,6 @@
 
         </Style>
 
-        <Style x:Key="FrameSensorButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="2,2"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="IsHitTestVisible" Value="False"/>
-
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" LineHeight="22" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" CornerRadius="5" BorderThickness="2" 
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}">
-                            <Grid>
-                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
     </Page.Resources>
 
     <Grid>
@@ -244,26 +215,6 @@
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Row="1">
                     <Button x:Name="btn_Heater1" Content="Heater&#x0a;1" Style="{StaticResource HeaterButtonStyle}" Background="{Binding HeaterBtn1BG}" Click="btn_Heater1_Click" />
                     <Button x:Name="btn_Heater2" Content="Heater&#x0a;2" Style="{StaticResource HeaterButtonStyle}" Background="{Binding HeaterBtn2BG}" Click="btn_Heater2_Click" />
-                    <Grid Margin="10,5,10,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Button Grid.Column="0" Grid.Row="0" x:Name="btn_Sensor8" Content="Frame8" Background="{Binding FrameSensor4}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="0" Grid.Row="1" x:Name="btn_Sensor7" Content="Frame7" Background="{Binding FrameSensor3}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="0" Grid.Row="2" x:Name="btn_Sensor6" Content="Frame6" Background="{Binding FrameSensor2}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="0" Grid.Row="3" x:Name="btn_Sensor5" Content="Frame5" Background="{Binding FrameSensor1}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="1" Grid.Row="0" x:Name="btn_Sensor4" Content="Frame4" Background="{Binding FrameSensor4}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="1" Grid.Row="1" x:Name="btn_Sensor3" Content="Frame3" Background="{Binding FrameSensor3}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="1" Grid.Row="2" x:Name="btn_Sensor2" Content="Frame2" Background="{Binding FrameSensor2}" Style="{StaticResource FrameSensorButtonStyle}" />
-                        <Button Grid.Column="1" Grid.Row="3" x:Name="btn_Sensor1" Content="Frame1" Background="{Binding FrameSensor1}" Style="{StaticResource FrameSensorButtonStyle}" />
-                    </Grid>
                     <Grid Margin="10,5,10,5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1.8*"/>

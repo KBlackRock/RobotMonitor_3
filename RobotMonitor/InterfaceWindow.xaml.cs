@@ -26,8 +26,8 @@ namespace RobotMonitor_3
         {
             InitializeComponent();
 
-            _viewModel = new MainWindow_ViewModel();
-            this.DataContext = _viewModel;
         }
+
+
     }
 }
