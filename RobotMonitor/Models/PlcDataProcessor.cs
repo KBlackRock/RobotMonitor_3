@@ -1,4 +1,5 @@
-﻿using RobotMonitor_3.Utilities;
+﻿using RobotMonitor_3.Services;
+using RobotMonitor_3.Utilities;
 using RobotMonitor_3.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,21 @@ namespace RobotMonitor_3.Models
 
         private readonly ErrorRepository _errorRepository = new ErrorRepository();
 
-        private short _tempD198;
+        // 에러 워드 이전값 보관 ( 에지 검출용 )  key : PLC 주소
+        private readonly Dictionary<int, short> _prevErrorWord = new Dictionary<int, short>();
+
+        // 32비트(DMOV) 핸들러 : key = 하위 워드 인덱스 (D100 기준 오프셋)
+        private readonly Dictionary<int, Action<int>> _dwordHandlers;
+
+        // 32비트 이전값 (변화 검출용)
+        private readonly Dictionary<int, int> _prevDword = new Dictionary<int, int>();
 
         public PlcDataProcessor(MainWindow_ViewModel viewModel)
         {
             _viewModel = viewModel;
+
+            foreach (var addr in ErrorRepository.BitmapWords.Keys)
+                _prevErrorWord[addr] = 0;
 
             _handlers = new Dictionary<int, Action<short>>
             {
@@ -35,6 +46,18 @@ namespace RobotMonitor_3.Models
                 {80,  D180}, {81,  D181}, {82,  D182}, {83,  D183}, {84,  D184}, {85,  D185}, {86,  D186}, {87,  D187}, {88,  D188}, {89,  D189},
                 {90,  D190}, {91,  D191}, {92,  D192}, {93,  D193}, {94,  D194}, {95,  D195}, {96,  D196}, {97,  D197}, {98,  D198}, {99,  D199}
             };
+
+            _dwordHandlers = new Dictionary<int, Action<int>>
+            {
+                { 30, D130_D131 }, 
+                { 32, D132_D133 },
+                { 34, D134_D135 },
+                { 36, D136_D137 },
+                { 38, D138_D139 },
+                { 40, D140_D141 },
+                { 42, D142_D143 },
+                { 44, D144_D145 },
+            };
         }
 
         public void Execute(int index, short data)
@@ -45,29 +68,115 @@ namespace RobotMonitor_3.Models
             }
         }
 
-        public void D100(short data)  
+        public void ExecuteDword(byte[] data)
+        {
+            foreach (var kv in _dwordHandlers)
+            {
+                int low = kv.Key;
+                int value = BitConverter.ToInt32(data, low * 2);   // 하위 워드 먼저 = 리틀 엔디안
+
+                if (_prevDword.TryGetValue(low, out int prev) && prev == value) continue;
+                _prevDword[low] = value;
+
+                kv.Value.Invoke(value);
+            }
+        }
+
+        /// <summary>비트맵 에러 워드 공통 처리</summary>
+        private void ProcessErrorWord(int address, short data)
+        {
+            short prev = _prevErrorWord.TryGetValue(address, out var p) ? p : (short)0;
+            if (prev == data) return;
+
+            ushort now = unchecked((ushort)data);
+            ushort old = unchecked((ushort)prev);
+            ushort rise = (ushort)(now & ~old);   // 0 → 1 : 에러 발생
+            ushort fall = (ushort)(old & ~now);   // 1 → 0 : 에러 해제
+
+            for (int bit = 0; bit < 16; bit++)
+            {
+                ushort mask = (ushort)(1 << bit);
+
+                if ((rise & mask) != 0)
+                {
+                    short code = ErrorRepository.ToErrorCode(address, bit);
+                    _viewModel.RaisePlcError(code);
+                }
+                else if ((fall & mask) != 0)
+                {
+                    short code = ErrorRepository.ToErrorCode(address, bit);
+                    _viewModel.ClearPlcError(code);
+                }
+            }
+
+            _prevErrorWord[address] = data;
+        }
+
+        public void D130_D131(int data)
+        {
+            SettingsStore.Current.M1_CurrentPos = data;
+        }
+
+        public void D132_D133(int data)
+        {
+            SettingsStore.Current.M2_CurrentPos = data;
+        }
+
+        public void D134_D135(int data)
+        {
+        }
+
+        public void D136_D137(int data)
+        {
+        }
+
+        public void D138_D139(int data)
+        {
+        }
+
+        public void D140_D141(int data)
+        {
+        }
+
+        public void D142_D143(int data)
+        {
+        }
+
+        public void D144_D145(int data)
+        {
+        }
+
+
+
+        public void D100(short data)
         {
             switch (data)
             {
                 case 0:
-
+                    _viewModel.LabelSet("");
                     break;
                 case 1:
-                    _viewModel.RobotLabelSet("Stopped");
+                    _viewModel.LabelSet("Stopped");
                     break;
                 case 2:
-                    _viewModel.RobotLabelSet("Ready");
+                    _viewModel.LabelSet("Ready");
                     break;
                 case 3:
-                    _viewModel.RobotLabelSet("Running");
+                    _viewModel.LabelSet("Running");
                     break;
                 case 4:
-                    _viewModel.RobotLabelSet("Origin");
+                    _viewModel.LabelSet("Origin");
+                    break;
+                case 5:
+                    _viewModel.LabelSet("Stopped");
+                    _viewModel.ButtonVisible("Error");
                     break;
                 default:
                     break;
             }
         }
+
+
 
         public void D101(short data)
         {
@@ -442,50 +551,28 @@ namespace RobotMonitor_3.Models
         {
         }
 
-        public void D190(short data)
-        {
-        }
-
-        public void D191(short data)
-        {
-        }
-
-        public void D192(short data)
-        {
-        }
-
-        public void D193(short data)
-        {
-        }
-
-        public void D194(short data)
-        {
-        }
-
-        public void D195(short data)
-        {
-        }
-
-        public void D196(short data)
-        {
-        }
+        public void D190(short data) => ProcessErrorWord(190, data);  // 시스템
+        public void D191(short data) => ProcessErrorWord(191, data);  // 로봇
+        public void D192(short data) => ProcessErrorWord(192, data);  // 툴
+        public void D193(short data) => ProcessErrorWord(193, data);  // 프레스
+        public void D194(short data) => ProcessErrorWord(194, data);  // 오토로더
+        public void D195(short data) => ProcessErrorWord(195, data);  // 프리히터
+        public void D196(short data) => ProcessErrorWord(196, data);  // EMC
 
         public void D197(short data)
         {
+
         }
 
         public void D198(short data)
         {
+
         }
 
+        // System Error
         public void D199(short data)
         {
-            if (data >= 100)
-            {
-                var errorInfo = _errorRepository.GetPlcError(data);
 
-                _viewModel.Error(errorInfo.Message);
-            }
         }
     }
 }

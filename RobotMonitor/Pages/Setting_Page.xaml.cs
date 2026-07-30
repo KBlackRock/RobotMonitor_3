@@ -117,36 +117,24 @@ namespace RobotMonitor_3.Pages
         }
         #endregion
 
-        #region Servo/Cylinder Page
-        private void tBox_M1Speed_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).M1_SpeedSet();
-        }
+        #region Auto Loader Page
+        private void tBox_M1_PickUpPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_PickUpPosSet();
+        private void tBox_M1_FirstPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_FirstPosSet();
+        private void tBox_M1_SecondPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_SecondPosSet();
+        private void tBox_M1_CheckPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_CheckPosSet();
+        private void tBox_M1_HighSpeed_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_HighSpeedSet();
+        private void tBox_M1_LowSpeed_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_LowSpeedSet();
 
-        private void tBox_M2Speed_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).M2_SpeedSet();
-        }
+        private void tBox_M2_1stPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M2_1stPosSet();
+        private void tBox_M2_Pitch_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M2_PitchSet();
+        private void tBox_M2_Speed_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M2_SpeedSet();
 
-        private void tBox_EMCOpen_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).EMC_DoorOpenDelaySet();
-        }
-
-        private void tBox_EMCClose_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).EMC_DoorCloseDelaySet();
-        }
-
-        private void tBox_EMCFWD_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).EMC_StopperFWDDelaySet();
-        }
-
-        private void tBox_EMCBWD_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).EMC_StopperBWDDelaySet();
-        }
+        private void tBox_MoveCyl1DownDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MoveCyl1DownDelaySet();
+        private void tBox_MoveCyl2DownDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MoveCyl2DownDelaySet();
+        private void tBox_MoveCyl1UpDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MoveCyl1UpDelaySet();
+        private void tBox_MoveCyl2UpDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MoveCyl2UpDelaySet();
+        private void tBox_FixCylUpDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).FixCylUpDelaySet();
+        private void tBox_FixCylDownDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).FixCylDownDelaySet();
         #endregion
 
         #region Panel Page
@@ -224,6 +212,7 @@ namespace RobotMonitor_3.Pages
         {
             (DataContext as MainWindow_ViewModel).OutBtn6Click();
         }
+
         #endregion
 
 

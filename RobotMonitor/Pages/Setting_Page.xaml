@@ -51,6 +51,21 @@
             <Setter Property="Background" Value="{x:Null}"/>
         </Style>
 
+        <Style x:Key="HalfMenuLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
         <Style x:Key="TextBoxMenuStyle" TargetType="TextBox">
             <Setter Property="Margin" Value="0,5,5,5"/>
             <Setter Property="CaretBrush" Value="Transparent"/>
@@ -64,6 +79,21 @@
             <Setter Property="Width" Value="85"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="#FFF0F0F0"/>
+        </Style>
+
+        <Style x:Key="HalfTextBoxMenuStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,5,5,5"/>
+            <Setter Property="CaretBrush" Value="Transparent"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="SelectionOpacity" Value="-1"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#FFF0F0F0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
 
     </Page.Resources>
@@ -193,57 +223,100 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Margin="3" Grid.Column="0" Background="White">
-                                    <Grid Height="55">
-                                        <Label Content="Magazine Feeder" Style="{StaticResource SubSectionLabelStyle}"/>
+                                <Grid Margin="3" Grid.Column="0" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="55"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Height="55" >
+                                        <Label Content="M1 Frame Move" Style="{StaticResource SubSectionLabelStyle}"/>
                                     </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,5,5" Content="Motor Current Position" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.8*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <Label Content="Current Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Pick Up Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="1st Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="2nd Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Check Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="High Speed" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Low Speed" Style="{StaticResource HalfMenuLabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBox Text="{Binding Setting.M1_CurrentPos}" x:Name="tBox_M1_CurrentPos" Style="{StaticResource HalfTextBoxMenuStyle}" IsHitTestVisible="False"/>
+                                            <TextBox Text="{Binding Setting.M1_PickUpPos}" x:Name="tBox_M1_PickUpPos" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M1_PickUpPos_PreviewMouseLeftButtonDown"  />
+                                            <TextBox Text="{Binding Setting.M1_FirstPos}" x:Name="tBox_M1_FirstPos" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M1_FirstPos_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.M1_SecondPos}" x:Name="tBox_M1_SecondPos" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M1_SecondPos_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.M1_CheckPos}" x:Name="tBox_M1_CheckPos" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M1_CheckPos_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.M1_HighSpeed}" x:Name="tBox_M1_HighSpeed" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M1_HighSpeed_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.M1_LowSpeed}" x:Name="tBox_M1_LowSpeed" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M1_LowSpeed_PreviewMouseLeftButtonDown" />
+                                        </StackPanel>
                                     </Grid>
-                                    <Grid Height="55">
-                                        <TextBox x:Name="tBox_M1CurrentPos" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding M1_CurrentPosition}" Cursor="No" Background="#FFF0F0F0" IsHitTestVisible="False"  />
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Motor Work Speed" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <TextBox x:Name="tBox_M1Speed" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding M1_Speed}" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_M1Speed_PreviewMouseLeftButtonDown" />
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_02" Style="{StaticResource TextBoxMenuStyle}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_03" Style="{StaticResource TextBoxMenuStyle}"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Margin="3" Grid.Column="1" Background="White">
-                                    <Grid Height="55">
-                                        <Label Content="Turn Table" Style="{StaticResource SubSectionLabelStyle}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,5,5" Content="Motor Current Position" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="45"  FontSize="22" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <TextBox x:Name="tBox_M2CurrentPos" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Text="{Binding M2_CurrentPosition}" Cursor="No" Background="#FFF0F0F0" IsHitTestVisible="False"  />
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="Motor Speed" Style="{StaticResource MenuLabelStyle}"/>
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <TextBox x:Name="tBox_M2_Speed" Text="{Binding M2_Speed}" Margin="5,5,5,5" CaretBrush="Transparent" TextWrapping="Wrap" VerticalAlignment="Top" Height="45" SelectionOpacity="-1" FontSize="22" TextAlignment="Right" Cursor="Hand" Background="#FFF0F0F0" PreviewMouseLeftButtonDown="tBox_M2Speed_PreviewMouseLeftButtonDown"  />
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_002" Text="{Binding y}" Style="{StaticResource TextBoxMenuStyle}" />
-                                    </Grid>
-                                    <Grid Height="55">
-                                        <Label Margin="5,5,0,5" Content="" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_003" Text="{Binding y}" Style="{StaticResource TextBoxMenuStyle}" />
-                                    </Grid>
-                                </StackPanel>
 
+                                </Grid>
+                                <Grid Margin="3" Grid.Column="1" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="55"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Height="55" >
+                                        <Label Content="M2 MGZ Elevator" Style="{StaticResource SubSectionLabelStyle}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.8*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <Label Content="Current Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="1st Pos" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Pitch" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Speed" Style="{StaticResource HalfMenuLabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBox Text="{Binding Setting.M2_CurrentPos}" x:Name="tBox_M2_CurrentPos" Style="{StaticResource HalfTextBoxMenuStyle}" IsHitTestVisible="False" />
+                                            <TextBox Text="{Binding Setting.M2_FirstPos}" x:Name="tBox_M2_1stPos" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M2_1stPos_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.M2_Pitch}" x:Name="tBox_M2_Pitch" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M2_Pitch_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.M2_Speed}" x:Name="tBox_M2_Speed" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_M2_Speed_PreviewMouseLeftButtonDown" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                </Grid>
+                                <Grid Margin="3" Grid.Column="2" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="55"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Height="55" >
+                                        <Label Content="Cylinder Delay" Style="{StaticResource SubSectionLabelStyle}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.8*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <Label Content="Mv1 Down" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Mv2 Down" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Mv1 Up" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Mv2 Up" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Fix Up" Style="{StaticResource HalfMenuLabelStyle}" />
+                                            <Label Content="Fix Down" Style="{StaticResource HalfMenuLabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBox Text="{Binding Setting.MoveCyl1DownDelay}" x:Name="tBox_MoveCyl1DownDelay" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_MoveCyl1DownDelay_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.MoveCyl2DownDelay}" x:Name="tBox_MoveCyl2DownDelay" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_MoveCyl2DownDelay_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.MoveCyl1UpDelay}" x:Name="tBox_MoveCyl1UpDelay" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_MoveCyl1UpDelay_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.MoveCyl2UpDelay}" x:Name="tBox_MoveCyl2UpDelay" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_MoveCyl2UpDelay_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.FixCylUpDelay}" x:Name="tBox_FixCylUpDelay" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_FixCylUpDelay_PreviewMouseLeftButtonDown" />
+                                            <TextBox Text="{Binding Setting.FixCylDownDelay}" x:Name="tBox_FixCylDownDelay" Style="{StaticResource HalfTextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_FixCylDownDelay_PreviewMouseLeftButtonDown" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>

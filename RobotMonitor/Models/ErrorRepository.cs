@@ -25,137 +25,95 @@ namespace RobotMonitor_3.Models
         private readonly Dictionary<string, ErrorInfo> _errorMapRobot;
         private readonly Dictionary<short, ErrorInfo> _errorMapPLC;
 
+        // 비트맵 워드 정의 : PLC 주소 → (카테고리명, 코드 베이스)
+        public static readonly Dictionary<int, (string Category, int CodeBase)> BitmapWords
+            = new Dictionary<int, (string, int)>
+        {
+        { 190, ("System",     0) },
+        { 191, ("Robot",    100) },
+        { 192, ("Tool",     200) },
+        { 193, ("Press",    300) },
+        { 194, ("Loader",   400) },
+        { 195, ("Preheater",500) },
+        { 196, ("EMC",      600) },
+        };
+
         public ErrorRepository()
         {
-            _errorMapRobot = new Dictionary<string, ErrorInfo>
-            {
-
-                // 안전 관련
-                { "EStop",                    new ErrorInfo("", "[비상정지]") },
-                { "DoorOpen",                 new ErrorInfo("", "[도어 열림 감지]") },
-                                              
-                // 작업 관련                  
-                { "WorkMode_Select",          new ErrorInfo("", "작업모드 선택 이상") },
-                { "PCBMagazineEmpty",         new ErrorInfo("", "[Lot End]\r 작업완료 ( 매거진 없음 )") },
-                { "ExtractCountOver",         new ErrorInfo("", "10 샷 작업 완료\r 금형 클리닝 및 완제품 배출구를 비워주세요.") },
-                                              
-                // 서플라이 관련              
-                { "Servo_M1_ORGTO",           new ErrorInfo("", "매거진 서플라이 모터 오리진 동작 이상") },
-                { "Servo_M1_SupTO",           new ErrorInfo("", "매거진 서플라이 모터 공급 동작 이상") },
-                { "Servo_M1_RelTO",           new ErrorInfo("", "매거진 서플라이 모터 리턴 동작 이상") },
-                { "Cylinder_Supply_Left",     new ErrorInfo("", "매거진 서플라이 좌측 실린더 동작 이상")  },
-                { "Cylinder_Supply_Right",    new ErrorInfo("", "매거진 서플라이 우측 실린더 동작 이상") },
-                { "MagazineSensorOn",         new ErrorInfo("", "매거진 센서 감지 이상") },
-                { "PCBWorkCountOver",         new ErrorInfo("", "매거진 PCB 작업수량 초과") },
-                { "Servo_M1_SupSensor",       new ErrorInfo("", "매거진 공급동작 신호시 센서 감지됨\r 매거진을 뒤로 물리고 다시 시작 해 주세요.")  },
-                                              
-                // 턴 테이블 관련        
-                { "Servo_M2_ORGTO",           new ErrorInfo("", "턴테이블 모터 오리진 동작 이상")  },
-                { "Servo_M2_0TO",             new ErrorInfo("", "PCB 턴 테이블 0도 동작 이상") },
-                { "Servo_M2_180TO",           new ErrorInfo("", "PCB 턴 테이블 180도 동작 이상") },
-                                              
-                // 로봇 관련            
-                { "RobError",                 new ErrorInfo("", "[로봇 에러]\r로봇 에러 발생") },
-                { "RobEResetFail",            new ErrorInfo("", "로봇 모터 가동 실패") },
-                { "RobMotorFail",             new ErrorInfo("", "로봇 에러 리셋 실패") },
-                { "RobControlBGStoped",       new ErrorInfo("", "로봇 백그라운드 프로그램 정지상태") },
-                                              
-                // 프리히터 관련
-                { "PreheaterPowerOff",       new ErrorInfo("", "프리히터 전원 OFF 이상") },
-                { "Preheater_NotOpen",       new ErrorInfo("", "프리히터 신호이상\r 프리히터 도어 열림 이상") },
-
-                // EMC 공급함 관련
-                { "EMCBoxPickMiss",          new ErrorInfo("", "EMC 박스 픽업 이상") },
-                { "EMC_NotSupply",           new ErrorInfo("", "EMC 공급함 에러\r EMC 도달 감지 이상") },
-                { "EMC_CylNotDown",          new ErrorInfo("", "EMC 공급함 에러\r EMC 개폐실린더 하강 이상") },
-
-                // 프레스 관련
-                { "PrsSign1TimeOut",         new ErrorInfo("", "프레스 신호 이상\r 프레스 준비 신호 수신 이상") },
-                { "PrsSign2TimeOut",         new ErrorInfo("", "프레스 신호 이상\r 프레스 상승 완료 신호 수신 이상") },
-                { "PrsSign3TimeOut",         new ErrorInfo("", "프레스 신호 이상\r 쳄버 닫힘 완료 신호 수신 이상") },
-                { "PrsSign4TimeOut",         new ErrorInfo("", "프레스 신호 이상\r 프레스 열림 신호 수신 이상") },
-                { "PrsSign5TimeOut",         new ErrorInfo("", "프레스 신호 이상\r 프레스 준비위치 도달 신호 이상") },
-
-                // 로봇 툴 관련
-                { "Chuck_Sensor",            new ErrorInfo("", "툴 교체 센서 이상") },
-                { "ElectricGripperError",    new ErrorInfo("", "전동 그리퍼 동작이상") },
-                { "Extract_Table",           new ErrorInfo("", "추출 툴 진공센서 이상\r 턴 테이블 PCB 픽업 이상") },
-                { "Extract_Press",           new ErrorInfo("", "추출 툴 진공센서 이상\r 프레스 완제품 픽업 이상") },
-                { "Extract_Out",             new ErrorInfo("", "추출 툴 진공센서 이상\r 배출부 이송중 제품 이탈 이상") },
-                { "SprayCylDown",            new ErrorInfo("", "이형제 분사 실린더 하강 이상") },
-                { "SprayCylUp",              new ErrorInfo("", "이형제 분사 실린더 상승 이상") },
-                { "PCBTurnTableError",       new ErrorInfo("", "PCB 턴테이블 동작 이상") },
-
-
-                // 비전 관련
-                { "VisionNotReady",          new ErrorInfo("", "비전 검사 준비 이상\r 비전 프로그램 동작 확인") },
-                { "VisionSignal",            new ErrorInfo("", "비전 검사 신호 이상") },
-                { "VisionNG_PCB",            new ErrorInfo("", "Vision NG\r 프레스 내 PCB 안착 이상") },
-                { "VisionNG_Press",          new ErrorInfo("", "Vision NG\r 프레스 이물 검사 이상") },
-                { "VisionNG_Table",          new ErrorInfo("", "Vision NG\r PCB 로드 테이블 안착 이상") },
-                { "VisionNG_Extract",        new ErrorInfo("", "Vision NG\r 완제품 성형 이상") },
-            };
-
             _errorMapPLC = new Dictionary<short, ErrorInfo>
             {
-                // 시스템 관련 ( 0~99 )
-                { 0,        new ErrorInfo("", "시스템 에러\r ") },
-                { 1,        new ErrorInfo("", "시스템 에러\r ") },
-                { 2,        new ErrorInfo("", "시스템 에러\r ") },
-                { 3,        new ErrorInfo("", "시스템 에러\r ") },
+                // 시스템 ( D190 : bit0~15 → 0~15 )
+                {   0, new ErrorInfo("", "시스템 [CC-Link]\r PLC-Robot 통신이상", "System") },
+                {   1, new ErrorInfo("", "시스템 [MC-Protocol]\r PLC-PC 통신이상", "System") },
+                {   2, new ErrorInfo("", "시스템 [안전]\r 도어 열림 감지", "System") },
+                {   3, new ErrorInfo("", "시스템 [안전]\r 비상정지 버튼 눌림", "System") },
+                {   4, new ErrorInfo("", "시스템 [준비]\r 설비 리셋 타임오버", "System") },
+                {   5, new ErrorInfo("", "시스템 [준비]\r 로봇 리셋 타임오버", "System") },
 
-                // 로봇 관련 ( 100~199 )
-                { 100,      new ErrorInfo("", "로봇 에러\r ") },
-                { 101,      new ErrorInfo("", "로봇 에러\r ") },
-                { 102,      new ErrorInfo("", "로봇 에러\r ") },
+                // 로봇 ( D191 : bit0~15 → 100~115 )
+                { 100, new ErrorInfo("", "로봇 [툴]\r 툴 감지 센서 이상", "Robot") },
+                { 101, new ErrorInfo("", "로봇 [이형제]\r 실린더 하강 센서 감지 이상", "Robot") },
+                { 102, new ErrorInfo("", "로봇 [이형제]\r 실린더 상승 센서 감지 이상", "Robot") },
+                { 103, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 104, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 105, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 106, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 107, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 108, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 109, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 110, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 111, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 112, new ErrorInfo("", "로봇 \r ", "Robot") },
+                { 113, new ErrorInfo("", "로봇 [비전]\r 오토로더 로딩 이상", "Robot") },
+                { 114, new ErrorInfo("", "로봇 [비전]\r 프레스 로딩 이상", "Robot") },
+                { 115, new ErrorInfo("", "로봇 [비전]\r 프레스 성형제품 상태 이상", "Robot") },
 
-                // 툴 관련 ( 200~299 )
-                { 200,      new ErrorInfo("", "로봇 툴 에러\r ") },
-                { 201,      new ErrorInfo("", "로봇 툴 에러\r ") },
-                { 202,      new ErrorInfo("", "로봇 툴 에러\r ") },
+                // 툴 ( D192 : bit0~15 → 200~215 )
+                { 200, new ErrorInfo("", "로봇 툴 에러\r ", "Tool") },
+                { 201, new ErrorInfo("", "로봇 툴 에러\r ", "Tool") },
+                { 202, new ErrorInfo("", "로봇 툴 에러\r ", "Tool") },
 
-                // 프레스 관련 ( 300~399 )
-                { 300,      new ErrorInfo("", "프레스 에러\r ") },
-                { 301,      new ErrorInfo("", "프레스 에러\r ") },
-                { 302,      new ErrorInfo("", "프레스 에러\r ") },
-                { 303,      new ErrorInfo("", "프레스 에러\r ") },
-                { 304,      new ErrorInfo("", "프레스 에러\r ") },
+                // 프레스 ( D193 : bit0~15 → 300~315 )
+                { 300, new ErrorInfo("", "프레스 \r 준비 신호 이상", "Press") },
+                { 301, new ErrorInfo("", "프레스 \r 상승 완료 신호 이상", "Press") },
+                { 302, new ErrorInfo("", "프레스 \r 쳄버 닫힘 신호 이상", "Press") },
+                { 303, new ErrorInfo("", "프레스 \r 열림 신호 이상", "Press") },
+                { 304, new ErrorInfo("", "프레스 \r 준비위치 도달 이상", "Press") },
 
-                // Auto Loader 관련 ( 400~499 )
-                { 400,      new ErrorInfo("", "오토로더 에러\r 히터 1 고온 에러") },
-                { 401,      new ErrorInfo("", "오토로더 에러\r 히터 2 고온 에러") },
-                { 402,      new ErrorInfo("", "오토로더 에러\r 히터 1 저온 에러") },
-                { 403,      new ErrorInfo("", "오토로더 에러\r 히터 2 저온 에러") },
+                // 오토로더 ( D194 : bit0~15 → 400~415 )
+                { 400, new ErrorInfo("", "오토로더 [히터]\r 히터 1 고온 에러", "Loader") },
+                { 401, new ErrorInfo("", "오토로더 [히터]\r 히터 2 고온 에러", "Loader") },
+                { 402, new ErrorInfo("", "오토로더 [히터]\r 히터 1 저온 에러", "Loader") },
+                { 403, new ErrorInfo("", "오토로더 [히터]\r 히터 2 저온 에러", "Loader") },
+                { 404, new ErrorInfo("", "오토로더 [인버터모터]\r 프레임 공급 모터 동작이상", "Loader") },
+                { 405, new ErrorInfo("", "오토로더 [인버터모터]\r 프레임 공급 이상 ( 프레임 없음 )", "Loader") },
+                { 406, new ErrorInfo("", "오토로더 [프레임 이송]\r 실린더 1 하강동작 이상", "Loader") },
+                { 407, new ErrorInfo("", "오토로더 [프레임 이송]\r 실린더 2 상승동작 이상", "Loader") },
+                { 408, new ErrorInfo("", "오토로더 [프레임 이송]\r 실린더 1 하강동작 이상", "Loader") },
+                { 409, new ErrorInfo("", "오토로더 [프레임 이송]\r 실린더 2 상승동작 이상", "Loader") },
+                { 410, new ErrorInfo("", "오토로더 [프레임 이송]\r M1 모터 동작 이상", "Loader") },
+                { 411, new ErrorInfo("", "오토로더 [매거진 엘레베이터]\r M2 모터 동작 이상", "Loader") },
+                { 412, new ErrorInfo("", "오토로더 [매거진 엘레베이터]\r 작업 완료 ( 프레임 없음 )", "Loader") },
 
-                // 프리히터 관련 ( 500~599 )
-                { 500,      new ErrorInfo("", "프리히터 에러\r") },
-                { 501,      new ErrorInfo("", "프리히터 에러\r") },
+                // 프리히터 ( D195 : bit0~15 → 500~515 )
+                { 500, new ErrorInfo("", "프리히터 \r 전원 OFF", "Preheater") },
+                { 501, new ErrorInfo("", "프리히터 \r 도어 열림 이상", "Preheater") },
+                { 502, new ErrorInfo("", "프리히터 \r 예열 동작 이상", "Preheater") },
 
-                // EMC 박스 관련 ( 600~699 )
-                { 600,      new ErrorInfo("", "EMC 박스 에러\r") },
-                { 601,      new ErrorInfo("", "EMC 박스 에러\r") },
-
+                // EMC ( D196 : bit0~15 → 600~615 )
+                { 600, new ErrorInfo("", "EMC 박스 \r 커버 열림 이상", "EMC") },
+                { 601, new ErrorInfo("", "EMC 박스 \r EMC 공급 이상", "EMC") },
             };
         }
 
-        public ErrorInfo GetRobotError(string code)
-        {
-            if (_errorMapRobot.ContainsKey(code))
-            {
-                return _errorMapRobot[code];
-            }
-            // 정의 되지 않은 에러코드인 경우 기본 메시지 반환
-            return new ErrorInfo("", $"{code}");
-        }
 
         public ErrorInfo GetPlcError(short code)
-        {
-            if (_errorMapPLC.ContainsKey(code))
-            {
-                return _errorMapPLC[code];
-            }
-            return new ErrorInfo("", $"PLC 에러코드 미 할당\rCode : {code}");
-        }
+            => _errorMapPLC.TryGetValue(code, out var info) ? info : new ErrorInfo("", $"PLC 에러코드 미 할당\rCode : {code}");
 
+        public static short ToErrorCode(int address, int bit)
+        {
+            int baseCode = BitmapWords.TryGetValue(address, out var v) ? v.CodeBase : 0;
+            return (short)(baseCode + bit);
+        }
     }
 }
