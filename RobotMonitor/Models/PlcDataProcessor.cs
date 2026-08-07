@@ -3,6 +3,7 @@ using RobotMonitor_3.Utilities;
 using RobotMonitor_3.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -157,15 +158,19 @@ namespace RobotMonitor_3.Models
                     break;
                 case 1:
                     _viewModel.LabelSet("Stopped");
+                    _viewModel.ButtonVisible("Auto");
                     break;
                 case 2:
                     _viewModel.LabelSet("Ready");
+                    _viewModel.ButtonVisible("Auto");
                     break;
                 case 3:
                     _viewModel.LabelSet("Running");
+                    _viewModel.ButtonVisible("Auto");
                     break;
                 case 4:
                     _viewModel.LabelSet("Origin");
+                    _viewModel.ButtonVisible("Auto");
                     break;
                 case 5:
                     _viewModel.LabelSet("Stopped");
@@ -180,6 +185,14 @@ namespace RobotMonitor_3.Models
 
         public void D101(short data)
         {
+            if(data == 0)
+            {
+                _viewModel.needOrigin = true;
+            }
+            if (data == 1)
+            {
+                _viewModel.needOrigin = false;
+            }
 
         }
 
@@ -245,6 +258,29 @@ namespace RobotMonitor_3.Models
 
         public void D113(short data)
         {
+            switch (data)
+            {
+                case 0:
+                    _viewModel.FrameLoad1Color = "LightGray";
+                    _viewModel.FrameLoad2Color = "LightGray";
+                    _viewModel.FrameLoad3Color = "LightGray";
+                    _viewModel.FrameLoad4Color = "LightGray";
+                    break;
+                case 1:
+                    _viewModel.FrameLoad1Color = "LightGray";
+                    _viewModel.FrameLoad2Color = "LightGray";
+                    _viewModel.FrameLoad3Color = "LightGreen";
+                    _viewModel.FrameLoad4Color = "LightGreen";
+                    break;
+                case 2:
+                    _viewModel.FrameLoad1Color = "LightGreen";
+                    _viewModel.FrameLoad2Color = "LightGreen";
+                    _viewModel.FrameLoad3Color = "LightGreen";
+                    _viewModel.FrameLoad4Color = "LightGreen";
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void D114(short data)
@@ -569,7 +605,6 @@ namespace RobotMonitor_3.Models
 
         }
 
-        // System Error
         public void D199(short data)
         {
 

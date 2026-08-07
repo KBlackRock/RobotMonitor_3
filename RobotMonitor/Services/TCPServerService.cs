@@ -124,12 +124,16 @@ namespace RobotMonitor_3.Services
         // 서버 종료
         public void StopServer()
         {
+            if (!IsRunning && _cts == null) return;   
             IsRunning = false;
-            _cts?.Cancel(); // 모든 비동기 작업 취소 요청
 
-            _stream?.Close();
-            _client?.Close();
-            _listener?.Stop();
+            try { _cts?.Cancel(); } catch { }        
+            try { _listener?.Stop(); } catch { }      
+            try { _stream?.Dispose(); } catch { }
+            try { _client?.Close(); } catch { }
+
+            _cts?.Dispose();
+            _cts = null; _stream = null; _client = null; _listener = null;
 
             OnConnectionStatusChanged?.Invoke(false);
         }

@@ -118,6 +118,8 @@ namespace RobotMonitor_3.Pages
         #endregion
 
         #region Auto Loader Page
+        private void btn_MotorParaSet_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MotorParaSetPress();
+        private void btn_MotorParaSet_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MotorParaSetRelease();
         private void tBox_M1_PickUpPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_PickUpPosSet();
         private void tBox_M1_FirstPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_FirstPosSet();
         private void tBox_M1_SecondPos_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).M1_SecondPosSet();
@@ -135,6 +137,13 @@ namespace RobotMonitor_3.Pages
         private void tBox_MoveCyl2UpDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).MoveCyl2UpDelaySet();
         private void tBox_FixCylUpDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).FixCylUpDelaySet();
         private void tBox_FixCylDownDelay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).FixCylDownDelaySet();
+        #endregion
+
+        #region EMC Box Page
+        private void tBox_EMCOpen_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).EMCOpenSet();
+        private void tBox_EMCClose_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).EMCCloseSet();
+        private void tBox_EMCFWD_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).EMCFWDSet();
+        private void tBox_EMCBWD_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => (DataContext as MainWindow_ViewModel).EMCBWDSet();
         #endregion
 
         #region Panel Page
@@ -159,9 +168,24 @@ namespace RobotMonitor_3.Pages
             (DataContext as MainWindow_ViewModel).PortBox_PLC();
         }
 
-        private void btn_ServerConnect_Click(object sender, RoutedEventArgs e)
+        private async void btn_ServerConnect_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).ServerOpenClose();
+            if (DataContext is not MainWindow_ViewModel vm) return;
+
+            var btn = (Button)sender;
+            btn.IsEnabled = false;                  // 연타 차단
+            try
+            {
+                vm.ServerToggle();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("서버 처리 중 오류: " + ex.Message);
+            }
+            finally
+            {
+                btn.IsEnabled = true;
+            }
         }
 
         // Button Delay Setting

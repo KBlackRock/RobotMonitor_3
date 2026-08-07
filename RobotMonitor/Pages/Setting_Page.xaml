@@ -217,6 +217,20 @@
                     <Grid>
                         <Grid Margin="5,5,5,5" Background="#FFE6E6E6">
                             <Label Content="Auto Loader Setting Variables" Style="{StaticResource MainSectionLabelStyle}"/>
+                            <Button x:Name="btn_MotorParaSet" Content="모터 설정 적용" Margin="5,7,5,5" Height="40" Width="200" FontSize="24" FontWeight="Bold" PreviewMouseLeftButtonUp="btn_MotorParaSet_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_MotorParaSet_PreviewMouseLeftButtonDown" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="btnSetUp" CornerRadius="0" Margin="0" BorderThickness="3" Background="WhiteSmoke" BorderBrush="#FF949494">
+                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="btnSetUp" Property="Background" Value="#FF646464"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <Grid Margin="0,50,0,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -338,19 +352,19 @@
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,0,5" Content="Door Open Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_EMCOpen" Text="{Binding EMC_CylOpenDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCOpen_PreviewMouseLeftButtonDown" />
+                                        <TextBox x:Name="tBox_EMCOpen" Text="{Binding Setting.EMCOpenDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCOpen_PreviewMouseLeftButtonDown" />
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,0,5" Content="Door Close Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_EMCClose" Text="{Binding EMC_CylCloseDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCClose_PreviewMouseLeftButtonDown"/>
+                                        <TextBox x:Name="tBox_EMCClose" Text="{Binding Setting.EMCCloseDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCClose_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,0,5" Content="Stopper FWD Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_EMCFWD" Text="{Binding EMC_StopperFWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCFWD_PreviewMouseLeftButtonDown"/>
+                                        <TextBox x:Name="tBox_EMCFWD" Text="{Binding Setting.EMCFWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCFWD_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                     <Grid Height="55">
                                         <Label Margin="5,5,0,5" Content="Stopper BWD Delay" FontSize="22" Style="{StaticResource MenuLabelStyle}"/>
-                                        <TextBox x:Name="tBox_EMCBWD" Text="{Binding EMC_StopperBWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCBWD_PreviewMouseLeftButtonDown"/>
+                                        <TextBox x:Name="tBox_EMCBWD" Text="{Binding Setting.EMCBWDDelay}" Style="{StaticResource TextBoxMenuStyle}" PreviewMouseLeftButtonDown="tBox_EMCBWD_PreviewMouseLeftButtonDown"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>

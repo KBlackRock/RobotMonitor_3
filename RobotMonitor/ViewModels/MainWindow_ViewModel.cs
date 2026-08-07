@@ -35,6 +35,15 @@ namespace RobotMonitor_3.ViewModels
 
         private McProtocolService _plc;
         private bool _isPlcReading = false;
+        private bool _isPlcConnected;
+        private bool _isPlcBusy;
+        private int _retryTick;
+
+        public bool IsPlcConnected
+        {
+            get => _isPlcConnected;
+            private set { if (_isPlcConnected != value) { _isPlcConnected = value; OnPropertyChanged(); } }
+        }
 
         private XmlParser m_XmlParser;
 
@@ -62,6 +71,7 @@ namespace RobotMonitor_3.ViewModels
         private List<string> ClientMsgList;
         private int ClientMsgListNum;
         private bool buttonTiger;
+        private bool _isPlcConnecting;
 
         public string TimerWorkSelect;
         public string ParsingData;
@@ -182,14 +192,11 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private string heaterBtn1BG;
         [ObservableProperty] private string heaterBtn2BG;
         [ObservableProperty] private string magazineElevPos;
-        [ObservableProperty] private string frameSensor1;
-        [ObservableProperty] private string frameSensor2;
-        [ObservableProperty] private string frameSensor3;
-        [ObservableProperty] private string frameSensor4;
-        [ObservableProperty] private string frameSensor5;
-        [ObservableProperty] private string frameSensor6;
-        [ObservableProperty] private string frameSensor7;
-        [ObservableProperty] private string frameSensor8;
+        [ObservableProperty] private string frameLoad1Color;
+        [ObservableProperty] private string frameLoad2Color;
+        [ObservableProperty] private string frameLoad3Color;
+        [ObservableProperty] private string frameLoad4Color;
+
         #endregion
 
         #region Server Properties
@@ -271,7 +278,7 @@ namespace RobotMonitor_3.ViewModels
             IsSetView = false;
             HomeButton = false;
             BtnWorkWait = true;
-            ResetbtnEnable = false;
+            ResetbtnEnable = true;
             IsWorkModeSelected = false;
             LoginCheck = false;
             needOrigin = false;
@@ -296,7 +303,7 @@ namespace RobotMonitor_3.ViewModels
 
             responseTimeStack = 0;
 
-            StartButtonColor = "Gary";
+            StartButtonColor = "LimeGreen";
             IsWorkModeTextColor = "Black";
             ResetBtnOpacity = 1;
 
@@ -307,6 +314,13 @@ namespace RobotMonitor_3.ViewModels
 
             HeaterBtn1BG = "LightGray";
             HeaterBtn2BG = "LightGray";
+
+            FrameLoad1Color = "LightGray";
+            FrameLoad2Color = "LightGray";
+            FrameLoad3Color = "LightGray";
+            FrameLoad4Color = "LightGray";
+
+            MagazineElevPos = "연결대기";
 
             Btn1Checked = false;
             Btn2Checked = false;
@@ -357,28 +371,45 @@ namespace RobotMonitor_3.ViewModels
         }
 
 
-        internal void Opening(Window window)
+        internal async Task OpeningAsync(IProgress<LoadStep> progress = null)
         {
             MainWindow _window = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            if (_window == null) return;
+
+            progress?.Report(new LoadStep("화면을 구성하는 중...", 10));
+
             _window.ResizeMode = ResizeMode.NoResize;
-            _window.WindowState = WindowState.Maximized; // Window Maximize -------------------------------------
+            _window.WindowState = WindowState.Maximized;
             _window.WindowStyle = WindowStyle.None;
             WindowPage = "Pages/Main_Page.xaml";
-            ServerOpenClose();
 
-            // 작업모드 설정
-            WorkModeList.Add("정지모드"); // 0
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName1);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName2);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName3);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName4);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName5);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName6);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName7);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName8);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName9);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName10);
+            ServerOpen(progress);
+
+            progress?.Report(new LoadStep("작업 모드 목록을 구성하는 중...", 90));
+            LoadWorkModeList();
             IsWorkIndex = -1;
+            HomeButton = true;
+
+            progress?.Report(new LoadStep("준비 완료", 100));
+
+            await Task.CompletedTask;   // 시그니처 유지용
+        }
+
+        private void LoadWorkModeList()
+        {
+            var d = m_XmlParser.SavedData;
+            WorkModeList.Clear();
+            WorkModeList.Add("정지모드"); // 0
+            WorkModeList.Add(d.SavedDeviceName1);
+            WorkModeList.Add(d.SavedDeviceName2);
+            WorkModeList.Add(d.SavedDeviceName3);
+            WorkModeList.Add(d.SavedDeviceName4);
+            WorkModeList.Add(d.SavedDeviceName5);
+            WorkModeList.Add(d.SavedDeviceName6);
+            WorkModeList.Add(d.SavedDeviceName7);
+            WorkModeList.Add(d.SavedDeviceName8);
+            WorkModeList.Add(d.SavedDeviceName9);
+            WorkModeList.Add(d.SavedDeviceName10);
         }
 
 
@@ -492,7 +523,6 @@ namespace RobotMonitor_3.ViewModels
 
         internal void ButtonVisible(string select)
         {
-            HomeButton = false;
             IsSetting = false;
             switch (select)
             {
@@ -502,7 +532,7 @@ namespace RobotMonitor_3.ViewModels
                     IsAuto = true;
                     IsManual = false;
                     IsSetView = false;
-                    HomeButton = false;
+                    HomeButton = true;
                     AutoBtn = true;
                     ManualBtn = false;
                     break;
@@ -570,12 +600,13 @@ namespace RobotMonitor_3.ViewModels
 
             _activeErrors.Remove(key);
             ErrorList.Remove(info);
+            ButtonVisible("Auto");
             Logger.Write("Error Cleared : " + info.Message);
         }
 
         public void LabelSet(string label)
         {
-            IsOrigin = IsReady = IsRunning = IsStopped = ResetbtnEnable = false;
+            IsOrigin = IsReady = IsRunning = IsStopped = false;
             switch (label)
             {
                 case "Origin":
@@ -614,35 +645,119 @@ namespace RobotMonitor_3.ViewModels
         #endregion
 
 
-
         #region Server Methods
-        public async void ServerOpenClose()
+
+        /// <summary>서버 열기 — PLC 연결 완료를 기다리지 않음</summary>
+        internal void ServerOpen(IProgress<LoadStep> progress = null)
         {
-            IsServerOpened = !IsServerOpened;
-            if (IsServerOpened)
+            if (IsServerOpened) return;
+
+            try
             {
-
-                // 기존 설정값 사용
-                string clientIP = ClientIP;
-                int clientPort = ClientPort;
-                _tcpService.StartServer(clientIP, clientPort);
-
-                // PLC 연결
-                bool IsPlCConnected = await _plc.ConnectAsync(m_XmlParser.SavedData.PlcIp, m_XmlParser.SavedData.PlcPort);
-                if (IsPlCConnected)
-                {
-                    plcTimer.Start();
-                }
-                else
-                {
-                    RaiseMessage("PLC 연결에 실패했습니다.");
-                }
-
+                progress?.Report(new LoadStep($"로봇 서버를 여는 중... ({ClientIP}:{ClientPort})", 40));
+                _tcpService.StartServer(ClientIP, ClientPort);
+                IsServerOpened = true;
             }
-            else
+            catch (Exception ex)
             {
-                _tcpService.StopServer();
-                LabelSet("");
+                IsServerOpened = false;
+                Logger.Write("서버 시작 실패 : " + ex.Message);
+                progress?.Report(new LoadStep("서버 시작에 실패했습니다. 설정을 확인해 주십시오.", 40));
+                return;   // 예외를 던지지 않음 — 프로그램은 계속 기동
+            }
+
+            responseTimer.Start();
+
+            _retryTick = 20;    // 첫 tick에서 곧바로 연결 시도하도록
+            plcTimer.Start();
+
+            progress?.Report(new LoadStep("PLC 연결을 백그라운드에서 시도합니다.", 70));
+        }
+
+        /// <summary>서버 닫기</summary>
+        internal void ServerClose()
+        {
+            if (!IsServerOpened) return;
+
+            plcTimer.Stop();
+            responseTimer.Stop();
+
+            _tcpService.StopServer();
+            _plc.Disconnect();
+
+            IsPlcConnected = false;
+            IsServerOpened = false;
+            _isPlcConnecting = false;
+            _retryTick = 0;
+
+            LabelSet("");
+            Logger.Write("서버 종료");
+        }
+
+        /// <summary>UI 버튼용 토글</summary>
+        internal void ServerToggle()
+        {
+            if (IsServerOpened) ServerClose();
+            else ServerOpen();
+        }
+
+        private async Task ConnectPlcAsync()
+        {
+            if (_isPlcConnecting) return;
+            _isPlcConnecting = true;
+
+            try
+            {
+                IsPlcConnected = await _plc.ConnectAsync(m_XmlParser.SavedData.PlcIp, m_XmlParser.SavedData.PlcPort);
+            }
+            catch (Exception ex)
+            {
+                IsPlcConnected = false;
+                Logger.Write("PLC 연결 예외 : " + ex.Message);
+            }
+            finally
+            {
+                _isPlcConnecting = false;
+            }
+
+            if (IsPlcConnected)
+            {
+                await SendAllSettingsToPlcAsync();
+                Logger.Write("PLC 연결 완료, 설정값 전송");
+            }
+        }
+
+        private async Task SendAllSettingsToPlcAsync()
+        {
+            var s = SettingsStore.Current;
+            PLCWrite(299, 1, 0);
+
+            PLCWriteDword(230, s.M1_PickUpPos);
+            PLCWriteDword(232, s.M1_FirstPos);
+            PLCWriteDword(234, s.M1_SecondPos);
+            PLCWriteDword(236, s.M1_CheckPos);
+            PLCWriteDword(238, s.M1_HighSpeed);
+            PLCWriteDword(240, s.M1_LowSpeed);
+
+            PLCWriteDword(242, s.M2_FirstPos);
+            PLCWriteDword(244, s.M2_Pitch);
+            PLCWriteDword(246, s.M2_Speed);
+
+            PLCWrite(248, s.MoveCyl1DownDelay, 0);
+            PLCWrite(249, s.MoveCyl2DownDelay, 0);
+            PLCWrite(250, s.MoveCyl1UpDelay, 0);
+            PLCWrite(251, s.MoveCyl2UpDelay, 0);
+            PLCWrite(252, s.FixCylUpDelay, 0);
+            PLCWrite(253, s.FixCylDownDelay, 0);
+
+            PLCWrite(254, s.EMCOpenDelay, 0);
+            PLCWrite(255, s.EMCCloseDelay, 0);
+            PLCWrite(256, s.EMCFWDDelay, 0);
+            PLCWrite(257, s.EMCBWDDelay, 0);
+
+            if (PlcInput[0] != 5)
+            {
+                ButtonVisible("Auto");
             }
         }
 
@@ -731,23 +846,37 @@ namespace RobotMonitor_3.ViewModels
 
         private async void PLCRead(object sender, EventArgs e)
         {
-            if (_isPlcReading || _plc == null || !_plc.IsConnected) return;
+            if (_isPlcBusy) return;
+            _isPlcBusy = true;
             try
             {
-
-                _isPlcReading = true;
-
-                byte[] readData = await _plc.ReadDeviceAsync("D", 100, 200); // PLC 데이터 읽기 , D, 100번지부터 200개 ( D100 ~ D299 )
-                if (readData != null && readData.Length >= 400)
+                if (!IsPlcConnected)
                 {
-                    PLCParser(readData);
+                    if (++_retryTick < 20) return;    // 100ms × 20 = 2초 간격 재시도
+                    _retryTick = 0;
+                    _plc.Disconnect();                // 죽은 소켓 정리 후 재연결
+                    await ConnectPlcAsync();
+                    return;
                 }
 
+                byte[] readData = await _plc.ReadDeviceAsync("D", 100, 200);
+                if (readData != null && readData.Length >= 400) PLCParser(readData);
+                else MarkDisconnected("응답 데이터 길이 이상");
             }
-            finally
+            catch (Exception ex)
             {
-                _isPlcReading = false;
+                MarkDisconnected(ex.Message);
             }
+            finally { _isPlcBusy = false; }
+        }
+
+        private void MarkDisconnected(string reason)
+        {
+            if (!IsPlcConnected) return;   // 중복 알림 방지
+            IsPlcConnected = false;
+            _retryTick = 0;
+            Logger.Write("PLC 통신 단절 : " + reason);
+            RaiseMessage("PLC 통신이 끊어졌습니다. 재연결을 시도합니다.");
         }
 
         private void PLCParser(byte[] data)
@@ -1211,6 +1340,7 @@ namespace RobotMonitor_3.ViewModels
         {
             if (!IsReady) return;
             if (!IsWorkModeSelected || WorkMode == "") { MessageBox.Show("작업 모드가 선택되지 않았습니다."); return; }
+            if (IsWorkIndex == 0) { MessageBox.Show("정지모드가 선택되어 있습니다."); return; }
             if (needOrigin) { RaiseMessage("작업모드 변경 후 HOME 동작 미완료"); return; }
             StartButtonColor = "#63AA00";
             TimerWorkSelect = "StartButtonDown";
@@ -1262,15 +1392,11 @@ namespace RobotMonitor_3.ViewModels
 
         internal async Task ResetButtonPress()
         {
-            if (!IsStopped) return;
+            if (!IsStopped) { return; }
 
             PLCWrite(201, 1, 100);
 
-            if (!IsWorkModeSelected || WorkMode == "") { IsAuto = true; MessageBox.Show("작업 모드가 선택되지 않았습니다."); PLCWrite(200, 1, 100); }
-            if (IsWorkIndex == 0) { IsAuto = true; MessageBox.Show("정지모드가 선택되어 있습니다."); PLCWrite(200, 1, 100); }
-
             bool ok = await WaitUntilAsync(() => PlcInput[0] != 5, TimeSpan.FromSeconds(4));
-
         }
 
 
@@ -1370,7 +1496,7 @@ namespace RobotMonitor_3.ViewModels
 
         internal void Heater1Press()
         {
-            if (!IsStopped)
+            if (IsStopped)
             {
                 if (PlcInput[10] == 1) PLCWrite(210, 0, 0);  // 히터 1 이 켜져 있으면 OFF ( Input 10 : Heater 1, Out210 : 히터 1 제어 )
                 else PLCWrite(210, 1, 0);                    // 아니면 ON
@@ -1382,12 +1508,27 @@ namespace RobotMonitor_3.ViewModels
 
         internal void Heater2Press()
         {
-            if (!IsStopped)
+            if (IsStopped)
             {
-                if (PlcInput[12] == 1) PLCWrite(211, 0, 0);   // 히터 2 가 켜져 있으면 OFF ( Input 12 : Heater 2, Out211 : 히터 2 제어 )
+                if (PlcInput[11] == 1) PLCWrite(211, 0, 0);   // 히터 2 가 켜져 있으면 OFF ( Input 11 : Heater 2, Out211 : 히터 2 제어 )
                 else PLCWrite(211, 1, 0);                     // 아니면 ON
             }
             else return;
+        }
+
+        internal void MGZPositionUpdate()
+        {
+            try
+            {
+                DisplayedData = MagazineElevPos;
+                int inputData = Convert.ToInt32(CallNumKey(DisplayedData));
+                if (inputData < 0 || inputData > 40) { RaiseMessage("입력값 범위 초과"); return; }
+                else PLCWrite(212, (short)inputData, 0);
+            }
+            catch
+            {
+                RaiseMessage("입력값이 잘못되었습니다.");
+            }
         }
 
 
@@ -1516,18 +1657,7 @@ namespace RobotMonitor_3.ViewModels
             m_XmlParser.SavedDataLoad();  // 설정 끝나면 저장된 데이터 로드
 
             // 워크 모드 리스트 갱신
-            WorkModeList.Clear();
-            WorkModeList.Add("정지모드"); // 0
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName1);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName2);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName3);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName4);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName5);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName6);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName7);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName8);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName9);
-            WorkModeList.Add(m_XmlParser.SavedData.SavedDeviceName10);
+            LoadWorkModeList();
         }
 
 
@@ -1923,90 +2053,45 @@ namespace RobotMonitor_3.ViewModels
         }
 
         // ============================== Auto Loader Setting ==============================
-        internal void M1_PickUpPosSet() { PLCWriteDword(230, SettingsStore.Current.M1_PickUpPos = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M1_FirstPosSet() { PLCWriteDword(232, SettingsStore.Current.M1_FirstPos = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M1_SecondPosSet() { PLCWriteDword(234, SettingsStore.Current.M1_SecondPos = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M1_CheckPosSet() { PLCWriteDword(236, SettingsStore.Current.M1_CheckPos = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M1_HighSpeedSet() { PLCWriteDword(238, SettingsStore.Current.M1_HighSpeed = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M1_LowSpeedSet() { PLCWriteDword(240, SettingsStore.Current.M1_LowSpeed = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-
-        internal void M2_1stPosSet() { PLCWriteDword(242, SettingsStore.Current.M2_FirstPos = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M2_PitchSet() { PLCWriteDword(244, SettingsStore.Current.M2_Pitch = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void M2_SpeedSet() { PLCWriteDword(246, SettingsStore.Current.M2_Speed = Convert.ToInt32(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-
-        internal void MoveCyl1DownDelaySet() { PLCWriteDword(248, SettingsStore.Current.MoveCyl1DownDelay = Convert.ToInt16(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void MoveCyl2DownDelaySet() { PLCWriteDword(250, SettingsStore.Current.MoveCyl2DownDelay = Convert.ToInt16(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void MoveCyl1UpDelaySet() { PLCWriteDword(252, SettingsStore.Current.MoveCyl1UpDelay = Convert.ToInt16(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void MoveCyl2UpDelaySet() { PLCWriteDword(254, SettingsStore.Current.MoveCyl2UpDelay = Convert.ToInt16(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void FixCylUpDelaySet() { PLCWriteDword(256, SettingsStore.Current.FixCylUpDelay = Convert.ToInt16(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-        internal void FixCylDownDelaySet() { PLCWriteDword(258, SettingsStore.Current.FixCylDownDelay = Convert.ToInt16(CallNumKey(DisplayedData))); SettingsStore.Save(); }
-
-
-
-
-
-
-        internal void EMC_DoorOpenDelaySet()
+        internal void MotorParaSetPress()
         {
-            string MsgBuff;
-            DisplayedData = Emc_CylOpenDelay;
-            MsgBuff = "EMCDoorOpenDelay_" + CallNumKey(DisplayedData);
-            try
+            MessageBoxResult result = MessageBox.Show("모터 파라미터를 설정 하시겠습니까?", "모터 파라미터 설정", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                if (Convert.ToInt32(KeyboardData) < 0)
-                { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); return; }
+                PLCWrite(260, 1, 100);
+                SettingsStore.Save();
             }
-            catch { if (KeyboardData != "") { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); } return; }
-            ServerSend(MsgBuff);
         }
 
-
-
-        internal void EMC_DoorCloseDelaySet()
+        internal void MotorParaSetRelease()
         {
-            string MsgBuff;
-            DisplayedData = Emc_CylCloseDelay;
-            MsgBuff = "EMCDoorCloseDelay_" + CallNumKey(DisplayedData);
-            try
-            {
-                if (Convert.ToInt32(KeyboardData) < 0)
-                { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); return; }
-            }
-            catch { if (KeyboardData != "") { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); } return; }
-            ServerSend(MsgBuff);
         }
 
+        internal void M1_PickUpPosSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M1_PickUpPos); PLCWriteDword(230, SettingsStore.Current.M1_PickUpPos = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M1_FirstPosSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M1_FirstPos); PLCWriteDword(232, SettingsStore.Current.M1_FirstPos = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M1_SecondPosSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M1_SecondPos); PLCWriteDword(234, SettingsStore.Current.M1_SecondPos = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M1_CheckPosSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M1_CheckPos); PLCWriteDword(236, SettingsStore.Current.M1_CheckPos = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M1_HighSpeedSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M1_HighSpeed); PLCWriteDword(238, SettingsStore.Current.M1_HighSpeed = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M1_LowSpeedSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M1_LowSpeed); PLCWriteDword(240, SettingsStore.Current.M1_LowSpeed = Convert.ToInt32(CallNumKey(DisplayedData))); }
+
+        internal void M2_1stPosSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M2_FirstPos); PLCWriteDword(242, SettingsStore.Current.M2_FirstPos = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M2_PitchSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M2_Pitch); PLCWriteDword(244, SettingsStore.Current.M2_Pitch = Convert.ToInt32(CallNumKey(DisplayedData))); }
+        internal void M2_SpeedSet() { DisplayedData = Convert.ToString(SettingsStore.Current.M2_Speed); PLCWriteDword(246, SettingsStore.Current.M2_Speed = Convert.ToInt32(CallNumKey(DisplayedData))); }
+
+        internal void MoveCyl1DownDelaySet() { DisplayedData = Convert.ToString(SettingsStore.Current.MoveCyl1DownDelay); PLCWrite(248, SettingsStore.Current.MoveCyl1DownDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void MoveCyl2DownDelaySet() { DisplayedData = Convert.ToString(SettingsStore.Current.MoveCyl2DownDelay); PLCWrite(249, SettingsStore.Current.MoveCyl2DownDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void MoveCyl1UpDelaySet() { DisplayedData = Convert.ToString(SettingsStore.Current.MoveCyl1UpDelay); PLCWrite(250, SettingsStore.Current.MoveCyl1UpDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void MoveCyl2UpDelaySet() { DisplayedData = Convert.ToString(SettingsStore.Current.MoveCyl2UpDelay); PLCWrite(251, SettingsStore.Current.MoveCyl2UpDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void FixCylUpDelaySet() { DisplayedData = Convert.ToString(SettingsStore.Current.FixCylUpDelay); PLCWrite(252, SettingsStore.Current.FixCylUpDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void FixCylDownDelaySet() { DisplayedData = Convert.ToString(SettingsStore.Current.FixCylDownDelay); PLCWrite(253, SettingsStore.Current.FixCylDownDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+
+        // =================================================== EMC Box Setting =========================================================
+        internal void EMCOpenSet() { DisplayedData = Convert.ToString(SettingsStore.Current.EMCOpenDelay); PLCWrite(254, SettingsStore.Current.EMCOpenDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void EMCCloseSet() { DisplayedData = Convert.ToString(SettingsStore.Current.EMCCloseDelay); PLCWrite(255, SettingsStore.Current.EMCCloseDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void EMCFWDSet() { DisplayedData = Convert.ToString(SettingsStore.Current.EMCFWDDelay); PLCWrite(256, SettingsStore.Current.EMCFWDDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
+        internal void EMCBWDSet() { DisplayedData = Convert.ToString(SettingsStore.Current.EMCBWDDelay); PLCWrite(257, SettingsStore.Current.EMCBWDDelay = Convert.ToInt16(CallNumKey(DisplayedData)), 0); }
 
 
-        internal void EMC_StopperFWDDelaySet()
-        {
-            string MsgBuff;
-            DisplayedData = Emc_StopperFWDDelay;
-            MsgBuff = "EMCStopperFWDDelay_" + CallNumKey(DisplayedData);
-            try
-            {
-                if (Convert.ToInt32(KeyboardData) < 0)
-                { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); return; }
-            }
-            catch { if (KeyboardData != "") { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); } return; }
-            ServerSend(MsgBuff);
-        }
-
-
-
-        internal void EMC_StopperBWDDelaySet()
-        {
-            string MsgBuff;
-            DisplayedData = Emc_StopperBWDDelay;
-            MsgBuff = "EMCStopperBWDDelay_" + CallNumKey(DisplayedData);
-            try
-            {
-                if (Convert.ToInt32(KeyboardData) < 0)
-                { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); return; }
-            }
-            catch { if (KeyboardData != "") { MessageBox.Show("자연수만 입력 해 주시기 바랍니다"); } return; }
-            ServerSend(MsgBuff);
-        }
         #endregion
 
 
@@ -2038,7 +2123,7 @@ namespace RobotMonitor_3.ViewModels
 
         internal void HomeButtonPress()
         {
-            if (IsReady == false) { HomeButton = false; return; }
+            if (IsReady == false) { return; }
             TimerWorkSelect = "RobotHome";
             timer.Start();
         }

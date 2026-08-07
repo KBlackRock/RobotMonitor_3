@@ -10,7 +10,7 @@
 
     <Page.Resources>
         <Style x:Key="OperationButtonStyle" TargetType="Button">
-            <Setter Property="Height" Value="80"/>
+            <Setter Property="Height" Value="75"/>
             <Setter Property="Width" Value="130"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -56,7 +56,7 @@
     <Grid Margin="5,0,5,0" Background="#FFE6E6E6">
 
         <TabControl Margin="0" BorderBrush="{x:Null}">
-            <TabItem Header="Robot" FontSize="18">
+            <TabItem Header="System/Robot" FontSize="18">
                 <Grid Background="#FFF0F0F0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -65,7 +65,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Margin="2" Background="White" Grid.Column="0">
-                        <Label Content="Robot" Style="{StaticResource SectionLabelStyle}"/>
+                        <Label Content="System" Style="{StaticResource SectionLabelStyle}"/>
                         <Button x:Name="btn_Home" Content="HOME" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" IsEnabled="{Binding HomeButton}" Background="#FF1919EB" BorderBrush="#FF000082" Tag="#FF000064" PreviewMouseLeftButtonUp="btn_Home_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_Home_PreviewMouseLeftButtonDown"/>
                         <Button x:Name="btn_Monitor" Content="모니터 끄기" Style="{StaticResource OperationButtonStyle}" Margin="5,0,0,5" VerticalAlignment="Bottom" Height="80" Width="311" Background="#FF19EBD3" BorderBrush="#FF1F9487" Tag="#FF54B1D0" Click="btn_Monitor_Click" HorizontalAlignment="Stretch"/>
                     </Grid>
@@ -92,7 +92,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Margin="2" Background="White" Grid.Column="0">
-                        <Label Content="M1] Magazien Loader" Style="{StaticResource SectionLabelStyle}"/>
+                        <Label Content="M1] Frame Move" Style="{StaticResource SectionLabelStyle}"/>
                         <Button x:Name="btn_M1_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M1_Origin_Click"/>
                         <Button x:Name="btn_M1_Feed" Content="Feed" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Feed_Click"/>
                         <Button x:Name="btn_M1_Release" Content="Release" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Release_Click"/>
@@ -103,7 +103,7 @@
                     </Grid>
 
                     <Grid Margin="2" Background="White" Grid.Column="1">
-                        <Label Content="M2] PCB Load Table" Style="{StaticResource SectionLabelStyle}"/>
+                        <Label Content="M2] MGZ Elevator" Style="{StaticResource SectionLabelStyle}"/>
 
                         <Button x:Name="btn_M2_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M2_Origin_Click"/>
                         <Button x:Name="btn_M2_Turn" Content="Trun" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Turn_Click"/>

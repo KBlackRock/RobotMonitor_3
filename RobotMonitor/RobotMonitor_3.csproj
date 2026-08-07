@@ -23,6 +23,7 @@
     <None Remove="Resources\KODENSHI.png" />
     <None Remove="Resources\KODENSHI_Logo.png" />
     <None Remove="Resources\KodneshiAUK_Small_Alpha.png" />
+    <None Remove="Resources\MRS3_Splash.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\Dot_Minimum_80.png" />
+    <Resource Include="Resources\MRS3_Splash.png" />
     <Resource Include="Resources\Non_Exit.png" />
     <Resource Include="Resources\Non_Minimum.png" />
     <Resource Include="Resources\Dot_Exit.png" />

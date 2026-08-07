@@ -1,4 +1,9 @@
-﻿using System.Text;
+﻿using RobotMonitor_3.ViewModels;
+using System.ComponentModel;
+using System.Drawing;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,10 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Drawing;
-using RobotMonitor_3.ViewModels;
-using System.Net.Sockets;
-using System.Net;
 
 namespace RobotMonitor_3
 {
@@ -24,8 +25,11 @@ namespace RobotMonitor_3
         {
             InitializeComponent();
             DataContext = new MainWindow_ViewModel();
+        }
 
-            (DataContext as MainWindow_ViewModel).Opening(this);
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel)?.Closing();
         }
 
         private void btn_Exit_Click(object sender, RoutedEventArgs e) => (DataContext as MainWindow_ViewModel).Closing();

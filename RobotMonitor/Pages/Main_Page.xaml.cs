@@ -67,5 +67,10 @@ namespace RobotMonitor_3.Pages
         {
             (DataContext as MainWindow_ViewModel).Heater2Press();
         }
+
+        private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).MGZPositionUpdate();
+        }
     }
 }

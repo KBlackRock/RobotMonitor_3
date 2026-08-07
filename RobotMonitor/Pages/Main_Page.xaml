@@ -221,7 +221,29 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                             <Label Grid.Row="0" Content="  매거진&#x0a;공급 위치" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox Grid.Row="1" Text="{Binding MagazineElevPos}" Margin="5" Width="150" FontSize="24" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Text="{Binding MagazineElevPos}" Margin="5" Width="150" FontSize="24" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" PreviewMouseLeftButtonDown="TextBox_PreviewMouseLeftButtonDown" />
+                    </Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="프레임 공급 상태" FontSize="24" FontWeight="Bold"  Grid.Row="0" HorizontalAlignment="Center"/>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btn_Frame1" Style="{StaticResource HeaterButtonStyle}" Background="{Binding FrameLoad1Color}" Grid.Row="0" Grid.Column="1"/>
+                            <Button x:Name="btn_Frame2" Style="{StaticResource HeaterButtonStyle}" Background="{Binding FrameLoad2Color}" Grid.Row="1" Grid.Column="1"/>
+                            <Button x:Name="btn_Frame3" Style="{StaticResource HeaterButtonStyle}" Background="{Binding FrameLoad3Color}" Grid.Row="0" Grid.Column="0"/>
+                            <Button x:Name="btn_Frame4" Style="{StaticResource HeaterButtonStyle}" Background="{Binding FrameLoad4Color}" Grid.Row="1" Grid.Column="0"/>
+                        </Grid>
+
                     </Grid>
                 </StackPanel>
             </Grid>
