@@ -166,41 +166,14 @@
                         <RowDefinition Height="53"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Content="Press Signal" Style="{StaticResource MainLabelStyle}"/>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Margin="2" Grid.Column="0" Background="#FFEBF5FF">
-                            <StackPanel>
-                                <Label Content="Press" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Button x:Name="btn_In1" Margin="2"  FontWeight="Bold" Background="{Binding In1Color}" IsHitTestVisible="False" Height="30" VerticalAlignment="Top">
-                                    <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center"/>
-                                </Button>
-                                <Button x:Name="btn_In2" Content="Signal&#x0a;Prs2" Style="{StaticResource PressIOBox}" Background="{Binding In2Color}"/>
-                                <Button x:Name="btn_In3" Content="Signal&#x0a;Prs3" Style="{StaticResource PressIOBox}" Background="{Binding In3Color}"/>
-                                <Button x:Name="btn_In4" Content="Signal&#x0a;Prs4" Style="{StaticResource PressIOBox}" Background="{Binding In4Color}"/>
-                                <Button x:Name="btn_In5" Content="Signal&#x0a;Prs5" Style="{StaticResource PressIOBox}" Background="{Binding In5Color}"/>
-                                <Button x:Name="btn_In6" Content="Signal&#x0a;Prs6" Style="{StaticResource PressIOBox}" Background="{Binding In6Color}"/>
-
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Margin="2" Grid.Column="1" Background="#FFEBF5FF">
-                            <StackPanel>
-                                <Label Content="Robot" Margin="0" Height="35" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Button x:Name="btn_Out1" IsHitTestVisible="False" Margin="2" Height="30" Background="{Binding Out1Color}">
-                                    <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
-                                </Button>
-                                <Button x:Name="btn_Out2" Content="Signal&#x0a;rob2" Style="{StaticResource PressIOBox}" Background="{Binding Out2Color}"/>
-                                <Button x:Name="btn_Out3" Content="Signal&#x0a;rob3" Style="{StaticResource PressIOBox}" Background="{Binding Out3Color}"/>
-                                <Button x:Name="btn_Out4" Content="Signal&#x0a;rob4" Style="{StaticResource PressIOBox}" Background="{Binding Out4Color}"/>
-                                <Button x:Name="btn_Out5" Content="Signal&#x0a;rob5" Style="{StaticResource PressIOBox}" Background="{Binding Out5Color}"/>
-                                <Button x:Name="btn_Out6" Content="Signal&#x0a;rob6" Style="{StaticResource PressIOBox}" Background="{Binding Out6Color}"/>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
+                    <Label Content="Ready State" Style="{StaticResource MainLabelStyle}"/>
+                    <StackPanel Grid.Row="1">
+                        <Label Content="Press" Background="{Binding PressReadyColor}" Style="{StaticResource ConditionViewBox}"/>
+                        <Label Content="Robot" Background="{Binding Out1Color}" Style="{StaticResource ConditionViewBox}"/>
+                        <Label Content="Vision" Background="{Binding VisionReadyColor}" Style="{StaticResource ConditionViewBox}"/>
+                        <Label Content="Preheater" Background="{Binding PreheaterReadyColor}" Style="{StaticResource ConditionViewBox}"/>
+                        <Label Content="Heater" Background="{Binding HeaterReadyColor}" Style="{StaticResource ConditionViewBox}"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
 

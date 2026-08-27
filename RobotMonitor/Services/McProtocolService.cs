@@ -86,7 +86,7 @@ namespace RobotMonitor_3.Services
             try
             {
                 // 3E Frame 커맨드 구성 (바이너리)
-                List<byte> command = new List<byte>();
+                List<byte> command = new();
 
                 command.AddRange(BitConverter.GetBytes((ushort)0x0050)); // 서브헤더 (50 00)
                 command.Add(0x00);                                       // 네트워크 번호
@@ -172,7 +172,7 @@ namespace RobotMonitor_3.Services
             try
             {
 
-                List<byte> command = new List<byte>();
+                List<byte> command = new();
 
                 command.AddRange(BitConverter.GetBytes((ushort)0x0050)); // 서브헤더 (50 00)
                 command.Add(0x00);                                       // 네트워크 번호

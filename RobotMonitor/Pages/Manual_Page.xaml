@@ -10,12 +10,16 @@
 
     <Page.Resources>
         <Style x:Key="OperationButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="13"/>
             <Setter Property="Height" Value="75"/>
             <Setter Property="Width" Value="130"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -64,19 +68,20 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Grid Margin="2" Background="White" Grid.Column="0">
+                    <StackPanel Margin="2" Background="White" Grid.Column="0">
                         <Label Content="System" Style="{StaticResource SectionLabelStyle}"/>
-                        <Button x:Name="btn_Home" Content="HOME" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" IsEnabled="{Binding HomeButton}" Background="#FF1919EB" BorderBrush="#FF000082" Tag="#FF000064" PreviewMouseLeftButtonUp="btn_Home_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_Home_PreviewMouseLeftButtonDown"/>
-                        <Button x:Name="btn_Monitor" Content="모니터 끄기" Style="{StaticResource OperationButtonStyle}" Margin="5,0,0,5" VerticalAlignment="Bottom" Height="80" Width="311" Background="#FF19EBD3" BorderBrush="#FF1F9487" Tag="#FF54B1D0" Click="btn_Monitor_Click" HorizontalAlignment="Stretch"/>
-                    </Grid>
+                        <Button x:Name="btn_Home" Content="HOME" Style="{StaticResource OperationButtonStyle}" IsEnabled="{Binding HomeButton}" Background="#FF1919EB" BorderBrush="#FF000082" Tag="#FF000064" PreviewMouseLeftButtonUp="btn_Home_PreviewMouseLeftButtonUp" PreviewMouseLeftButtonDown="btn_Home_PreviewMouseLeftButtonDown"/>
+                        <Button x:Name="btn_Monitor" Content="모니터 끄기" Style="{StaticResource OperationButtonStyle}" VerticalAlignment="Bottom" Height="80" Width="Auto" Background="#FF19EBD3" BorderBrush="#FF1F9487" Tag="#FF54B1D0" Click="btn_Monitor_Click" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
 
-                    <Grid Margin="2" Background="White" Grid.Column="1">
+                    <StackPanel Margin="2" Background="White" Grid.Column="1">
                         <Label Content="Tool ( Gripper )" Style="{StaticResource SectionLabelStyle}"/>
-                        <Button x:Name="btn_EG_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" />
-                        <Button x:Name="btn_EG_Open" Content="Open" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600"/>
-                        <Button x:Name="btn_EG_Grip" Content="Grip" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600"/>
-                        
-                    </Grid>
+                        <Button x:Name="btn_EG_PW" Content="Power" Style="{StaticResource OperationButtonStyle}" Background="#FF1919EB" BorderBrush="#FF000082" Tag="#FF000064"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_EG_Open" Content="Open" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600"/>
+                            <Button x:Name="btn_EG_Grip" Content="Grip" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600"/>
+                        </StackPanel>
+                    </StackPanel>
 
                     <Grid Margin="2" Background="White" Grid.Column="2">
                         <Label Content="Tool ( Other )" Style="{StaticResource SectionLabelStyle}"/>
@@ -91,28 +96,46 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="2" Background="White" Grid.Column="0">
+                    <StackPanel Margin="2" Background="White" Grid.Column="0">
                         <Label Content="M1] Frame Move" Style="{StaticResource SectionLabelStyle}"/>
-                        <Button x:Name="btn_M1_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M1_Origin_Click"/>
-                        <Button x:Name="btn_M1_Feed" Content="Feed" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Feed_Click"/>
-                        <Button x:Name="btn_M1_Release" Content="Release" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_Release_Click"/>
-                        <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
-                        <TextBox x:Name="tBox_M1CurrentPosMN" Text="{Binding M1_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextWrapping="Wrap" FontSize="32" TextAlignment="Right" />
-                        <Button x:Name="btn_M1_CylLeft" Content="Cylinder&#10;   Left" Style="{StaticResource OperationButtonStyle}" Margin="20,394,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_CylLeft_Click"/>
-                        <Button x:Name="btn_M1_CylRight" Content="Cylinder&#10;  Right" Style="{StaticResource OperationButtonStyle}" Margin="170,394,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M1_CylRight_Click"/>
-                    </Grid>
+                        <Label Margin="5" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
+                        <TextBox x:Name="tBox_M1CurrentPosMN" Text="{Binding M1_CurrentPosition}" Margin="5" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextWrapping="Wrap" FontSize="32" TextAlignment="Right" />
+                        <Button x:Name="btn_M1_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M1_Origin_Click"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_M1_Pick" Content="Grip" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                            <Button x:Name="btn_M1_Release" Content="Frame&#10;Check" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_M1_1st_Pos" Content="1st Pos" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                            <Button x:Name="btn_M1_2nd_Pos" Content="2nd Pos" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                        </StackPanel>
+                    </StackPanel>
 
-                    <Grid Margin="2" Background="White" Grid.Column="1">
+                    <StackPanel Margin="2" Background="White" Grid.Column="1">
                         <Label Content="M2] MGZ Elevator" Style="{StaticResource SectionLabelStyle}"/>
-
-                        <Button x:Name="btn_M2_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M2_Origin_Click"/>
-                        <Button x:Name="btn_M2_Turn" Content="Trun" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Turn_Click"/>
-                        <Button x:Name="btn_M2_Return" Content="Retrun" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Return_Click"/>
-
-                        <Label Margin="20,250,20,180" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
-                        <TextBox x:Name="tBox_M2CurrentPosMN" Text="{Binding M2_CurrentPosition}" Margin="20,300,20,100" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextAlignment="Right" TextWrapping="Wrap" FontSize="32"/>
-
-                    </Grid>
+                        <Label Margin="5" Content="Current Position" FontWeight="Bold" VerticalAlignment="Top" Height="45" FontSize="24"/>
+                        <TextBox x:Name="tBox_M2CurrentPosMN" Text="{Binding M2_CurrentPosition}" Margin="5" VerticalAlignment="Top" Height="50" Background="#FFE6E6E6" IsHitTestVisible="False" Cursor="No" TextAlignment="Right" TextWrapping="Wrap" FontSize="32"/>
+                        <Button x:Name="btn_M2_Origin" Content="Origin" Style="{StaticResource OperationButtonStyle}" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_M2_Origin_Click"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_M2_Turn" Content="1st Pos" Style="{StaticResource OperationButtonStyle}"  Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Turn_Click"/>
+                            <Button x:Name="btn_M2_Return" Content="Pitch" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_M2_Return_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="2" Background="White" Grid.Column="2">
+                        <Label Content="Cylinder" Style="{StaticResource SectionLabelStyle}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_MoveCyl1Up" Content="Move Fix&#10;1 Up" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                            <Button x:Name="btn_MoveCyl1Down" Content="Move Fix&#10;1 Down" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_MoveCy21Up" Content="Move Fix&#10;2 Up" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                            <Button x:Name="btn_MoveCy21Down" Content="Move Fix&#10;2 Down" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_FixCylUp" Content="Guide&#10;Up" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                            <Button x:Name="btn_FixCylDown" Content="Guide&#10;Down" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
@@ -123,14 +146,22 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="2" Background="White" Grid.Column="0">
+                    <StackPanel Margin="2" Background="White" Grid.Column="0">
                         <Label Content="EMC Supply Cylinder" Style="{StaticResource SectionLabelStyle}"/>
-                        <Button x:Name="btn_EMCSupply" Content="Supply" Style="{StaticResource OperationButtonStyle}" Margin="20,56,0,0" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_EMCSupply_Click"/>
-                        <Button x:Name="btn_EMCOpen" Content="Door&#10;Open" Style="{StaticResource OperationButtonStyle}" Margin="20,156,0,0"  Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCOpen_Click"/>
-                        <Button x:Name="btn_EMCClose" Content="Door&#10;Close" Style="{StaticResource OperationButtonStyle}" Margin="170,156,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCClose_Click"/>
-                        <Button x:Name="btn_EMCStopper" Content="Stopper&#10;Forward" Style="{StaticResource OperationButtonStyle}" Margin="20,246,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCStopper_Click"/>
-                        <Button x:Name="btn_EMCRelease" Content=" Stopper&#10;Backward" Style="{StaticResource OperationButtonStyle}" Margin="170,246,0,0" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCRelease_Click"/>
-                    </Grid>
+                        <Button x:Name="btn_EMCSupply" Content="Supply" Style="{StaticResource OperationButtonStyle}" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_EMCSupply_Click"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_EMCUp" Content="Up" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCUp_Click"/>
+                            <Button x:Name="btn_EMCDown" Content="Down" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCDown_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_EMCOpen" Content="Door&#10;Open" Style="{StaticResource OperationButtonStyle}"  Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCOpen_Click"/>
+                            <Button x:Name="btn_EMCClose" Content="Door&#10;Close" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCClose_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="btn_EMCStopper" Content="Stopper&#10;Forward" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCStopper_Click"/>
+                            <Button x:Name="btn_EMCRelease" Content=" Stopper&#10;Backward" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCRelease_Click"/>
+                        </StackPanel>
+                    </StackPanel>
                     <Grid Margin="2" Background="White" Grid.Column="1">
                         <Label Content="Empty" Style="{StaticResource SectionLabelStyle}"/>
 

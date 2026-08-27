@@ -70,25 +70,6 @@ namespace RobotMonitor_3.Pages
             (DataContext as MainWindow_ViewModel).Servo1Home();
         }
 
-        private void btn_M1_Feed_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).Servo1Feed();
-        }
-
-        private void btn_M1_Release_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).Servo1Release();
-        }
-
-        private void btn_M1_CylLeft_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).Servo1CylinderLeft();
-        }
-
-        private void btn_M1_CylRight_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).Servo1CylinderRight();
-        }
 
         // Motor 2 Manual Control Buttons
         private void btn_M2_Origin_Click(object sender, RoutedEventArgs e)

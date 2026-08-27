@@ -50,7 +50,7 @@ namespace RobotMonitor_3.Models
 
             _dwordHandlers = new Dictionary<int, Action<int>>
             {
-                { 30, D130_D131 }, 
+                { 30, D130_D131 },
                 { 32, D132_D133 },
                 { 34, D134_D135 },
                 { 36, D136_D137 },
@@ -185,29 +185,22 @@ namespace RobotMonitor_3.Models
 
         public void D101(short data)
         {
-            if(data == 0)
-            {
-                _viewModel.needOrigin = true;
-            }
-            if (data == 1)
-            {
-                _viewModel.needOrigin = false;
-            }
-
+            _viewModel.needOrigin = data == 0;
         }
 
         public void D102(short data)
         {
-
+            _viewModel.VisionReadyColor = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D103(short data)
         {
-
+            _viewModel.PreheaterReadyColor = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D104(short data)
         {
+            _viewModel.HeaterReadyColor = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D105(short data)
@@ -242,18 +235,7 @@ namespace RobotMonitor_3.Models
 
         public void D112(short data)
         {
-            try
-            {
-                if (data != 0)
-                {
-                    _viewModel.MagazineElevPos = Convert.ToString(data);
-                }
-                else
-                {
-                    _viewModel.MagazineElevPos = "대기위치";
-                }
-            }
-            catch { }
+            _viewModel.MagazineElevPos = data == 0 ? "대기위치" : Convert.ToString(data);
         }
 
         public void D113(short data)
@@ -509,26 +491,32 @@ namespace RobotMonitor_3.Models
 
         public void D170(short data)
         {
+            _viewModel.PressReadyColor = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D171(short data)
         {
+            _viewModel.PressWork1Color = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D172(short data)
         {
+            _viewModel.PressWork2Color = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D173(short data)
         {
+            _viewModel.PressWork3Color = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D174(short data)
         {
+            _viewModel.PressWork4Color = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D175(short data)
         {
+            _viewModel.PressWork5Color = data == 0 ? "LightGray" : "LimeGreen";
         }
 
         public void D176(short data)

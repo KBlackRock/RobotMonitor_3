@@ -103,9 +103,9 @@ namespace RobotMonitor_3.ViewModels
         public SettingDatas Setting => SettingsStore.Current;
 
         #region OnPropertyChange Properties
-        public ObservableCollection<ErrorInfo> ErrorList { get; set; } = new();
-        public ObservableCollection<short> PlcInput { get; } = new(new short[100]);
-        public ObservableCollection<short> PlcOutput { get; } = new(new short[100]);
+        public ObservableCollection<ErrorInfo> ErrorList { get; set; } = new ObservableCollection<ErrorInfo>();
+        public ObservableCollection<short> PlcInput { get; } = new ObservableCollection<short>(new short[100]);
+        public ObservableCollection<short> PlcOutput { get; } = new ObservableCollection<short>(new short[100]);
         private ObservableCollection<string> _WorkModeList; public ObservableCollection<string> WorkModeList { get { return _WorkModeList; } set { _WorkModeList = value; OnPropertyChanged(); } }
         [ObservableProperty] private string errorImage;
         [ObservableProperty] private string windowPage;
@@ -136,6 +136,18 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private string isChamberCloseTime;
         [ObservableProperty] private string isPCBCount;
         [ObservableProperty] private string serverConnectBtnColor;
+        [ObservableProperty] private string out1Color;
+        [ObservableProperty] private string out2Color;
+        [ObservableProperty] private string out3Color;
+        [ObservableProperty] private string out4Color;
+        [ObservableProperty] private string out5Color;
+        [ObservableProperty] private string out6Color;
+        [ObservableProperty] private string in1Color;
+        [ObservableProperty] private string in2Color;
+        [ObservableProperty] private string in3Color;
+        [ObservableProperty] private string in4Color;
+        [ObservableProperty] private string in5Color;
+        [ObservableProperty] private string in6Color;
         [ObservableProperty] private string sv1pw_borderColor;
         [ObservableProperty] private string sv2pw_borderColor;
         [ObservableProperty] private string sv1pw_content;
@@ -188,17 +200,6 @@ namespace RobotMonitor_3.ViewModels
         [ObservableProperty] private string preheaterReadyColor;
         [ObservableProperty] private string heaterReadyColor;
         [ObservableProperty] private string pressReadyColor;
-        [ObservableProperty] private string pressWork1Color;
-        [ObservableProperty] private string pressWork2Color;
-        [ObservableProperty] private string pressWork3Color;
-        [ObservableProperty] private string pressWork4Color;
-        [ObservableProperty] private string pressWork5Color;
-        [ObservableProperty] private string robotReadyColor;
-        [ObservableProperty] private string robotWork1Color;
-        [ObservableProperty] private string robotWork2Color;
-        [ObservableProperty] private string robotWork3Color;
-        [ObservableProperty] private string robotWork4Color;
-        [ObservableProperty] private string robotWork5Color;
 
         #endregion
 
@@ -296,13 +297,13 @@ namespace RobotMonitor_3.ViewModels
             Display_UnStackedDeviceCount = "0";
 
 
-            ServerMsgList = new();
+            ServerMsgList = new List<string>();
             ServerMsgListNum = 0;
-            ClientMsgList = new();
+            ClientMsgList = new List<string>();
             ClientMsgListNum = 0;
 
             WorkMode = "";
-            WorkModeList = new();
+            WorkModeList = new ObservableCollection<string>();
 
             responseTimeStack = 0;
 
