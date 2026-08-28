@@ -247,10 +247,25 @@
                                     </StackPanel>
                                     <StackPanel Margin="165,55,5,5" Background="AliceBlue">
                                         <Label Content="Robot" Margin="0" Height="40" FontSize="24" Foreground="Black" FontWeight="Bold" Padding="0,0,0,0" VerticalAlignment="Top" Background="#FFBDDEFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                        <Button x:Name="btn_Out1Checkable" Click="btn_Out1_Click" Margin="5,5,5,0" Height="50" >
+                                        <Button x:Name="btn_RobReady" Margin="5,5,5,0" Height="50" >
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Border x:Name="btn_Out1Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotReadyColor}" BorderBrush="black">
+                                                    <Border x:Name="btn_RobReady" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotReadyColor}" BorderBrush="black">
+                                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="btn_RobReady" Property="Background" Value="#00D8FF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                            <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                                        </Button>
+                                        <Button x:Name="btn_Out1Checkable" Margin="5,5,5,0" Click="btn_Out1_Click" Height="50" VerticalAlignment="Top" >
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="btn_Out1Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork1Color}" BorderBrush="black" >
                                                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -260,12 +275,12 @@
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Button.Template>
-                                            <TextBlock Text="Ready" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                                            <TextBlock Text="Press&#x0a;Up" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
                                         </Button>
                                         <Button x:Name="btn_Out2Checkable" Margin="5,5,5,0" Click="btn_Out2_Click" Height="50" VerticalAlignment="Top" >
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Border x:Name="btn_Out2Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork1Color}" BorderBrush="black" >
+                                                    <Border x:Name="btn_Out2Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork2Color}" BorderBrush="black">
                                                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -275,12 +290,12 @@
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Button.Template>
-                                            <TextBlock Text="Press&#x0a;Up" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                                            <TextBlock Text="Chamber&#x0a;Down" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
                                         </Button>
-                                        <Button x:Name="btn_Out3Checkable" Margin="5,5,5,0" Click="btn_Out3_Click" Height="50" VerticalAlignment="Top" >
+                                        <Button x:Name="btn_Out3checkable" Margin="5,5,5,0" Click="btn_Out3_Click" Height="50" VerticalAlignment="Top" >
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Border x:Name="btn_Out3Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork2Color}" BorderBrush="black">
+                                                    <Border x:Name="btn_Out3Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork3Color}" BorderBrush="black">
                                                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -290,32 +305,17 @@
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Button.Template>
-                                            <TextBlock Text="Chamber&#x0a;Down" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
+                                            <TextBlock Text="Extract&#x0a;Complete" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
                                         </Button>
-                                        <Button x:Name="btn_Out4Checkable" Margin="5,5,5,0" Click="btn_Out4_Click" Height="50" VerticalAlignment="Top" >
+                                        <Button x:Name="btn_Out4Checkable" Margin="5,5,5,0" Click="btn_Out4_Click" Height="50" VerticalAlignment="Top">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Border x:Name="btn_Out4Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork3Color}" BorderBrush="black">
+                                                    <Border x:Name="btn_Out4Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork4Color}" BorderBrush="black">
                                                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsPressed" Value="True">
                                                             <Setter TargetName="btn_Out4Checkable" Property="Background" Value="#00D8FF"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                            <TextBlock Text="Extract&#x0a;Complete" LineHeight="17" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" FontSize="20" TextAlignment="Center" FontWeight="Bold" />
-                                        </Button>
-                                        <Button x:Name="btn_Out5Checkable" Margin="5,5,5,0" Click="btn_Out5_Click" Height="50" VerticalAlignment="Top">
-                                            <Button.Template>
-                                                <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Border x:Name="btn_Out5Checkable" CornerRadius="0" Margin="0" BorderThickness="1" Background="{Binding RobotWork4Color}" BorderBrush="black">
-                                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" ContentSource="Content" />
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter TargetName="btn_Out5Checkable" Property="Background" Value="#00D8FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>

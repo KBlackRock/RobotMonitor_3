@@ -231,12 +231,6 @@ namespace RobotMonitor_3.Pages
         {
             (DataContext as MainWindow_ViewModel).OutBtn5Click();
         }
-
-        private void btn_Out6_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).OutBtn6Click();
-        }
-
         #endregion
 
 

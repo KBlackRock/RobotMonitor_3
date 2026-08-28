@@ -150,8 +150,8 @@
                         <Label Content="EMC Supply Cylinder" Style="{StaticResource SectionLabelStyle}"/>
                         <Button x:Name="btn_EMCSupply" Content="Supply" Style="{StaticResource OperationButtonStyle}" Background="#FF15CEF1" BorderBrush="#FF0E7784" Tag="#FF033137" Click="btn_EMCSupply_Click"/>
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="btn_EMCUp" Content="Up" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCUp_Click"/>
-                            <Button x:Name="btn_EMCDown" Content="Down" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCDown_Click"/>
+                            <Button x:Name="btn_EMCUp" Content="Up" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
+                            <Button x:Name="btn_EMCDown" Content="Down" Style="{StaticResource OperationButtonStyle}" Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="btn_EMCOpen" Content="Door&#10;Open" Style="{StaticResource OperationButtonStyle}"  Background="#FF32FF32" BorderBrush="#FF14C814" Tag="#FF009600" Click="btn_EMCOpen_Click"/>

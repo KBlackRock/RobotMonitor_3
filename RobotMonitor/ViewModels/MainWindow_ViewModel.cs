@@ -791,6 +791,7 @@ namespace RobotMonitor_3.ViewModels
                 { "Speed",   (msg) => SplitAndCall(msg, RobSpeed) }, // Speed_는 내부에서 또 쪼개짐
                 { "Count",   (msg) => SplitAndCall(msg, RobCount) }, // Count_ 처리
                 { "RobIO",   RobIO },                                // RobIO_ 처리
+                { "Check",   RobPrsState },
             };
         }
 
@@ -1242,6 +1243,25 @@ namespace RobotMonitor_3.ViewModels
                     break;
             }
         }
+
+        private void RobPrsState(string message)
+        {
+            switch (message)
+            {
+                case "RobReadyOn": RobotReadyColor = "Lime"; break;
+                case "RobReadyOff": RobotReadyColor = "Gray"; break;
+                case "RobOut1On": RobotWork1Color = "Lime"; break;
+                case "RobOut1Off": RobotWork1Color = "Gray"; break;
+                case "RobOut2On": RobotWork2Color = "Lime"; break;
+                case "RobOut2Off": RobotWork2Color = "Gray"; break;
+                case "RobOut3On": RobotWork3Color = "Lime"; break;
+                case "RobOut3Off": RobotWork3Color = "Gray"; break;
+                case "RobOut4On": RobotWork4Color = "Lime"; break;
+                case "RobOut4Off": RobotWork4Color = "Gray"; break;
+                default:
+                    break;
+            }
+        }
         #endregion
 
 
@@ -1612,46 +1632,6 @@ namespace RobotMonitor_3.ViewModels
 
 
 
-        // 신호 확인용 버튼 메소드
-        internal void OutBtn1Click()
-        {
-            ServerSend("Out1");
-        }
-
-
-
-        internal void OutBtn2Click()
-        {
-            ServerSend("Out2");
-        }
-
-
-
-        internal void OutBtn3Click()
-        {
-            ServerSend("Out3");
-        }
-
-
-
-        internal void OutBtn4Click()
-        {
-            ServerSend("Out4");
-        }
-
-
-
-        internal void OutBtn5Click()
-        {
-            ServerSend("Out5");
-        }
-
-
-
-        internal void OutBtn6Click()
-        {
-            ServerSend("Out6");
-        }
         #endregion
 
 
@@ -1659,6 +1639,41 @@ namespace RobotMonitor_3.ViewModels
 
 
         #region Setting Page Methods
+
+        // 신호 확인용 버튼 메소드
+        internal void OutBtn1Click()
+        {
+            ServerSend("RobOut1");
+        }
+
+
+
+        internal void OutBtn2Click()
+        {
+            ServerSend("RobOut2");
+        }
+
+
+
+        internal void OutBtn3Click()
+        {
+            ServerSend("RobOut3");
+        }
+
+
+
+        internal void OutBtn4Click()
+        {
+            ServerSend("RobOut4");
+        }
+
+
+
+        internal void OutBtn5Click()
+        {
+            ServerSend("RobOut5");
+        }
+
         internal void DeviceNameSet()  // 디바이스 명 설정 윈도우 팝업
         {
             MainWindow mWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
