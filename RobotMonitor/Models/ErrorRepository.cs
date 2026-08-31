@@ -69,9 +69,11 @@ namespace RobotMonitor_3.Models
                 { 115, new ErrorInfo("", "로봇 [비전]\r 프레스 성형제품 상태 이상", "Robot") },
 
                 // 툴 ( D192 : bit0~15 → 200~215 )
-                { 200, new ErrorInfo("", "로봇 툴 에러\r ", "Tool") },
-                { 201, new ErrorInfo("", "로봇 툴 에러\r ", "Tool") },
-                { 202, new ErrorInfo("", "로봇 툴 에러\r ", "Tool") },
+                { 200, new ErrorInfo("", "로봇 툴 에러\r 프레임 픽업 미스", "Tool") },
+                { 201, new ErrorInfo("", "로봇 툴 에러\r 전동 그리퍼 신호 이상", "Tool") },
+                { 202, new ErrorInfo("", "로봇 툴 에러\r 전동 그리퍼 전원 인가 이상", "Tool") },
+                { 203, new ErrorInfo("", "로봇 툴 에러\r 전동 그리퍼 대기 동작 미스", "Tool") },
+                { 204, new ErrorInfo("", "로봇 툴 에러\r 전동 그리퍼 그립 동작 미스", "Tool") },
 
                 // 프레스 ( D193 : bit0~15 → 300~315 )
                 { 300, new ErrorInfo("", "프레스 \r 준비 신호 이상", "Press") },
@@ -79,6 +81,8 @@ namespace RobotMonitor_3.Models
                 { 302, new ErrorInfo("", "프레스 \r 쳄버 닫힘 신호 이상", "Press") },
                 { 303, new ErrorInfo("", "프레스 \r 열림 신호 이상", "Press") },
                 { 304, new ErrorInfo("", "프레스 \r 준비위치 도달 이상", "Press") },
+                { 305, new ErrorInfo("", "프레스 \r ", "Press") },
+                { 306, new ErrorInfo("", "프레스 \r ", "Press") },
 
                 // 오토로더 ( D194 : bit0~15 → 400~415 )
                 { 400, new ErrorInfo("", "오토로더 [히터]\r 히터 1 고온 에러", "Loader") },
